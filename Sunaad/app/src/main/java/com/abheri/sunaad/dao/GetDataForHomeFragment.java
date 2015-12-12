@@ -2,6 +2,8 @@ package com.abheri.sunaad.dao;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
+
 /**
  * Created by prasanna.ramaswamy on 25/10/15.
  */
@@ -21,30 +23,29 @@ public class GetDataForHomeFragment {
 
     String[] dummyPages(){
 
-        String[] pages = new String[5];
+        //String[] pages = new String[5];
+        ArrayList<String> pages = new ArrayList<>();
 
         String[] colors={"#7777FF","77FF77","FF7777","aa00ee","0022ee"};
 
-        String[] weburls={"http://10.0.3.2/Featured1.htm",
-                            "http://10.0.3.2/Featured2.htm",
-                            "http://www.google.com",
-                            "http://www.amazon.com",
-                            "http://www.replicon.com"};
+        String[] weburls={"kutcheri1.html", "kutcheri2.html"};
 
-        for(int i=0; i<2; ++i){
-            String html = "<div style=\"background-color:#"+colors[i]
+        for(int i=0; i<weburls.length; ++i){
+            /*String html = "<div style=\"background-color:#"+colors[i]
                             +"; text-align : center; vertical-align:middle; width : 100% ; height : 100%;\">Concert"
                             + (i+1)
                             + "</div>";
 
             String base = "<html><body style='margin:0;padding:0;'>"
                             + html
-                            + "</body></html>";
+                            + "</body></html>"; */
 
             //pages[i]=base;
-            pages[i] = weburls[i];
+            pages.add(weburls[i]);
         }
 
-        return pages;
+        String[] returnArray = new String[pages.size()];
+        returnArray = pages.toArray(returnArray);
+        return returnArray;
     }
 }

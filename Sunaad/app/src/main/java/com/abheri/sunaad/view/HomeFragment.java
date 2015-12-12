@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewAnimator;
+import android.util.Log;
 
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.dao.GetDataForHomeFragment;
@@ -57,13 +58,14 @@ public class HomeFragment extends Fragment {
 
         GetDataForHomeFragment gd = new GetDataForHomeFragment();
         String[] pages = gd.getData();
-        for(int i=0; i<3; ++i){
+        String urlBase = Util.getServiceUrl(SunaadViews.HOME);
+        for(int i=0; i<pages.length; ++i){
             WebView wv = new WebView(rootView.getContext());
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             wv.setLayoutParams(lp);
             //wv.loadData(pages[i], "text/html", "UTF_8");
             wv.setWebViewClient(new WebViewClient());
-            wv.loadUrl(pages[i]);
+            wv.loadUrl(urlBase+pages[i]);
             viewAnimator.addView(wv);
         }
 
@@ -94,18 +96,13 @@ public class HomeFragment extends Fragment {
     public void onPause(){
         super.onPause();
         //LOGGER.debug("Stopping thread: " + thread);
-        Toast.makeText(
-                this.getContext(),
-                "Cancelling Timer...",
-                Toast.LENGTH_LONG).show();
+        Log.v("sunaad", "Cancelling Timer...");
+
         if (rc != null) {
             rc.timer.cancel();
             rc.timer.purge();
             //LOGGER.debug("Thread successfully stopped.");
-            Toast.makeText(
-                    this.getContext(),
-                    "Timer Cancelled...",
-                    Toast.LENGTH_LONG).show();
+            Log.v("sunaad", "Timer Cancelled");
         }
     }
 

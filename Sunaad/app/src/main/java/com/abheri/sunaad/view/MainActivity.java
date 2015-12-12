@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity
         Toast.makeText(
                 this.getApplicationContext(),
                 "Drawer Item" + position + "  Selected...",
-                Toast.LENGTH_LONG).show();
+                Toast.LENGTH_SHORT).show();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
