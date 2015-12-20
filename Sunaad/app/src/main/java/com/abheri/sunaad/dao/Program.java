@@ -1,12 +1,16 @@
 package com.abheri.sunaad.dao;
 
+import android.os.Parcelable;
+import android.os.Parcel;
+
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by prasanna.ramaswamy on 27/10/15.
  */
 
-public class Program {
+public class Program implements Serializable{
     private long id;
     private String title;
     private String details;
@@ -127,4 +131,5 @@ public class Program {
 
         return title;
     }
+
 }

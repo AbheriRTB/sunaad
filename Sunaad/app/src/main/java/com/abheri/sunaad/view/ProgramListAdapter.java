@@ -66,6 +66,8 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
             holder.title = (TextView) v.findViewById(R.id.title);
             holder.description = (TextView) v.findViewById(R.id.description);
             holder.descripton2 = (TextView) v.findViewById(R.id.description2);
+            holder.description3 = (TextView) v.findViewById(R.id.description3);
+
             holder.iv = (ImageView) v.findViewById(R.id.programImageSmall);
 
             v.setTag(holder);
@@ -77,6 +79,7 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
         String title = currentProgram.getTitle();
         String description = currentProgram.getDetails();
         String description2 = currentProgram.getEventDate().toString();
+        String description3 = currentProgram.getLocation_address();
 
         String uri = "@drawable/subbulakshmi";  // where myresource.png is the file
         // extension removed from the String
@@ -93,14 +96,17 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
         holder.title.setText(title);
         holder.description.setText(description);
         holder.descripton2.setText(description2);
+        holder.description3.setText(description3);
         holder.iv.setImageDrawable(v.getResources().getDrawable(R.drawable.vocal));
 
         return v;
     }
 
     private static class ViewHolder{
-        TextView title, description, descripton2;
+        TextView title, description, descripton2, description3;
         ImageView iv;
     }
+
+
 }
 

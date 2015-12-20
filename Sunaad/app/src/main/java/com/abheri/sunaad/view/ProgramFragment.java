@@ -1,12 +1,16 @@
 package com.abheri.sunaad.view;
 
 
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +27,7 @@ import com.abheri.sunaad.dao.GetDataForProgramFragment;
 import com.abheri.sunaad.dao.Program;
 import com.abheri.sunaad.dao.RequestTask;
 
+import java.lang.annotation.Target;
 import java.util.List;
 
 /**
@@ -37,6 +42,7 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
     ListView listView;
     ProgressBar progressBar;
     TextView errTextView;
+    Activity myActivity;
 
     public ProgramFragment() {
 
@@ -71,6 +77,8 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
         RequestTask rt = new RequestTask(this, SunaadViews.PROGRAM);
         rt.execute(Util.getServiceUrl(SunaadViews.PROGRAM));
 
+        final android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
+        myActivity = getActivity();
 
         //Onclick listener not required for initial implementation
         //Implemented here just for reference
@@ -79,6 +87,8 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
+
+
                 // ListView Clicked item value
                 Program itemValue = (Program) parent.getItemAtPosition(position);
 
@@ -86,6 +96,17 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
                         view.getContext(),
                         itemValue.getTitle() + "  Selected...",
                         Toast.LENGTH_SHORT).show();
+
+                Intent prgIntent = new Intent();
+                prgIntent.putExtra("ProgramDetails", itemValue);
+                myActivity.setIntent(prgIntent);
+
+                ProgramDetailsFragment pdf = new ProgramDetailsFragment();
+
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                ft.replace(R.id.container, pdf);
+                ft.addToBackStack(null);
+                ft.commit();
             }
 
         });
@@ -129,6 +150,7 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
         errTextView.setVisibility(View.VISIBLE);
 
     }
+
 
 
 }
