@@ -20,7 +20,9 @@ public class Util {
                 url="http://10.0.3.2/sunaad/";
                 break;
             case PROGRAM:
-                url="http://abheri.pythonanywhere.com/programs/";
+            case ARTISTE:
+                //url="http://abheri.pythonanywhere.com/programs/";
+                url="http://10.0.3.2:9000/programs/";
                 break;
             default:
                 break;

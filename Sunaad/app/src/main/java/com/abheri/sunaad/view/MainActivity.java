@@ -69,6 +69,11 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction()
                     .replace(R.id.container,  pf)
                     .commit();
+        }else if(position == 2){
+            ArtisteFragment af =  new ArtisteFragment();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container,  af)
+                    .commit();
         }else {
             fragmentManager.beginTransaction()
                     .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))

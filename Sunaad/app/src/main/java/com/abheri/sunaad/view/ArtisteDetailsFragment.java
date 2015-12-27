@@ -5,41 +5,25 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.ViewAnimator;
 
 import com.abheri.sunaad.R;
-import com.abheri.sunaad.dao.GetDataForHomeFragment;
 import com.abheri.sunaad.dao.Program;
-
-import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProgramDetailsFragment extends Fragment {
+public class ArtisteDetailsFragment extends Fragment {
 
     Context context;
 
-    public ProgramDetailsFragment() {
+    public ArtisteDetailsFragment() {
         // Required empty public constructor
         context = getContext();
     }
@@ -53,8 +37,7 @@ public class ProgramDetailsFragment extends Fragment {
         Intent i = getActivity().getIntent();
         Program prgObj = (Program)i.getExtras().getSerializable("ProgramDetails");
 
-        DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        String eventDate = sdf.format(prgObj.getEventDate()).toString();
+        DateFormat df = new SimpleDateFormat("dd/mmm/yyyy");
 
 
         TextView title = (TextView)rootView.findViewById(R.id.title);
@@ -71,7 +54,7 @@ public class ProgramDetailsFragment extends Fragment {
 
         title.setText(prgObj.getTitle());
         name.setText(prgObj.getDetails());
-        date.setText(eventDate);
+        date.setText(df.format(prgObj.getEventDate()));
         //time.setText(prgObj.getStartTime());
         place.setText(prgObj.getPlace());
         phNo.setText(prgObj.getPhone());

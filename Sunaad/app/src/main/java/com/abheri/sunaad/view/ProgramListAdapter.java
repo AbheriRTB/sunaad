@@ -79,7 +79,7 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
         String title = currentProgram.getTitle();
         String description = currentProgram.getDetails();
         String description2 = currentProgram.getEventDate().toString();
-        String description3 = currentProgram.getLocation_address();
+        String description3 = currentProgram.getLocation_address1();
 
         String uri = "@drawable/subbulakshmi";  // where myresource.png is the file
         // extension removed from the String
