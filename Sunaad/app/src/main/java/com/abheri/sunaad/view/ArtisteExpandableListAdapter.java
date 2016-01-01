@@ -4,36 +4,31 @@ package com.abheri.sunaad.view;
  * Created by Maha on 27/12/15.
  */
 
-        import java.util.List;
-        import java.util.Map;
+import java.util.List;
+import java.util.Map;
 
-        //import com.theopentutorials.expandablelist.R;
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Typeface;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-        import android.app.Activity;
-        import android.app.AlertDialog;
-        import android.content.Context;
-        import android.content.DialogInterface;
-        import android.graphics.Typeface;
-        import android.util.Log;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.View.OnClickListener;
-        import android.view.ViewGroup;
-        import android.widget.BaseExpandableListAdapter;
-        import android.widget.ImageView;
-        import android.widget.TextView;
+import com.abheri.sunaad.R;
+import com.abheri.sunaad.dao.Program;
+import com.squareup.picasso.Picasso;
 
-        import com.abheri.sunaad.R;
-        import com.abheri.sunaad.dao.Program;
-
-public class ExpandableListAdapter extends BaseExpandableListAdapter {
+public class ArtisteExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Activity context;
     private Map<String, List<String>> artisteCollections;
     private List<String> artistes;
 
-    public ExpandableListAdapter(Activity context, List<String> artList,
-                                 Map<String, List<String>> artCollections) {
+    public ArtisteExpandableListAdapter(Activity context, List<String> artList,
+                                        Map<String, List<String>> artCollections) {
         this.context = context;
         this.artisteCollections = artCollections;
         this.artistes = artList;
@@ -57,7 +52,16 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.artiste_child_item, null);
         }
 
-        TextView item = (TextView) convertView.findViewById(R.id.programDetail);
+        TextView item = (TextView) convertView.findViewById(R.id.aprogramDetail);
+        ImageView iv = (ImageView) convertView.findViewById(R.id.artisteImage);
+
+        String uri = program.getArtiste_image();
+        if(uri == null && uri.length()<=0){
+            uri = "@drawable/subbulakshmi";
+        }
+
+        uri = Util.getImageUrl() + uri;
+
 
         /*
         ImageView delete = (ImageView) convertView.findViewById(R.id.delete);
@@ -89,6 +93,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         */
 
         item.setText(program.getDetails());
+        Picasso.with(context)
+                .load(uri)
+                .into(iv);
+
         return convertView;
     }
 

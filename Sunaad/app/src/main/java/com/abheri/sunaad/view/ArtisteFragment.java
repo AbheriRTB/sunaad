@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -123,7 +122,7 @@ public class ArtisteFragment extends Fragment implements HandleServiceResponse{
 
         // use the SimpleCursorAdapter to show the
         // elements in a ListView
-        final ExpandableListAdapter expListAdapter = new ExpandableListAdapter(
+        final ArtisteExpandableListAdapter expListAdapter = new ArtisteExpandableListAdapter(
                                     myActivity, aList, (Map)artisteProgramCollection);
         expListView.setAdapter(expListAdapter);
     }

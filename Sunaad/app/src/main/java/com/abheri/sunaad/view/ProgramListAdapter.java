@@ -2,15 +2,14 @@ package com.abheri.sunaad.view;
 
 import android.app.Activity;
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.dao.Program;
@@ -25,11 +24,13 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
 
     List<Program> Programs;
     private View oldSelection = null;
+    Context myContext;
 
     public ProgramListAdapter(Context context, int resource,
                          List<Program> Programlist) {
         super(context, resource, Programlist);
         this.Programs = Programlist;
+        myContext = context;
         // TODO Auto-generated constructor stub
     }
 
@@ -80,9 +81,12 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
         String description = currentProgram.getDetails();
         String description2 = currentProgram.getEventDate().toString();
         String description3 = currentProgram.getLocation_address1();
+        String uri = currentProgram.getArtiste_image();
+        if(uri == null && uri.length()<=0){
+            uri = "@drawable/subbulakshmi";
+        }
 
-        String uri = "@drawable/subbulakshmi";  // where myresource.png is the file
-        // extension removed from the String
+        uri = Util.getImageUrl() + uri;
 
         int imageResource = v.getResources().getIdentifier(uri, null, v.getContext().getPackageName());
 
@@ -97,7 +101,10 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
         holder.description.setText(description);
         holder.descripton2.setText(description2);
         holder.description3.setText(description3);
-        holder.iv.setImageDrawable(v.getResources().getDrawable(R.drawable.vocal));
+        //holder.iv.setImageDrawable(v.getResources().getDrawable(R.drawable.vocal));
+        Picasso.with(myContext)
+                .load(uri)
+                .into(holder.iv);
 
         return v;
     }

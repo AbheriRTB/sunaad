@@ -34,6 +34,7 @@ public class Program implements Serializable{
     private String location_coords;
     private String location_eataries;
     private String parking;
+    private String artiste_image;
 
 
     public long getId() {  return id;
@@ -208,6 +209,13 @@ public class Program implements Serializable{
     }
     public void setParking(String parking) {
         this.parking = parking;
+    }
+
+    public String getArtiste_image() {
+        return artiste_image;
+    }
+    public void setArtiste_image(String image) {
+        this.artiste_image = image;
     }
 
 

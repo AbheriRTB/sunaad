@@ -4,13 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
-
     <TableRow>
-
-
-
-
-
         <LinearLayout
             android:id="@+id/artisteHolder"
             android:layout_width="wrap_content"

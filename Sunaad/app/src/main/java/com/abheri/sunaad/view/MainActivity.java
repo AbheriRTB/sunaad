@@ -1,7 +1,6 @@
 package com.abheri.sunaad.view;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.abheri.sunaad.R;
-import com.abheri.sunaad.dao.RequestTask;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -73,6 +71,11 @@ public class MainActivity extends AppCompatActivity
             ArtisteFragment af =  new ArtisteFragment();
             fragmentManager.beginTransaction()
                     .replace(R.id.container,  af)
+                    .commit();
+        }else if(position == 3){
+            SabhaFragment sf =  new SabhaFragment();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container,  sf)
                     .commit();
         }else {
             fragmentManager.beginTransaction()

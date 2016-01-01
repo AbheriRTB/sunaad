@@ -62,6 +62,7 @@ public class GetDataForProgramFragment {
                     tmpPrg.setLocation_coords(jo.getString("location_mapcoords"));
                     tmpPrg.setParking(jo.getString("location_parking"));
                     tmpPrg.setLocation_eataries(jo.getString("location_eataries"));
+                    tmpPrg.setArtiste_image(jo.getString("artiste_image"));
 
 
                     programs.add(tmpPrg);
@@ -121,6 +122,50 @@ public class GetDataForProgramFragment {
         }
 
         return artisteProgramCollection;
+    }
+
+    public List<String> getSabhaListFromPrograms(List<Program> prgList) {
+
+        List<String> sabhaList = new ArrayList<String>();
+        Set<String> sabhaSet = new HashSet<String>();
+
+        for (int i = 0; i < prgList.size(); ++i) {
+
+            Program pr = prgList.get(i);
+            String sabha = pr.getPlace();
+
+            sabhaSet.add(sabha);
+        }
+
+        sabhaList = new ArrayList<String>(sabhaSet);
+
+        return sabhaList;
+    }
+
+    public LinkedHashMap<String, List<Program>> createSabhaProgramCollection(List<Program> prgList, List<String> sabhaList) {
+
+        LinkedHashMap<String, List<Program>> sabhaProgramCollection = new LinkedHashMap<String, List<Program>>();
+        String sab = "";
+
+        for (int i = 0; i < sabhaList.size(); ++i) {
+            String selSab = sabhaList.get(i);
+            List<Program> sabhaProgramList = new ArrayList<Program>();
+
+            for (int j = 0; j < prgList.size(); ++j) {
+
+                Program pr = prgList.get(j);
+                sab = pr.getPlace();
+
+                if (sab.trim().equalsIgnoreCase(selSab)) {
+                    sabhaProgramList.add(pr);
+                }
+
+            }
+
+            sabhaProgramCollection.put(selSab, sabhaProgramList);
+        }
+
+        return sabhaProgramCollection;
     }
 
     public List<Program> dummyPrograms() {

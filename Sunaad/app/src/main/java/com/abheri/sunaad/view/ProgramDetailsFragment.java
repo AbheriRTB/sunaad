@@ -9,28 +9,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.LinearLayout;
+
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.ViewAnimator;
 
 import com.abheri.sunaad.R;
-import com.abheri.sunaad.dao.GetDataForHomeFragment;
 import com.abheri.sunaad.dao.Program;
-
-import org.w3c.dom.Text;
-
+import com.squareup.picasso.Picasso;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,11 +45,11 @@ public class ProgramDetailsFragment extends Fragment {
         String eventDate = sdf.format(prgObj.getEventDate()).toString();
 
 
+        ImageView iv = (ImageView)rootView.findViewById(R.id.programImage);
         TextView title = (TextView)rootView.findViewById(R.id.title);
 
         TextView name = (TextView)rootView.findViewById(R.id.artistName);
         TextView date = (TextView)rootView.findViewById(R.id.date);
-        //TextView time = (TextView)rootView.findViewById(R.id.time);
         TextView place = (TextView)rootView.findViewById(R.id.place);
         TextView phNo = (TextView)rootView.findViewById(R.id.phNo);
         TextView eateriesNY = (TextView)rootView.findViewById(R.id.eateriesYN);
@@ -69,10 +57,20 @@ public class ProgramDetailsFragment extends Fragment {
         TextView parkingYN = (TextView)rootView.findViewById(R.id.parkingYN);
 
 
+        String imageUri = prgObj.getArtiste_image();
+        if(imageUri == null && imageUri.length()<=0){
+            imageUri = "@drawable/subbulakshmi";
+        }
+
+        imageUri = Util.getImageUrl() + imageUri;
+
+        Picasso.with(context)
+                .load(imageUri)
+                .into(iv);
+
         title.setText(prgObj.getTitle());
         name.setText(prgObj.getDetails());
         date.setText(eventDate);
-        //time.setText(prgObj.getStartTime());
         place.setText(prgObj.getPlace());
         phNo.setText(prgObj.getPhone());
         eateriesNY.setText(prgObj.getLocation_eataries());

@@ -1,11 +1,9 @@
 package com.abheri.sunaad.view;
 
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +13,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewAnimator;
 import android.util.Log;
 
@@ -71,7 +67,7 @@ public class HomeFragment extends Fragment {
 
         viewAnimator.startLayoutAnimation();
 
-        rc = new CycleView(3);
+        rc = new CycleView(5);
 
         Button btn1 = (Button) rootView.findViewById(R.id.buttonPrev);
         btn1.setVisibility(View.GONE);

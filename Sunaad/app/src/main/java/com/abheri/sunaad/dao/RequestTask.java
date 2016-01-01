@@ -70,6 +70,7 @@ public class RequestTask extends AsyncTask<String, String, Object> {
                         break;
                     case PROGRAM:
                     case ARTISTE:
+                    case SABHA:
                         GetDataForProgramFragment prgdata = new GetDataForProgramFragment();
                         List<Program> values = prgdata.getData(responseString);
                         returnObj = (Object)values;
