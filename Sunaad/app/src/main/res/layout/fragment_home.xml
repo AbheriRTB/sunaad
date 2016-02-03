@@ -14,44 +14,23 @@
             android:layout_height="match_parent"
             android:id="@+id/viewAnimator"
             android:layout_gravity="center_horizontal">
-
- <!--           <WebView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/webView1"
-                android:layout_gravity="center_horizontal" />
-
-            <WebView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/webView2" />
-
-            <WebView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/webView3" /> -->
         </ViewAnimator>
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:textSize="15dp"
+        android:id="@+id/homeServiceErrorText"
         android:layout_gravity="center_horizontal"
-        android:layout_height="wrap_content">
+        android:paddingTop="30dp" />
 
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Prev"
-            android:id="@+id/buttonPrev" />
-
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Next"
-            android:id="@+id/buttonNext" />
-    </LinearLayout>
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:id="@+id/homeProgressBar"
+        android:layout_gravity="center_horizontal" />
 
 </LinearLayout>

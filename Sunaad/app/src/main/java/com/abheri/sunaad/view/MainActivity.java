@@ -50,10 +50,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        Toast.makeText(
+        /*Toast.makeText(
                 this.getApplicationContext(),
                 "Drawer Item" + position + "  Selected...",
-                Toast.LENGTH_SHORT).show();
+                Toast.LENGTH_SHORT).show(); */
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 

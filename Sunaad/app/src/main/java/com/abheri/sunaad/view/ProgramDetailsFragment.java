@@ -3,6 +3,7 @@ package com.abheri.sunaad.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -18,6 +19,7 @@ import com.abheri.sunaad.dao.Program;
 import com.squareup.picasso.Picasso;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 
 /**
@@ -59,7 +61,7 @@ public class ProgramDetailsFragment extends Fragment {
 
         String imageUri = prgObj.getArtiste_image();
         if(imageUri == null && imageUri.length()<=0){
-            imageUri = "@drawable/subbulakshmi";
+            imageUri = "@drawable/music_image";
         }
 
         imageUri = Util.getImageUrl() + imageUri;
@@ -70,12 +72,20 @@ public class ProgramDetailsFragment extends Fragment {
 
         title.setText(prgObj.getTitle());
         name.setText(prgObj.getDetails());
-        date.setText(eventDate);
+        date.setText("on " + eventDate);
         place.setText(prgObj.getPlace());
         phNo.setText(prgObj.getPhone());
         eateriesNY.setText(prgObj.getLocation_eataries());
         mapco.setText(prgObj.getLocation_coords());
         parkingYN.setText(prgObj.getParking());
+
+
+
+        String uri = "geo:"+ prgObj.getLocation_coords();
+        //String uri = String.format(Locale.ENGLISH, "geo:%f,%f", 13.0104054,77.5488072);
+        Intent mapIntent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
+        Context ct = rootView.getContext();
+        ct.startActivity(mapIntent);
 
         return rootView;
     }

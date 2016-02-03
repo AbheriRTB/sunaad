@@ -63,6 +63,8 @@ public class GetDataForProgramFragment {
                     tmpPrg.setParking(jo.getString("location_parking"));
                     tmpPrg.setLocation_eataries(jo.getString("location_eataries"));
                     tmpPrg.setArtiste_image(jo.getString("artiste_image"));
+                    tmpPrg.setIs_featured(jo.getString("is_featured"));
+                    tmpPrg.setSplash_url(jo.getString("splash_url"));
 
 
                     programs.add(tmpPrg);

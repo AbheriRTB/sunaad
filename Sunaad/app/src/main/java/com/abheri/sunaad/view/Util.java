@@ -17,14 +17,30 @@ public class Util {
         switch (sview){
 
             case HOME:
-                //url="http://10.0.3.2/sunaad/";
-                url="http://abheri.pythonanywhere.com/static/";
-                break;
             case PROGRAM:
             case ARTISTE:
             case SABHA:
-                //url="http://abheri.pythonanywhere.com/programs/";
-                url="http://10.0.3.2:9000/programs/";
+                url="http://abheri.pythonanywhere.com/programs/";
+                //url="http://10.0.3.2:9000/programs/";
+                break;
+            default:
+                break;
+        }
+
+        return url;
+    }
+    public static String getPageUrl(SunaadViews sview){
+
+        String url = "";
+
+        switch (sview){
+
+            case HOME:
+            case PROGRAM:
+            case ARTISTE:
+            case SABHA:
+                //url="http://10.0.3.2/sunaad/";
+                url="http://abheri.pythonanywhere.com/static/";
                 break;
             default:
                 break;

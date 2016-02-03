@@ -35,6 +35,8 @@ public class Program implements Serializable{
     private String location_eataries;
     private String parking;
     private String artiste_image;
+    private String is_featured;
+    private String splash_url;
 
 
     public long getId() {  return id;
@@ -216,6 +218,25 @@ public class Program implements Serializable{
     }
     public void setArtiste_image(String image) {
         this.artiste_image = image;
+    }
+
+    public String getIs_featured() {
+        return is_featured;
+    }
+    public void setIs_featured(String featured) {
+        this.is_featured = featured;
+    }
+
+    public String getSplash_url() {
+        return splash_url;
+    }
+    public void setSplash_url(String splashUrl) {
+        if(null != splashUrl && splashUrl.equalsIgnoreCase("null")) {
+            this.splash_url = "";
+        }
+        else{
+            this.splash_url = splashUrl;
+        }
     }
 
 
