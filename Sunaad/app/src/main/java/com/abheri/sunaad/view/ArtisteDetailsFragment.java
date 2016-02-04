@@ -3,33 +3,27 @@ package com.abheri.sunaad.view;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.dao.Program;
-import com.squareup.picasso.Picasso;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Locale;
-
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProgramDetailsFragment extends Fragment {
+public class ArtisteDetailsFragment extends Fragment {
 
     Context context;
 
-    public ProgramDetailsFragment() {
+    public ArtisteDetailsFragment() {
         // Required empty public constructor
         context = getContext();
     }
@@ -43,15 +37,14 @@ public class ProgramDetailsFragment extends Fragment {
         Intent i = getActivity().getIntent();
         Program prgObj = (Program)i.getExtras().getSerializable("ProgramDetails");
 
-        DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        String eventDate = sdf.format(prgObj.getEventDate()).toString();
+        DateFormat df = new SimpleDateFormat("dd/mmm/yyyy");
 
 
-        ImageView iv = (ImageView)rootView.findViewById(R.id.programImage);
         TextView title = (TextView)rootView.findViewById(R.id.title);
 
         TextView name = (TextView)rootView.findViewById(R.id.artistName);
         TextView date = (TextView)rootView.findViewById(R.id.date);
+        //TextView time = (TextView)rootView.findViewById(R.id.time);
         TextView place = (TextView)rootView.findViewById(R.id.place);
         TextView phNo = (TextView)rootView.findViewById(R.id.phNo);
         TextView eateriesNY = (TextView)rootView.findViewById(R.id.eateriesYN);
@@ -59,33 +52,15 @@ public class ProgramDetailsFragment extends Fragment {
         TextView parkingYN = (TextView)rootView.findViewById(R.id.parkingYN);
 
 
-        String imageUri = prgObj.getArtiste_image();
-        if(imageUri == null && imageUri.length()<=0){
-            imageUri = "@drawable/music_image";
-        }
-
-        imageUri = Util.getImageUrl() + imageUri;
-
-        Picasso.with(context)
-                .load(imageUri)
-                .into(iv);
-
         title.setText(prgObj.getTitle());
         name.setText(prgObj.getDetails());
-        date.setText("on " + eventDate);
+        date.setText(df.format(prgObj.getEventDate()));
+        //time.setText(prgObj.getStartTime());
         place.setText(prgObj.getPlace());
         phNo.setText(prgObj.getPhone());
         eateriesNY.setText(prgObj.getLocation_eataries());
         mapco.setText(prgObj.getLocation_coords());
         parkingYN.setText(prgObj.getParking());
-
-
-
-        String uri = "geo:"+ prgObj.getLocation_coords();
-        //String uri = String.format(Locale.ENGLISH, "geo:%f,%f", 13.0104054,77.5488072);
-        Intent mapIntent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
-        Context ct = rootView.getContext();
-        ct.startActivity(mapIntent);
 
         return rootView;
     }

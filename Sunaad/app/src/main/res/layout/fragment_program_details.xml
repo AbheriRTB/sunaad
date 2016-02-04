@@ -1,4 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:layout_gravity="center"
+        android:textColor="@color/red"
+        android:shadowColor="@color/darkpurple"
+        />
+
+    <ImageView
+        android:id="@+id/programImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/subbulakshmi"
+        />
+
+
+    <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="35dp"
+        android:columnCount="2">
+
+
+
+        <!--<TextView android:id="@+id/lbl_artistName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_artistName"
+            />-->
+        <TextView
+            android:id="@+id/artistName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="15dp"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+        <!--<TextView android:id="@+id/lbl_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_date"
+            />-->
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="12dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            />
+
+        <!--<TextView
+            android:id="@+id/lbl_place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_place"
+        />-->
+        <TextView
+            android:id="@+id/place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="12dp"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <!--<TextView android:id="@+id/lbl_phNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_phNo"
+            />-->
+        <TextView
+            android:id="@+id/phNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="12dp"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <!--<TextView android:id="@+id/lbl_eateries"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_eateries"
+            />-->
+        <TextView
+            android:id="@+id/eateriesYN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="12dp"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <!--<TextView android:id="@+id/lbl_mapco"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_mapco"
+            />-->
+        <TextView
+            android:id="@+id/mapco"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="12dp"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <!--<TextView android:id="@+id/lbl_parking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_parking"
+            />-->
+        <TextView
+            android:id="@+id/parkingYN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textSize="12dp"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+    </GridLayout>
+
+
+</LinearLayout>
+
+
+
+
+   <!-- <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,14 +170,7 @@
             android:layout_weight="5"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/concert"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:textSize="12dp"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+
 
             <TextView
                 android:id="@+id/artistName"
@@ -64,7 +205,6 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:textSize="10dp"
-                android:text="Next Line"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
             <TextView
                 android:id="@+id/place"
@@ -76,7 +216,6 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:textSize="10dp"
-                android:text="Next Line"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
             <TextView
                 android:id="@+id/phNo"
@@ -88,7 +227,6 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:textSize="10dp"
-                android:text="Next Line"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
             <TextView
                 android:id="@+id/eateriesYN"
@@ -100,7 +238,6 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:textSize="10dp"
-                android:text="Next Line"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
             <TextView
                 android:id="@+id/mapco"
@@ -112,7 +249,6 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:textSize="10dp"
-                android:text="Next Line"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
             <TextView
                 android:id="@+id/parkingYN"
@@ -124,8 +260,8 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:textSize="10dp"
-                android:text="Next Line"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
         </LinearLayout>
     </TableRow>
 </TableLayout>
+-->
