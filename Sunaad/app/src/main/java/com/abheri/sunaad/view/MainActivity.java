@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
+        context = getApplicationContext();
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
@@ -134,9 +135,17 @@ public class MainActivity extends AppCompatActivity
         switch (id) {
             // action with ID action_refresh was selected
             case R.id.action_refresh:
+                /* Find which fragment is active when refresh button is pressed
+                 * Call corresponding 'getData()' method with force refresh
+                 * (second argument as true).
+                 *
+                 * ProgramDetailsFragment does not have getData method. Hence user
+                 * has to go back one screen to ProgramFragment to refresh the data
+                 */
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 Fragment f = fragmentManager.findFragmentById(R.id.container);
                 String fragname="";
+
                 if (f instanceof HomeFragment){
                     fragname="HomeFragment";
                     ((HomeFragment) f).getData((HomeFragment)f, true);
