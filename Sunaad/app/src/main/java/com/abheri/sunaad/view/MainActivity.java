@@ -1,7 +1,6 @@
 package com.abheri.sunaad.view;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.abheri.sunaad.R;
-import com.abheri.sunaad.dao.RequestTask;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -52,10 +50,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        Toast.makeText(
+        /*Toast.makeText(
                 this.getApplicationContext(),
                 "Drawer Item" + position + "  Selected...",
-                Toast.LENGTH_SHORT).show();
+                Toast.LENGTH_SHORT).show(); */
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -68,6 +66,16 @@ public class MainActivity extends AppCompatActivity
             ProgramFragment pf =  new ProgramFragment();
             fragmentManager.beginTransaction()
                     .replace(R.id.container,  pf)
+                    .commit();
+        }else if(position == 2){
+            ArtisteFragment af =  new ArtisteFragment();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container,  af)
+                    .commit();
+        }else if(position == 3){
+            SabhaFragment sf =  new SabhaFragment();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container,  sf)
                     .commit();
         }else {
             fragmentManager.beginTransaction()
@@ -104,7 +112,7 @@ public class MainActivity extends AppCompatActivity
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.main, menu);
+            getMenuInflater().inflate(R.menu.global, menu);
             restoreActionBar();
             return true;
         }
@@ -119,9 +127,45 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+       /* if (id == R.id.action_settings) {
             return true;
+        } */
+
+        switch (id) {
+            // action with ID action_refresh was selected
+            case R.id.action_refresh:
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                Fragment f = fragmentManager.findFragmentById(R.id.container);
+                String fragname="";
+                if (f instanceof HomeFragment){
+                    fragname="HomeFragment";
+                    ((HomeFragment) f).getData((HomeFragment)f, true);
+                }else if(f instanceof ProgramFragment){
+                    fragname="ProgramFragment";
+                    ((ProgramFragment) f).getData((ProgramFragment)f, true);
+                }else if(f instanceof ProgramDetailsFragment){
+                    fragname="ProgramDetailsFragment";
+                    Toast.makeText(this, "Please use back button before refresh",
+                            Toast.LENGTH_SHORT).show();
+                }else if(f instanceof ArtisteFragment){
+                    fragname="ArtisteFragment";
+                    ((ArtisteFragment) f).getData((ArtisteFragment)f, true);
+                }else if(f instanceof SabhaFragment){
+                    fragname="SabhaFragment";
+                    ((SabhaFragment) f).getData((SabhaFragment)f, true);
+                }
+
+                //Toast.makeText(this, "Refresh selected:"+fragname, Toast.LENGTH_SHORT).show();
+                break;
+            // action with ID action_settings was selected
+            case R.id.action_settings:
+                Toast.makeText(this, "Settings selected", Toast.LENGTH_LONG)
+                        .show();
+                break;
+            default:
+                break;
         }
+
 
         return super.onOptionsItemSelected(item);
     }

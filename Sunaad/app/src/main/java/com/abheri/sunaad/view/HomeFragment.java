@@ -1,11 +1,10 @@
 package com.abheri.sunaad.view;
 
 
-import android.app.ActionBar;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +14,19 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewAnimator;
 import android.util.Log;
 
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.dao.GetDataForHomeFragment;
+import com.abheri.sunaad.dao.Program;
+import com.abheri.sunaad.dao.ProgramListDataCache;
+import com.abheri.sunaad.dao.RequestTask;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -30,11 +34,16 @@ import java.util.TimerTask;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements HandleServiceResponse{
 
     ViewAnimator viewAnimator;
     Context context;
     CycleView rc;
+    String[] pages;
+    View rootView;
+    ProgressBar progressBar;
+    TextView errTextView;
+    List<Program> cachedProgramList;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -45,7 +54,16 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        if(null == context){
+            context = rootView.getContext();
+        }
+
+        progressBar = (ProgressBar)rootView.findViewById(R.id.homeProgressBar);
+        progressBar.setVisibility(View.VISIBLE);
+
+        errTextView = (TextView)rootView.findViewById(R.id.homeServiceErrorText);
+        errTextView.setVisibility(View.GONE);
 
 
         viewAnimator = (ViewAnimator)rootView.findViewById(R.id.viewAnimator);
@@ -53,43 +71,25 @@ public class HomeFragment extends Fragment {
         final Animation inAnim = AnimationUtils.loadAnimation(getContext(),android.R.anim.slide_in_left);
         final Animation outAnim = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);
 
+        getData(this, false);
+
         viewAnimator.setInAnimation(inAnim);
         viewAnimator.setOutAnimation(outAnim);
 
-        GetDataForHomeFragment gd = new GetDataForHomeFragment();
-        String[] pages = gd.getData();
-        String urlBase = Util.getServiceUrl(SunaadViews.HOME);
-        for(int i=0; i<pages.length; ++i){
-            WebView wv = new WebView(rootView.getContext());
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-            wv.setLayoutParams(lp);
-            //wv.loadData(pages[i], "text/html", "UTF_8");
-            wv.setWebViewClient(new WebViewClient());
-            wv.loadUrl(urlBase+pages[i]);
-            viewAnimator.addView(wv);
-        }
-
-        viewAnimator.startLayoutAnimation();
-
-        rc = new CycleView(3);
-
-        Button btn1 = (Button) rootView.findViewById(R.id.buttonPrev);
-        btn1.setVisibility(View.GONE);
-        btn1.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                viewAnimator.showPrevious();
-            }
-        });
-
-        Button btn2 = (Button) rootView.findViewById(R.id.buttonNext);
-        btn2.setVisibility(View.GONE);
-        btn2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                viewAnimator.showNext();
-            }
-        });
-
         return rootView;
+    }
+
+    public void getData(HomeFragment fragmentThis, boolean doRefresh){
+
+        ProgramListDataCache plc = new ProgramListDataCache(context.getApplicationContext());
+        if(plc.isProgramDataCacheOld() || doRefresh) {
+            RequestTask rt = new RequestTask(fragmentThis, SunaadViews.HOME);
+            rt.execute(Util.getServiceUrl(SunaadViews.HOME));
+        }
+        else {
+            cachedProgramList = plc.RetrieveProgramDataFromCache();
+            updateViewFromData(cachedProgramList);
+        }
     }
 
     @Override
@@ -104,6 +104,74 @@ public class HomeFragment extends Fragment {
             //LOGGER.debug("Thread successfully stopped.");
             Log.v("sunaad", "Timer Cancelled");
         }
+    }
+
+    @Override
+    public void onSuccess(Object result) {
+        List<Program> values = (List<Program>) result;
+
+        ProgramListDataCache plc = new ProgramListDataCache(context.getApplicationContext());
+        plc.SaveProgramDataInCache((List<Program>) result);
+
+        updateViewFromData(values);
+    }
+
+    public void updateViewFromData(List<Program> values){
+        ArrayList<String> pagesList = new ArrayList<>();
+
+        progressBar.setVisibility(View.GONE);
+        for(int i=0; i< values.size(); ++i){
+            Program tmp = values.get(i);
+            String surl = tmp.getSplash_url();
+            if(null!=surl && surl.trim().length() > 0){
+                pagesList.add(surl);
+                surl = "";
+            }
+        }
+
+        if(pagesList.size() > 0){
+            pages = new String[pagesList.size()];
+            pages = pagesList.toArray(pages);
+
+            updateWebViews();
+        }
+
+    }
+
+    @Override
+    public void onError(Object result) {
+        Exception e = (Exception)result;
+        String st = "";
+        if(null != e)
+            st = e.toString();
+
+        progressBar.setVisibility(View.GONE);
+        errTextView.setText("Service Error Occurred:" + st);
+        errTextView.setTextColor(Color.parseColor("#FF0000"));
+        errTextView.setVisibility(View.VISIBLE);
+    }
+
+    void updateWebViews(){
+
+        String urlBase = Util.getPageUrl(SunaadViews.HOME);
+        if(null == pages || pages.length <= 0)
+            return;
+
+        for(int i=0; i<pages.length; ++i){
+            WebView wv = new WebView(rootView.getContext());
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.MATCH_PARENT);
+            wv.setLayoutParams(lp);
+            //wv.loadData(pages[i], "text/html", "UTF_8");
+            wv.setWebViewClient(new WebViewClient());
+            wv.loadUrl(urlBase+pages[i]);
+            viewAnimator.addView(wv);
+        }
+
+        viewAnimator.startLayoutAnimation();
+
+        rc = new CycleView(5);
+
     }
 
 

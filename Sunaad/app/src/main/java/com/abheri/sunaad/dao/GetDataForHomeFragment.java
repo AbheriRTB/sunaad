@@ -28,7 +28,7 @@ public class GetDataForHomeFragment {
 
         String[] colors={"#7777FF","77FF77","FF7777","aa00ee","0022ee"};
 
-        String[] weburls={"kutcheri1.html", "kutcheri2.html"};
+        String[] weburls={"flyer1_aradhana.html", "program2.html"};
 
         for(int i=0; i<weburls.length; ++i){
             /*String html = "<div style=\"background-color:#"+colors[i]

@@ -3,13 +3,8 @@ package com.abheri.sunaad.dao;
 import com.abheri.sunaad.view.SunaadViews;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.AsyncTask;
 import com.abheri.sunaad.view.HandleServiceResponse;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -67,10 +62,11 @@ public class RequestTask extends AsyncTask<String, String, Object> {
                 switch(currentView){
 
                     case HOME:
-                        break;
                     case PROGRAM:
-                        GetDataForProgramFragment prgdata = new GetDataForProgramFragment();
-                        List<Program> values = prgdata.getData(responseString);
+                    case ARTISTE:
+                    case SABHA:
+                        ProgramDataHandler prgdata = new ProgramDataHandler();
+                        List<Program> values = prgdata.parseProgramListFromJsonResponse(responseString);
                         returnObj = (Object)values;
                         break;
                     default:
