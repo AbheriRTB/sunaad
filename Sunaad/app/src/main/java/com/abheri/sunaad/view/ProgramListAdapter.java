@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso;
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.dao.Program;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -77,14 +78,16 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
             holder = (ViewHolder) v.getTag();
         }
 
+        SimpleDateFormat ft = new SimpleDateFormat ("E, dd-MMM-yyyy");
+
         Program currentProgram = this.Programs.get(position);
         String title = currentProgram.getTitle();
         String description = currentProgram.getDetails();
-        String description2 = currentProgram.getEventDate().toString();
+        String description2 = ft.format(currentProgram.getEventDate());
         String description3 = currentProgram.getLocation_address1();
         String uri = currentProgram.getArtiste_image();
         if(uri == null && uri.length()<=0){
-            uri = "@drawable/subbulakshmi";
+            uri = "@drawable/subbulakshmi.9.png";
         }
 
         uri = Util.getImageUrl() + uri;

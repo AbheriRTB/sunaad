@@ -64,7 +64,6 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:textSize="14dp"
-                android:text="Next Line"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
         </LinearLayout>
     </TableRow>
