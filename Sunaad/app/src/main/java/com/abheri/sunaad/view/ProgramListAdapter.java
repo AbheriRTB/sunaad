@@ -104,9 +104,22 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
 
         Date eDate = currentProgram.getEventDate();
         Date tDate = new Date();
-        if(null != eDate && eDate.compareTo(tDate) < 0){
-            v.setBackgroundColor(v.getResources().getColor(R.color.oldgray));
+        if(null != eDate){
+            if(eDate.compareTo(tDate) < 0){
+                v.setBackgroundColor(v.getResources().getColor(R.color.oldgray));
+            }
+            else{
+                String dateStr1 = ft.format(eDate);
+                String dateStr2 = ft.format(tDate);
+                if(dateStr1.equalsIgnoreCase(dateStr2)){
+                    holder.title.setTextColor(v.getResources().getColor(R.color.blue));
+                    holder.description.setTextColor(v.getResources().getColor(R.color.blue));
+                    holder.descripton2.setTextColor(v.getResources().getColor(R.color.blue));
+                    holder.description3.setTextColor(v.getResources().getColor(R.color.blue));
+                }
+            }
         }
+
 
         holder.title.setText(title);
         holder.description.setText(description);

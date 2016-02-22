@@ -158,9 +158,12 @@ public class SabhaFragment extends Fragment implements HandleServiceResponse{
 
     public void updateViewFromData(List<Program> values){
 
+        //Filter old programs from the list
+        List<Program> fValues = ProgramDataHandler.filterOldPrograms(values, Util.HOW_OLD);
+
         ProgramDataHandler gdp = new ProgramDataHandler();
-        sList = gdp.getSabhaListFromPrograms(values);
-        sabhaProgramCollection = gdp.createSabhaProgramCollection(values, sList);
+        sList = gdp.getSabhaListFromPrograms(fValues);
+        sabhaProgramCollection = gdp.createSabhaProgramCollection(fValues, sList);
 
         progressBar.setVisibility(View.GONE);
         expListView.setVisibility(View.VISIBLE);

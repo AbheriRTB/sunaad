@@ -159,9 +159,12 @@ public class ArtisteFragment extends Fragment implements HandleServiceResponse{
 
     public void updateViewFromData(List<Program> values){
 
+        //Filter old programs from the list
+        List<Program> fValues = ProgramDataHandler.filterOldPrograms(values, Util.HOW_OLD);
+
         ProgramDataHandler gdp = new ProgramDataHandler();
-        aList = gdp.getArtisteListFromPrograms(values);
-        artisteProgramCollection = gdp.createArtisteProgramCollection(values, aList);
+        aList = gdp.getArtisteListFromPrograms(fValues);
+        artisteProgramCollection = gdp.createArtisteProgramCollection(fValues, aList);
 
         progressBar.setVisibility(View.GONE);
         expListView.setVisibility(View.VISIBLE);

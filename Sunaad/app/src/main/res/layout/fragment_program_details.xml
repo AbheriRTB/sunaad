@@ -12,16 +12,14 @@
     android:gravity="center"
     android:orientation="vertical" >
 
-    <TextView android:id="@+id/title"
+    <WebView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        android:layout_gravity="center"
-        android:textColor="@color/red"
-        android:shadowColor="@color/darkpurple"
+        android:id="@+id/titleWV"
         />
 
     <com.abheri.sunaad.view.ProportionalImageView

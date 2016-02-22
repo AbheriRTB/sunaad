@@ -10,6 +10,8 @@ import android.widget.Toast;
  */
 public class Util {
 
+    public static final int HOW_OLD = 10;
+
     public static String getServiceUrl(SunaadViews sview){
 
         String url = "";

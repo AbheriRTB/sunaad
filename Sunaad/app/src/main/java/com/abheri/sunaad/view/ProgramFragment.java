@@ -21,6 +21,7 @@ import android.widget.ViewAnimator;
 
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.dao.Program;
+import com.abheri.sunaad.dao.ProgramDataHandler;
 import com.abheri.sunaad.dao.ProgramListDataCache;
 import com.abheri.sunaad.dao.RequestTask;
 
@@ -153,7 +154,11 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
     public void updateViewFromData(List<Program> values){
         progressBar.setVisibility(View.GONE);
         listView.setVisibility(View.VISIBLE);
-        updateProgramList(rootView, listView, values);
+
+        //Filter old programs from the list
+        List<Program> fValues = ProgramDataHandler.filterOldPrograms(values, Util.HOW_OLD);
+
+        updateProgramList(rootView, listView, fValues);
     }
 
     public void onError(Object result){

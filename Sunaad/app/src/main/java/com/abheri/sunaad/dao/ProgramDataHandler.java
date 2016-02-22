@@ -1,19 +1,26 @@
 package com.abheri.sunaad.dao;
 
+import com.abheri.sunaad.R;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.Policy;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  * Created by prasanna.ramaswamy on 25/10/15.
@@ -25,6 +32,8 @@ public class ProgramDataHandler {
 
     public List<Program> parseProgramListFromJsonResponse(String jsonstring) {
 
+
+        TreeSet<Program> programTreeSet = new TreeSet<Program>(new ProgramComparator());
         List<Program> programs = new ArrayList<Program>();
         Program tmpPrg;
 
@@ -66,8 +75,21 @@ public class ProgramDataHandler {
                     tmpPrg.setIs_featured(jo.getString("is_featured"));
                     tmpPrg.setSplash_url(jo.getString("splash_url"));
 
+                    programTreeSet.add(tmpPrg);
+                    //programs.add(tmpPrg);
+                }
 
-                    programs.add(tmpPrg);
+                TreeSet<Program> treereverse = (TreeSet)programTreeSet.descendingSet();
+
+                // create descending set
+                Iterator iterator;
+                iterator = treereverse.iterator();
+
+                // Fill the ArrayList with the reverse order set
+                while (iterator.hasNext()){
+                    //System.out.println(iterator.next() + " ");
+                    Program np = (Program)iterator.next();
+                    programs.add(np);
                 }
             }
         } catch (JSONException e) {
@@ -198,5 +220,47 @@ public class ProgramDataHandler {
         }
 
         return programs;
+    }
+
+    public static List<Program> filterOldPrograms(List<Program> plist, int howOld){
+
+        List<Program> filteredPrograms = new ArrayList<Program>();
+        for(int i=0; i<plist.size(); ++i) {
+
+            Date eDate = plist.get(i).getEventDate();
+            Date tDate = new Date();
+
+            long diff = eDate.getTime() - tDate.getTime();
+            long diffdays = diff/(1000 * 60 * 60 * 24);
+
+            if (diffdays >= 0) {
+                filteredPrograms.add(plist.get(i));
+            }
+            else if(Math.abs(diffdays) <= howOld){
+                filteredPrograms.add(plist.get(i));
+            }
+        }
+
+        return filteredPrograms;
+    }
+    class ProgramComparator implements Comparator<Program> {
+
+        @Override
+        public int compare(Program p1, Program p2) {
+
+            if (null == p1 || null == p2){
+                return 0;
+            }
+
+            Date eDate1 = p1.getEventDate();
+            Date eDate2 = p2.getEventDate();
+
+            if(null == eDate1 || null == eDate2){
+                return 0;
+            }
+            int result = eDate1.compareTo(eDate2);
+
+            return result;
+        }
     }
 }

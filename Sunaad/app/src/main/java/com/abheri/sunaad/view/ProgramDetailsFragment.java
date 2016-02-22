@@ -59,7 +59,7 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
 
 
         ProportionalImageView iv = (ProportionalImageView)rootView.findViewById(R.id.programImage);
-        TextView title = (TextView)rootView.findViewById(R.id.title);
+        WebView titleWV = (WebView)rootView.findViewById(R.id.titleWV);
 
         WebView prgDetailWV = (WebView)rootView.findViewById(R.id.programDetailsWV);
 
@@ -92,11 +92,13 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
         if(null != eDate && eDate.compareTo(tDate) < 0){
             rootView.setBackgroundColor(rootView.getResources().getColor(R.color.oldgray));
             prgDetailWV.setBackgroundColor(rootView.getResources().getColor(R.color.oldgray));
+            titleWV.setBackgroundColor(rootView.getResources().getColor(R.color.oldgray));
+
         }
         else {
             rootView.setBackgroundColor(rootView.getResources().getColor(android.R.color.white));
             prgDetailWV.setBackgroundColor(rootView.getResources().getColor(android.R.color.white));
-
+            titleWV.setBackgroundColor(rootView.getResources().getColor(android.R.color.white));
         }
 
         /*
@@ -105,10 +107,12 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
         Resources res = getResources();
         float fontSize = res.getDimension(R.dimen.prg_detail_text);
         webSettings.setDefaultFontSize((int)fontSize); */
-        prgDetailWV.loadData("<html><body><center>" + prgObj.getDetails() + "</center></body></html>",
+        prgDetailWV.loadData("<html><body><center><h4>" + prgObj.getDetails() + "</h4></center></body></html>",
                 "text/html", "utf-8");
 
-        title.setText(prgObj.getTitle());
+        titleWV.loadData("<html><body><center><h3><u> " + prgObj.getTitle() + "</u></h3></center></body></html>",
+                "text/html", "utf-8");
+
         date.setText(eventDate);
         place.setText(prgObj.getPlace());
         line1.setText(prgObj.getLocation_address1());
