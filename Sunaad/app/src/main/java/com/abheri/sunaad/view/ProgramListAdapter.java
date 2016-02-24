@@ -108,16 +108,17 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
             if(eDate.compareTo(tDate) < 0){
                 v.setBackgroundColor(v.getResources().getColor(R.color.oldgray));
             }
-            else{
-                String dateStr1 = ft.format(eDate);
-                String dateStr2 = ft.format(tDate);
-                if(dateStr1.equalsIgnoreCase(dateStr2)){
-                    holder.title.setTextColor(v.getResources().getColor(R.color.blue));
-                    holder.description.setTextColor(v.getResources().getColor(R.color.blue));
-                    holder.descripton2.setTextColor(v.getResources().getColor(R.color.blue));
-                    holder.description3.setTextColor(v.getResources().getColor(R.color.blue));
-                }
+
+            //If the event is for today, set the text color to blue
+            String dateStr1 = ft.format(eDate);
+            String dateStr2 = ft.format(tDate);
+            if(dateStr1.equalsIgnoreCase(dateStr2)){
+                holder.title.setTextColor(v.getResources().getColor(R.color.blue));
+                holder.description.setTextColor(v.getResources().getColor(R.color.blue));
+                holder.descripton2.setTextColor(v.getResources().getColor(R.color.blue));
+                holder.description3.setTextColor(v.getResources().getColor(R.color.blue));
             }
+
         }
 
 
