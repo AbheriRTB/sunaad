@@ -4,6 +4,7 @@ package com.abheri.sunaad.view;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -70,6 +72,7 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
         TextView city = (TextView)rootView.findViewById(R.id.city);
         TextView state = (TextView)rootView.findViewById(R.id.state);
         TextView phNo = (TextView)rootView.findViewById(R.id.Phone);
+        TextView time = (TextView)rootView.findViewById(R.id.time);
 
         ImageView mapimg = (ImageView)rootView.findViewById(R.id.mapImage);
 
@@ -78,13 +81,14 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
 
         String imageUri = prgObj.getArtiste_image();
         if(imageUri == null && imageUri.length()<=0){
-            imageUri = "@drawable/music_image";
+            imageUri = "@drawable/default_artiste.jpeg";
         }
 
         imageUri = Util.getImageUrl() + imageUri;
 
         Picasso.with(context)
                 .load(imageUri)
+                .placeholder(R.drawable.default_artiste)
                 .into(iv);
 
         Date eDate = prgObj.getEventDate();
@@ -93,12 +97,16 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
             rootView.setBackgroundColor(rootView.getResources().getColor(R.color.oldgray));
             prgDetailWV.setBackgroundColor(rootView.getResources().getColor(R.color.oldgray));
             titleWV.setBackgroundColor(rootView.getResources().getColor(R.color.oldgray));
+            parkingImg.setBackgroundColor(rootView.getResources().getColor(R.color.oldgray));
+            eatariesImg.setBackgroundColor(rootView.getResources().getColor(R.color.oldgray));
 
         }
         else {
             rootView.setBackgroundColor(rootView.getResources().getColor(android.R.color.white));
             prgDetailWV.setBackgroundColor(rootView.getResources().getColor(android.R.color.white));
             titleWV.setBackgroundColor(rootView.getResources().getColor(android.R.color.white));
+            parkingImg.setBackgroundColor(rootView.getResources().getColor(android.R.color.white));
+            eatariesImg.setBackgroundColor(rootView.getResources().getColor(android.R.color.white));
         }
 
         /*
@@ -126,6 +134,13 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
         city.setText(prgObj.getLocation_city());
         state.setText(prgObj.getLocation_state());
         phNo.setText(prgObj.getPhone());
+        try {
+            time.setText(getFormattedTime(prgObj.getStartTime()));
+        }
+        catch (Exception e) {
+            System.out.print("Time Error");
+            e.printStackTrace();
+        }
 
         mapimg.setImageDrawable(rootView.getResources().getDrawable(R.drawable.map_icon));
         mapimg.setOnClickListener(this);
@@ -138,6 +153,7 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
         else{
             eatariesImg.setImageDrawable(rootView.getResources().getDrawable(R.drawable.no_icon));
 
+
         }
 
         String isParking = prgObj.getParking();
@@ -146,7 +162,6 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
         }
         else{
             parkingImg.setImageDrawable(rootView.getResources().getDrawable(R.drawable.no_icon));
-
         }
 
 
@@ -169,6 +184,22 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
         Intent mapIntent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
         Context ct = rootView.getContext();
         ct.startActivity(mapIntent);
+    }
+
+    public String getFormattedTime(String time){
+
+        Calendar ca =  Calendar.getInstance();
+        String timec[] = time.split(":");
+
+        ca.set(ca.get(Calendar.YEAR), ca.get(Calendar.MONTH), ca.get(Calendar.DATE),
+                                Integer.parseInt(timec[0]), Integer.parseInt(timec[1]));
+
+        DateFormat tf = new SimpleDateFormat("hh:mm a");
+
+        String returnStr = tf.format(ca.getTime()).toString();
+
+        return returnStr;
+
     }
 
 }

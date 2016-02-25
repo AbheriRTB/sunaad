@@ -53,6 +53,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:textSize="14dp"
+                android:textStyle="bold"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
             <TextView
                 android:id="@+id/description3"

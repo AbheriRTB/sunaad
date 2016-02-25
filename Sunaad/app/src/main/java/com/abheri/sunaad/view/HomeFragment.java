@@ -170,7 +170,10 @@ public class HomeFragment extends Fragment implements HandleServiceResponse{
 
         viewAnimator.startLayoutAnimation();
 
-        rc = new CycleView(5);
+        int cycletime = 8;
+        if(pages.length <= 1)
+            cycletime = 15;
+        rc = new CycleView(cycletime);
 
     }
 
