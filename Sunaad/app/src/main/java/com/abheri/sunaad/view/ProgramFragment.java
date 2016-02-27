@@ -24,6 +24,8 @@ import com.abheri.sunaad.dao.Program;
 import com.abheri.sunaad.dao.ProgramDataHandler;
 import com.abheri.sunaad.dao.ProgramListDataCache;
 import com.abheri.sunaad.dao.RequestTask;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import java.util.List;
 
@@ -41,6 +43,7 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
     TextView errTextView;
     Activity myActivity;
     List<Program> cachedProgramList;
+    Tracker mTracker;
 
     public ProgramFragment() {
 
@@ -112,19 +115,39 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
 
         });
 
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) new AnalyticsApplication();
+        mTracker = application.getDefaultTracker();
+        Log.i("Sunaad", "Setting screen name: " + Util.PROGRAM_SCREEN);
+        mTracker.setScreenName("Image~" + Util.PROGRAM_SCREEN);
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Share")
+                .build());
+
         return rootView;
     }
 
     public void getData(ProgramFragment fragmentThis, boolean doRefresh) {
 
         ProgramListDataCache plc = new ProgramListDataCache(context);
-        if (plc.isProgramDataCacheOld() || doRefresh) {
+        Util ut = new Util();
+        if ((plc.isProgramDataCacheOld() || doRefresh) && ut.isNetworkAvailable(context)) {
             progressBar.setVisibility(View.VISIBLE);
             RequestTask rt = new RequestTask(fragmentThis, SunaadViews.PROGRAM);
             rt.execute(Util.getServiceUrl(SunaadViews.PROGRAM));
         } else {
             cachedProgramList = plc.RetrieveProgramDataFromCache();
-            updateViewFromData(cachedProgramList);
+            //If network is available the cached list will be non-null
+            //Else it will be null. If null, show error text
+            if(cachedProgramList != null) {
+                updateViewFromData(cachedProgramList);
+            }
+            else {
+                errTextView.setText("Connect to network to get Sunaad Data");
+                errTextView.setVisibility(View.VISIBLE);
+            }
         }
     }
 

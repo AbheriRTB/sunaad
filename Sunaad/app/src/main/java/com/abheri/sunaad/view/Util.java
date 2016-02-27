@@ -1,28 +1,36 @@
 package com.abheri.sunaad.view;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.widget.Toast;
 
 /**
  * Created by prasanna.ramaswamy on 25/11/15.
- *
+ * <p/>
  * use 10.0.3.2 for IP address if using localhost for servers and
  * client is Genymotion
  */
 public class Util {
 
     public static final int HOW_OLD = 10;
+    public static final String HOME_SCREEN="Home";
+    public static final String PROGRAM_SCREEN="Program";
+    public static final String SABHA_SCREEN="Sabha";
+    public static final String ARTISTE_SCREEN="Artiste";
 
-    public static String getServiceUrl(SunaadViews sview){
+
+    public static String getServiceUrl(SunaadViews sview) {
 
         String url = "";
 
-        switch (sview){
+        switch (sview) {
 
             case HOME:
             case PROGRAM:
             case ARTISTE:
             case SABHA:
-                url="http://abheri.pythonanywhere.com/programs/";
+                url = "http://abheri.pythonanywhere.com/programs/";
                 //url="http://10.0.3.2:9999/programs/";
                 break;
             default:
@@ -31,18 +39,19 @@ public class Util {
 
         return url;
     }
-    public static String getPageUrl(SunaadViews sview){
+
+    public static String getPageUrl(SunaadViews sview) {
 
         String url = "";
 
-        switch (sview){
+        switch (sview) {
 
             case HOME:
             case PROGRAM:
             case ARTISTE:
             case SABHA:
                 //url="http://10.0.3.2/sunaad/";
-                url="http://abheri.pythonanywhere.com/static/";
+                url = "http://abheri.pythonanywhere.com/static/";
                 break;
             default:
                 break;
@@ -51,21 +60,34 @@ public class Util {
         return url;
     }
 
-    public static String getImageUrl(){
+    public static String getImageUrl() {
 
         String url = "";
 
-        url="http://abheri.pythonanywhere.com/static/images/";
+        url = "http://abheri.pythonanywhere.com/static/images/";
 
         return url;
     }
 
-    public void myToastMessage(android.content.Context context){
+    public void myToastMessage(android.content.Context context, String message) {
 
         Toast.makeText(
                 context,
-                "Timer Cancelled...",
+                message,
                 Toast.LENGTH_SHORT).show();
+    }
+
+    public boolean isNetworkAvailable(Context context) {
+
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        boolean networkAvailable =  activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+        if(!networkAvailable)
+            myToastMessage(context, "Network not available. Using stored data");
+
+        return networkAvailable;
+
     }
 
 

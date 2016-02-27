@@ -74,13 +74,13 @@ public class HomeFragment extends Fragment implements HandleServiceResponse {
 
         viewAnimator = (ViewAnimator) rootView.findViewById(R.id.viewAnimator);
 
-        final Animation inAnim = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
-        final Animation outAnim = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);
+        //final Animation inAnim = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
+        //final Animation outAnim = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);
 
         getData(this, false);
 
-        viewAnimator.setInAnimation(inAnim);
-        viewAnimator.setOutAnimation(outAnim);
+        //viewAnimator.setInAnimation(inAnim);
+        //viewAnimator.setOutAnimation(outAnim);
 
         return rootView;
     }
@@ -88,12 +88,21 @@ public class HomeFragment extends Fragment implements HandleServiceResponse {
     public void getData(HomeFragment fragmentThis, boolean doRefresh) {
 
         ProgramListDataCache plc = new ProgramListDataCache(context.getApplicationContext());
-        if (plc.isProgramDataCacheOld() || doRefresh) {
+        Util ut = new Util();
+        if (ut.isNetworkAvailable(context) && (plc.isProgramDataCacheOld() || doRefresh))  {
             RequestTask rt = new RequestTask(fragmentThis, SunaadViews.HOME);
             rt.execute(Util.getServiceUrl(SunaadViews.HOME));
         } else {
             cachedProgramList = plc.RetrieveProgramDataFromCache();
-            updateViewFromData(cachedProgramList);
+            //If network is available the cached list will be non-null
+            //Else it will be null. If null, show error text
+            if(cachedProgramList != null) {
+                updateViewFromData(cachedProgramList);
+            }
+            else {
+                errTextView.setText("Connect to network to get Sunaad Data");
+                errTextView.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -158,10 +167,22 @@ public class HomeFragment extends Fragment implements HandleServiceResponse {
 
     void updateWebViews() {
 
+        Animation inAnim, outAnim;
+
         String urlBase = Util.getPageUrl(SunaadViews.HOME);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
-        if (null != pages) {
+
+        //Add the Sunaad static flyer page at the beginning
+        String sunaadFlyerStr = readSunaadFlyer(context);
+        WebView swv = new WebView(rootView.getContext());
+        swv.setLayoutParams(lp);
+        swv.setWebViewClient(new WebViewClient());
+        swv.loadData(sunaadFlyerStr, "text/html; charset=utf-8", "utf-8");
+        viewAnimator.addView(swv);
+
+        Util ut = new Util();
+        if (null != pages && ut.isNetworkAvailable(context) ) {
 
             for (int i = 0; i < pages.length; ++i) {
                 WebView wv = new WebView(rootView.getContext());
@@ -172,18 +193,20 @@ public class HomeFragment extends Fragment implements HandleServiceResponse {
             }
         }
 
-        String sunaadFlyerStr = readSunaadFlyer(context);
-        WebView swv = new WebView(rootView.getContext());
-        swv.setLayoutParams(lp);
-        swv.setWebViewClient(new WebViewClient());
-        swv.loadData(sunaadFlyerStr,"text/html; charset=utf-8", "utf-8");
-        viewAnimator.addView(swv);
 
-        viewAnimator.startLayoutAnimation();
+
+        inAnim = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
+        outAnim = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);
 
         int cycletime = 8;
-        if (pages.length <= 1)
-            cycletime = 5;
+        if (null==pages || pages.length <= 1){
+            cycletime = 15;
+        }
+
+        viewAnimator.setInAnimation(inAnim);
+        viewAnimator.setOutAnimation(outAnim);
+
+        viewAnimator.startLayoutAnimation();
         rc = new CycleView(cycletime);
 
     }

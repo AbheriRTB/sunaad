@@ -126,13 +126,22 @@ public class ArtisteFragment extends Fragment implements HandleServiceResponse{
     public void getData(ArtisteFragment fragmentThis, boolean doRefresh){
 
         ProgramListDataCache plc = new ProgramListDataCache(context);
-        if(plc.isProgramDataCacheOld() || doRefresh) {
+        Util ut = new Util();
+        if ((plc.isProgramDataCacheOld() || doRefresh) && ut.isNetworkAvailable(context)) {
             RequestTask rt = new RequestTask(fragmentThis, SunaadViews.ARTISTE);
             rt.execute(Util.getServiceUrl(SunaadViews.ARTISTE));
         }
         else {
             cachedProgramList = plc.RetrieveProgramDataFromCache();
-            updateViewFromData(cachedProgramList);
+            //If network is available the cached list will be non-null
+            //Else it will be null. If null, show error text
+            if(cachedProgramList != null) {
+                updateViewFromData(cachedProgramList);
+            }
+            else {
+                errTextView.setText("Connect to network to get Sunaad Data");
+                errTextView.setVisibility(View.VISIBLE);
+            }
         }
 
     }

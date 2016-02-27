@@ -1,12 +1,15 @@
 package com.abheri.sunaad.view;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
+import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.abheri.sunaad.R;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -31,6 +37,7 @@ public class MainActivity extends AppCompatActivity
      */
     private CharSequence mTitle;
     Context context;
+    private Tracker mTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +53,19 @@ public class MainActivity extends AppCompatActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        // Obtain the shared Tracker instance.
+        //AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+        AnalyticsApplication application = (AnalyticsApplication) new AnalyticsApplication();
+        mTracker = application.getDefaultTracker();
+        Log.i("Sunaad", "Setting screen name: " + Util.HOME_SCREEN);
+        mTracker.setScreenName("Image~" + Util.HOME_SCREEN);
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Share")
+                .build());
     }
 
     @Override
@@ -56,32 +76,36 @@ public class MainActivity extends AppCompatActivity
                 "Drawer Item" + position + "  Selected...",
                 Toast.LENGTH_SHORT).show(); */
 
+
         FragmentManager fragmentManager = getSupportFragmentManager();
+
+        android.support.v4.app.FragmentTransaction transaction =
+                                    fragmentManager.beginTransaction();
 
         if(position == 0){
             HomeFragment hf =  new HomeFragment();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container,  hf)
-                    .commit();
+            transaction.replace(R.id.container, hf);
+            //Don't add addToBackStack here
+            transaction.commit();
         } else if(position == 1){
             ProgramFragment pf =  new ProgramFragment();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container,  pf)
-                    .commit();
+            transaction.replace(R.id.container,  pf);
+            transaction.addToBackStack(null);
+            transaction.commit();
         }else if(position == 2){
             ArtisteFragment af =  new ArtisteFragment();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container,  af)
-                    .commit();
+            transaction.replace(R.id.container,  af);
+            transaction.addToBackStack(null);
+            transaction.commit();
         }else if(position == 3){
             SabhaFragment sf =  new SabhaFragment();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container,  sf)
-                    .commit();
+            transaction.replace(R.id.container,  sf);
+            transaction.addToBackStack(null);
+            transaction.commit();
         }else {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                    .commit();
+            transaction.replace(R.id.container, PlaceholderFragment.newInstance(position + 1));
+            transaction.addToBackStack(null);
+            transaction.commit();
         }
     }
 
@@ -167,8 +191,23 @@ public class MainActivity extends AppCompatActivity
                 //Toast.makeText(this, "Refresh selected:"+fragname, Toast.LENGTH_SHORT).show();
                 break;
             // action with ID action_settings was selected
+            case R.id.action_about:
+                int v = 0;
+                String vn = "";
+                try {
+                    String pkgname = context.getPackageName();
+                    PackageManager pm = context.getPackageManager();
+                    v = pm.getPackageInfo(pkgname, 0).versionCode;
+                    vn = pm.getPackageInfo(pkgname, 0).versionName;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                Toast.makeText(this, "Sunaad: v"+vn, Toast.LENGTH_LONG)
+                        .show();
+                break;
             case R.id.action_settings:
-                Toast.makeText(this, "Settings selected", Toast.LENGTH_LONG)
+                Toast.makeText(this, "Settings", Toast.LENGTH_SHORT)
                         .show();
                 break;
             default:

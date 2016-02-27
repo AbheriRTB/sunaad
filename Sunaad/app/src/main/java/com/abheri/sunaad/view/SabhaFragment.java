@@ -125,12 +125,21 @@ public class SabhaFragment extends Fragment implements HandleServiceResponse{
     public void getData(SabhaFragment fragmentThis, boolean doRefresh) {
 
         ProgramListDataCache plc = new ProgramListDataCache(context);
-        if (plc.isProgramDataCacheOld() || doRefresh) {
+        Util ut = new Util();
+        if ((plc.isProgramDataCacheOld() || doRefresh) && ut.isNetworkAvailable(context)) {
             RequestTask rt = new RequestTask(fragmentThis, SunaadViews.SABHA);
             rt.execute(Util.getServiceUrl(SunaadViews.SABHA));
         } else {
             cachedProgramList = plc.RetrieveProgramDataFromCache();
-            updateViewFromData(cachedProgramList);
+            //If network is available the cached list will be non-null
+            //Else it will be null. If null, show error text
+            if(cachedProgramList != null) {
+                updateViewFromData(cachedProgramList);
+            }
+            else {
+                errTextView.setText("Connect to network to get Sunaad Data");
+                errTextView.setVisibility(View.VISIBLE);
+            }
         }
 
     }

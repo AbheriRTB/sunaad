@@ -128,6 +128,12 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
                 holder.descripton2.setTextColor(v.getResources().getColor(R.color.darkblue));
                 holder.description3.setTextColor(v.getResources().getColor(R.color.darkblue));
             }
+            else{
+                holder.title.setTextColor(v.getResources().getColor(R.color.black));
+                holder.description.setTextColor(v.getResources().getColor(R.color.black));
+                holder.descripton2.setTextColor(v.getResources().getColor(R.color.black));
+                holder.description3.setTextColor(v.getResources().getColor(R.color.black));
+            }
 
         }
 
