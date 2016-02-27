@@ -2,6 +2,7 @@ package com.abheri.sunaad.view;
 
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -25,7 +26,12 @@ import com.abheri.sunaad.dao.Program;
 import com.abheri.sunaad.dao.ProgramListDataCache;
 import com.abheri.sunaad.dao.RequestTask;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Random;
 import java.util.Timer;
@@ -34,7 +40,7 @@ import java.util.TimerTask;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment implements HandleServiceResponse{
+public class HomeFragment extends Fragment implements HandleServiceResponse {
 
     ViewAnimator viewAnimator;
     Context context;
@@ -55,20 +61,20 @@ public class HomeFragment extends Fragment implements HandleServiceResponse{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        if(null == context){
+        if (null == context) {
             context = rootView.getContext();
         }
 
-        progressBar = (ProgressBar)rootView.findViewById(R.id.homeProgressBar);
+        progressBar = (ProgressBar) rootView.findViewById(R.id.homeProgressBar);
         progressBar.setVisibility(View.VISIBLE);
 
-        errTextView = (TextView)rootView.findViewById(R.id.homeServiceErrorText);
+        errTextView = (TextView) rootView.findViewById(R.id.homeServiceErrorText);
         errTextView.setVisibility(View.GONE);
 
 
-        viewAnimator = (ViewAnimator)rootView.findViewById(R.id.viewAnimator);
+        viewAnimator = (ViewAnimator) rootView.findViewById(R.id.viewAnimator);
 
-        final Animation inAnim = AnimationUtils.loadAnimation(getContext(),android.R.anim.slide_in_left);
+        final Animation inAnim = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
         final Animation outAnim = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);
 
         getData(this, false);
@@ -79,21 +85,20 @@ public class HomeFragment extends Fragment implements HandleServiceResponse{
         return rootView;
     }
 
-    public void getData(HomeFragment fragmentThis, boolean doRefresh){
+    public void getData(HomeFragment fragmentThis, boolean doRefresh) {
 
         ProgramListDataCache plc = new ProgramListDataCache(context.getApplicationContext());
-        if(plc.isProgramDataCacheOld() || doRefresh) {
+        if (plc.isProgramDataCacheOld() || doRefresh) {
             RequestTask rt = new RequestTask(fragmentThis, SunaadViews.HOME);
             rt.execute(Util.getServiceUrl(SunaadViews.HOME));
-        }
-        else {
+        } else {
             cachedProgramList = plc.RetrieveProgramDataFromCache();
             updateViewFromData(cachedProgramList);
         }
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
         //LOGGER.debug("Stopping thread: " + thread);
         Log.v("sunaad", "Cancelling Timer...");
@@ -116,20 +121,20 @@ public class HomeFragment extends Fragment implements HandleServiceResponse{
         updateViewFromData(values);
     }
 
-    public void updateViewFromData(List<Program> values){
+    public void updateViewFromData(List<Program> values) {
         ArrayList<String> pagesList = new ArrayList<>();
 
         progressBar.setVisibility(View.GONE);
-        for(int i=0; i< values.size(); ++i){
+        for (int i = 0; i < values.size(); ++i) {
             Program tmp = values.get(i);
             String surl = tmp.getSplash_url();
-            if(null!=surl && surl.trim().length() > 0){
+            if (null != surl && surl.trim().length() > 0) {
                 pagesList.add(surl);
                 surl = "";
             }
         }
 
-        if(pagesList.size() > 0){
+        if (pagesList.size() > 0) {
             pages = new String[pagesList.size()];
             pages = pagesList.toArray(pages);
 
@@ -140,9 +145,9 @@ public class HomeFragment extends Fragment implements HandleServiceResponse{
 
     @Override
     public void onError(Object result) {
-        Exception e = (Exception)result;
+        Exception e = (Exception) result;
         String st = "";
-        if(null != e)
+        if (null != e)
             st = e.toString();
 
         progressBar.setVisibility(View.GONE);
@@ -151,38 +156,67 @@ public class HomeFragment extends Fragment implements HandleServiceResponse{
         errTextView.setVisibility(View.VISIBLE);
     }
 
-    void updateWebViews(){
+    void updateWebViews() {
 
         String urlBase = Util.getPageUrl(SunaadViews.HOME);
-        if(null == pages || pages.length <= 0)
-            return;
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        if (null != pages) {
 
-        for(int i=0; i<pages.length; ++i){
-            WebView wv = new WebView(rootView.getContext());
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                                    LinearLayout.LayoutParams.MATCH_PARENT);
-            wv.setLayoutParams(lp);
-            //wv.loadData(pages[i], "text/html", "UTF_8");
-            wv.setWebViewClient(new WebViewClient());
-            wv.loadUrl(urlBase+pages[i]);
-            viewAnimator.addView(wv);
+            for (int i = 0; i < pages.length; ++i) {
+                WebView wv = new WebView(rootView.getContext());
+                wv.setLayoutParams(lp);
+                wv.setWebViewClient(new WebViewClient());
+                wv.loadUrl(urlBase + pages[i]);
+                viewAnimator.addView(wv);
+            }
         }
+
+        String sunaadFlyerStr = readSunaadFlyer(context);
+        WebView swv = new WebView(rootView.getContext());
+        swv.setLayoutParams(lp);
+        swv.setWebViewClient(new WebViewClient());
+        swv.loadData(sunaadFlyerStr,"text/html; charset=utf-8", "utf-8");
+        viewAnimator.addView(swv);
 
         viewAnimator.startLayoutAnimation();
 
         int cycletime = 8;
-        if(pages.length <= 1)
-            cycletime = 15;
+        if (pages.length <= 1)
+            cycletime = 5;
         rc = new CycleView(cycletime);
 
+    }
+
+    String readSunaadFlyer(Context c) {
+
+        String retStr = "";
+        try {
+            AssetManager am = c.getAssets();
+            InputStream is = am.open("sunaad_flyer.html");
+            InputStreamReader inputStreamReader = new InputStreamReader(is);
+            BufferedReader br = new BufferedReader(inputStreamReader);
+            String line;
+            do {
+                line = br.readLine();
+                if(line != null)
+                    retStr += line;
+            } while (line != null);
+        } catch (IOException e) {
+            System.out.println("Error in readSunaadFlyer");
+            e.printStackTrace();
+        }
+
+        return retStr;
     }
 
 
     class CycleView {
         Timer timer;
+
         public CycleView(int seconds) {
             timer = new Timer();
-            timer.schedule(new CycleTask(), seconds * 1000, seconds*1000);
+            timer.schedule(new CycleTask(), seconds * 1000, seconds * 1000);
         }
 
         class CycleTask extends TimerTask {

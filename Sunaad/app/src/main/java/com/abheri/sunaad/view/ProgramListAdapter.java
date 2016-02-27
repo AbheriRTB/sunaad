@@ -68,9 +68,9 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
 
             holder = new ViewHolder();
             holder.title = (TextView) v.findViewById(R.id.title);
-            holder.description = (TextView) v.findViewById(R.id.description);
-            holder.descripton2 = (TextView) v.findViewById(R.id.description2);
-            holder.description3 = (TextView) v.findViewById(R.id.description3);
+            holder.description = (TextView) v.findViewById(R.id.details);
+            holder.descripton2 = (TextView) v.findViewById(R.id.eventDate);
+            holder.description3 = (TextView) v.findViewById(R.id.locationAddress1);
 
             holder.iv = (ImageView) v.findViewById(R.id.programImageSmall);
 
@@ -83,9 +83,9 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
 
         Program currentProgram = this.Programs.get(position);
         String title = currentProgram.getTitle();
-        String description = currentProgram.getDetails();
-        String description2 = ft.format(currentProgram.getEventDate());
-        String description3 = currentProgram.getLocation_address1();
+        String details = currentProgram.getDetails();
+        String eventDate = ft.format(currentProgram.getEventDate());
+        String locationAddress1 = currentProgram.getLocation_address1();
         String uri = currentProgram.getArtiste_image();
         if(uri == null && uri.length()<=0){
             uri = "@drawable/default_artiste.jpeg";
@@ -133,9 +133,9 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
 
 
         holder.title.setText(title);
-        holder.description.setText(description);
-        holder.descripton2.setText(description2);
-        holder.description3.setText(description3);
+        holder.description.setText(details);
+        holder.descripton2.setText(eventDate);
+        holder.description3.setText(locationAddress1);
         //holder.iv.setImageDrawable(v.getResources().getDrawable(R.drawable.vocal));
         Picasso.with(myContext)
                 .load(uri)

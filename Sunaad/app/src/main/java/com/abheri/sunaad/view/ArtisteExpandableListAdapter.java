@@ -4,6 +4,8 @@ package com.abheri.sunaad.view;
  * Created by Maha on 27/12/15.
  */
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -52,7 +54,8 @@ public class ArtisteExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.artiste_child_item, null);
         }
 
-        TextView item = (TextView) convertView.findViewById(R.id.aprogramDetail);
+        TextView item = (TextView) convertView.findViewById(R.id.aPlace);
+        TextView aDate = (TextView)convertView.findViewById(R.id.aDate);
         ImageView iv = (ImageView) convertView.findViewById(R.id.artisteImage);
 
         String uri = program.getArtiste_image();
@@ -91,8 +94,11 @@ public class ArtisteExpandableListAdapter extends BaseExpandableListAdapter {
             }
         });
         */
+        DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String eventDate = sdf.format(program.getEventDate()).toString();
 
-        item.setText(program.getDetails());
+        item.setText(program.getPlace());
+        aDate.setText(eventDate);
         Picasso.with(context)
                 .load(uri)
                 .into(iv);

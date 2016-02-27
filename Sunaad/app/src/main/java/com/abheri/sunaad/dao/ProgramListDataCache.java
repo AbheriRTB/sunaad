@@ -75,7 +75,7 @@ public class ProgramListDataCache {
     public boolean isProgramDataCacheOld(){
 
         Long tso = RetrieveProgramDataCacheTimeStamp();
-        long seven_days = 5*60*1000;//7*24*60*60*1000;
+        long seven_days = 7*24*5*60*1000;//7*24*60*60*1000;
 
         if(null != tso){
             Date cd = new Date();
