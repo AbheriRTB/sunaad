@@ -23,6 +23,8 @@ import com.abheri.sunaad.dao.ProgramDataHandler;
 import com.abheri.sunaad.dao.Program;
 import com.abheri.sunaad.dao.ProgramListDataCache;
 import com.abheri.sunaad.dao.RequestTask;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -39,6 +41,7 @@ public class SabhaFragment extends Fragment implements HandleServiceResponse{
     View rootView;
     List<String> sList = new ArrayList<String>();
     LinkedHashMap<String, List<Program>> sabhaProgramCollection = new LinkedHashMap<String, List<Program>>();
+    Tracker mTracker;
 
     ExpandableListView expListView;
     ProgressBar progressBar;
@@ -118,6 +121,17 @@ public class SabhaFragment extends Fragment implements HandleServiceResponse{
             }
 
         });
+
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) new AnalyticsApplication();
+        mTracker = application.getDefaultTracker();
+        Log.i("Sunaad", "Setting screen name: " + Util.SABHA_SCREEN);
+        mTracker.setScreenName("Image~" + Util.SABHA_SCREEN);
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Share")
+                .build());
 
         return rootView;
     }

@@ -21,7 +21,9 @@ public class Util {
     public static final String SABHA_SCREEN="Sabha";
     public static final String ARTISTE_SCREEN="Artiste";
 
-    public static final long SEVEN_DAYS = 7*24*5*60*1000;//7*24*60*60*1000;
+    public static final String NAVIGATION_FRAGMET="NavigationFragment";
+
+    public static final long SEVEN_DAYS = 7*24*60*60*1000;//7*24*60*60*1000;
 
     //-----------------
 

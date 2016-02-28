@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewAnimator;
 import android.util.Log;
 
@@ -50,10 +52,13 @@ public class HomeFragment extends Fragment implements HandleServiceResponse {
     ProgressBar progressBar;
     TextView errTextView;
     List<Program> cachedProgramList;
+    NavigationDrawerFragment mDrawerFragmet;
 
     public HomeFragment() {
         // Required empty public constructor
         context = getContext();
+
+
     }
 
 
@@ -64,6 +69,11 @@ public class HomeFragment extends Fragment implements HandleServiceResponse {
         if (null == context) {
             context = rootView.getContext();
         }
+
+        Bundle args;
+
+        args = getArguments();
+        mDrawerFragmet =(NavigationDrawerFragment)args.getSerializable(Util.NAVIGATION_FRAGMET);
 
         progressBar = (ProgressBar) rootView.findViewById(R.id.homeProgressBar);
         progressBar.setVisibility(View.VISIBLE);
@@ -179,7 +189,9 @@ public class HomeFragment extends Fragment implements HandleServiceResponse {
         swv.setLayoutParams(lp);
         swv.setWebViewClient(new WebViewClient());
         swv.loadData(sunaadFlyerStr, "text/html; charset=utf-8", "utf-8");
+        swv.setOnTouchListener(new WebViewOnTouchListener());
         viewAnimator.addView(swv);
+
 
         Util ut = new Util();
         if (null != pages && ut.isNetworkAvailable(context) ) {
@@ -188,12 +200,11 @@ public class HomeFragment extends Fragment implements HandleServiceResponse {
                 WebView wv = new WebView(rootView.getContext());
                 wv.setLayoutParams(lp);
                 wv.setWebViewClient(new WebViewClient());
+                wv.setOnTouchListener(new WebViewOnTouchListener());
                 wv.loadUrl(urlBase + pages[i]);
                 viewAnimator.addView(wv);
             }
         }
-
-
 
         inAnim = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
         outAnim = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);
@@ -258,5 +269,63 @@ public class HomeFragment extends Fragment implements HandleServiceResponse {
         }
     }
 
+    class WebViewOnTouchListener implements View.OnTouchListener{
+        //@Override
+        public boolean onTouch1(View v, MotionEvent event) {
+            // Do what you want
+            mDrawerFragmet.openDrawer();
+            return true;
+        }
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event){
+             final  int FINGER_RELEASED = 0;
+             final  int FINGER_TOUCHED = 1;
+             final  int FINGER_DRAGGING = 2;
+             final  int FINGER_UNDEFINED = 3;
+
+             int fingerState = FINGER_RELEASED;
+
+            Log.i("SUNAAD", "FingerState:"+fingerState);
+
+                switch (event.getAction()) {
+
+                    case MotionEvent.ACTION_DOWN:
+                        if (fingerState == FINGER_RELEASED)
+                            fingerState = FINGER_TOUCHED;
+                        else
+                            fingerState = FINGER_UNDEFINED;
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        if(fingerState != FINGER_DRAGGING && fingerState != FINGER_TOUCHED
+                                    && fingerState != FINGER_UNDEFINED) {
+                            fingerState = FINGER_RELEASED;
+
+                            mDrawerFragmet.openDrawer();
+
+                        }
+                        else if (fingerState == FINGER_DRAGGING)
+                            fingerState = FINGER_RELEASED;
+                        else
+                            fingerState = FINGER_UNDEFINED;
+                        break;
+
+                    case MotionEvent.ACTION_MOVE:
+                        if (fingerState == FINGER_TOUCHED || fingerState == FINGER_DRAGGING)
+                            fingerState = FINGER_DRAGGING;
+                        else
+                            fingerState = FINGER_UNDEFINED;
+                        break;
+
+                    default:
+                        fingerState = FINGER_UNDEFINED;
+                        break;
+
+                }
+
+                return false;
+            }
+    }
 
 }

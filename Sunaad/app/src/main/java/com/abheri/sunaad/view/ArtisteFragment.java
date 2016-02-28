@@ -23,6 +23,8 @@ import com.abheri.sunaad.dao.ProgramDataHandler;
 import com.abheri.sunaad.dao.Program;
 import com.abheri.sunaad.dao.ProgramListDataCache;
 import com.abheri.sunaad.dao.RequestTask;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -46,6 +48,7 @@ public class ArtisteFragment extends Fragment implements HandleServiceResponse{
     TextView errTextView;
     Activity myActivity;
     List<Program> cachedProgramList;
+    Tracker mTracker;
 
     public ArtisteFragment() {
 
@@ -119,6 +122,17 @@ public class ArtisteFragment extends Fragment implements HandleServiceResponse{
             }
 
         });
+
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) new AnalyticsApplication();
+        mTracker = application.getDefaultTracker();
+        Log.i("Sunaad", "Setting screen name: " + Util.ARTISTE_SCREEN);
+        mTracker.setScreenName("Image~" + Util.ARTISTE_SCREEN);
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Share")
+                .build());
 
         return rootView;
     }

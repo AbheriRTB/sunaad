@@ -84,8 +84,15 @@ public class MainActivity extends AppCompatActivity
         android.support.v4.app.FragmentTransaction transaction =
                                     fragmentManager.beginTransaction();
 
+        mNavigationDrawerFragment = (NavigationDrawerFragment)
+                fragmentManager.findFragmentById(R.id.navigation_drawer);
+
         if(position == 0){
+            Bundle args = new Bundle();
+            args.putSerializable(Util.NAVIGATION_FRAGMET, mNavigationDrawerFragment);
+
             HomeFragment hf =  new HomeFragment();
+            hf.setArguments(args);
             transaction.replace(R.id.container, hf);
             //Don't add addToBackStack here
             transaction.commit();
@@ -131,6 +138,8 @@ public class MainActivity extends AppCompatActivity
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
     }
+
+
 
 
     @Override
