@@ -2,7 +2,9 @@ package com.abheri.sunaad.view;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -156,6 +158,17 @@ public class MainActivity extends AppCompatActivity
             return true;
         } */
 
+        int v = 0;
+        String vn = "";
+        try {
+            String pkgname = context.getPackageName();
+            PackageManager pm = context.getPackageManager();
+            v = pm.getPackageInfo(pkgname, 0).versionCode;
+            vn = pm.getPackageInfo(pkgname, 0).versionName;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         switch (id) {
             // action with ID action_refresh was selected
             case R.id.action_refresh:
@@ -192,23 +205,21 @@ public class MainActivity extends AppCompatActivity
                 break;
             // action with ID action_settings was selected
             case R.id.action_about:
-                int v = 0;
-                String vn = "";
-                try {
-                    String pkgname = context.getPackageName();
-                    PackageManager pm = context.getPackageManager();
-                    v = pm.getPackageInfo(pkgname, 0).versionCode;
-                    vn = pm.getPackageInfo(pkgname, 0).versionName;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
 
                 Toast.makeText(this, "Sunaad: v"+vn, Toast.LENGTH_LONG)
                         .show();
                 break;
             case R.id.action_settings:
-                Toast.makeText(this, "Settings", Toast.LENGTH_SHORT)
-                        .show();
+                /*Toast.makeText(this, "Settings", Toast.LENGTH_SHORT)
+                        .show();*/
+
+                String subject = "Feedback on Sunaad v" + vn;
+                String body ="Hi Team Abheri, \n\nHere is my feedback on Sunaad!";
+                String to = "prasmax@gmail.com";
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                Uri data = Uri.parse("mailto:?subject=" + subject + "&body=" + body + "&to=" + to);
+                intent.setData(data);
+                startActivity(intent);
                 break;
             default:
                 break;

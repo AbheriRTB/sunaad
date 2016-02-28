@@ -101,6 +101,7 @@ public class ArtisteExpandableListAdapter extends BaseExpandableListAdapter {
         aDate.setText(eventDate);
         Picasso.with(context)
                 .load(uri)
+                .placeholder(R.drawable.default_artiste)
                 .into(iv);
 
         return convertView;

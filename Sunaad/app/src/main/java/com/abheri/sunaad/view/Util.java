@@ -149,7 +149,7 @@ public class Util {
                     "        \"location_mapcoords\": \"0,0\",\n" +
                     "        \"location_parking\": \"Yes\",\n" +
                     "        \"location_eataries\": \"0\",\n" +
-                    "        \"artiste_image\": \"vocal.9.png\",\n" +
+                    "        \"artiste_image\": \"default music.jpeg\",\n" +
                     "        \"is_featured\": \"No\",\n" +
                     "        \"splash_url\": \"\"\n" +
                     "    },\n" +
@@ -176,7 +176,7 @@ public class Util {
                     "        \"location_mapcoords\": \"0,0\",\n" +
                     "        \"location_parking\": \"Yes\",\n" +
                     "        \"location_eataries\": \"0\",\n" +
-                    "        \"artiste_image\": \"vocal.9.png\",\n" +
+                    "        \"artiste_image\": \"default music.jpeg\",\n" +
                     "        \"is_featured\": \"No\",\n" +
                     "        \"splash_url\": null\n" +
                     "    },\n" +

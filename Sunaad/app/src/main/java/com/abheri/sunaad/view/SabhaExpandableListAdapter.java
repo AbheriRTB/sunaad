@@ -11,11 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.dao.Program;
+import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -51,6 +55,16 @@ public class SabhaExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         TextView item = (TextView) convertView.findViewById(R.id.sprogramDetail);
+        TextView aDate = (TextView)convertView.findViewById(R.id.aDate);
+        ImageView iv = (ImageView) convertView.findViewById(R.id.artisteImage);
+
+        String uri = program.getArtiste_image();
+        if(uri == null && uri.length()<=0){
+            uri = "@drawable/subbulakshmi";
+        }
+
+        uri = Util.getImageUrl() + uri;
+
 
         /*
         ImageView delete = (ImageView) convertView.findViewById(R.id.delete);
@@ -82,6 +96,14 @@ public class SabhaExpandableListAdapter extends BaseExpandableListAdapter {
         */
 
         item.setText(program.getDetails());
+        DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String eventDate = sdf.format(program.getEventDate()).toString();
+
+        aDate.setText(eventDate);
+        Picasso.with(context)
+                .load(uri)
+                .placeholder(R.drawable.default_artiste)
+                .into(iv);
         return convertView;
     }
 
