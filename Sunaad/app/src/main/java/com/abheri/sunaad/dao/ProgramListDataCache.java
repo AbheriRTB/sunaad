@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.abheri.sunaad.view.Util;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -75,7 +76,6 @@ public class ProgramListDataCache {
     public boolean isProgramDataCacheOld(){
 
         Long tso = RetrieveProgramDataCacheTimeStamp();
-        long seven_days = 7*24*5*60*1000;//7*24*60*60*1000;
 
         if(null != tso){
             Date cd = new Date();
@@ -84,7 +84,7 @@ public class ProgramListDataCache {
             current_ts = cd.getTime();
 
             /* cache is old if it is older than 7 days */
-            if((current_ts-cache_ts) < seven_days){
+            if((current_ts-cache_ts) < Util.SEVEN_DAYS){
                 return false;
             }
         }

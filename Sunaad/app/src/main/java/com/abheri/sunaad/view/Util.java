@@ -13,11 +13,17 @@ import android.widget.Toast;
  */
 public class Util {
 
-    public static final int HOW_OLD = 10;
+    //Constants
+    public static final int HOW_OLD = 3;
+
     public static final String HOME_SCREEN="Home";
     public static final String PROGRAM_SCREEN="Program";
     public static final String SABHA_SCREEN="Sabha";
     public static final String ARTISTE_SCREEN="Artiste";
+
+    public static final long SEVEN_DAYS = 7*24*5*60*1000;//7*24*60*60*1000;
+
+    //-----------------
 
 
     public static String getServiceUrl(SunaadViews sview) {
