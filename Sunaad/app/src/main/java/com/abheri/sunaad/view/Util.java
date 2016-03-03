@@ -97,7 +97,22 @@ public class Util {
         return networkAvailable;
 
     }
+        public static boolean isYes(String inStr){
+                if(inStr.equalsIgnoreCase("Y") ||
+                        inStr.equalsIgnoreCase("YES")){
+                        return true;
+                }
 
+                return false;
+        }
+        public static boolean isNo(String inStr){
+                if(inStr.equalsIgnoreCase("N") ||
+                        inStr.equalsIgnoreCase("NO")){
+                        return true;
+                }
+
+                return false;
+        }
 
     public static String staticJson =
             "[\n" +

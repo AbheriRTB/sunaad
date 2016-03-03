@@ -22,6 +22,8 @@ import android.widget.TextView;
 
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.dao.Program;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -148,20 +150,20 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
 
         String isEataries = prgObj.getLocation_eataries();
         if(null != isEataries && isEataries.equalsIgnoreCase("yes")){
-            eatariesImg.setImageDrawable(rootView.getResources().getDrawable(R.drawable.yes_icon));
+            eatariesImg.setImageDrawable(rootView.getResources().getDrawable(R.drawable.yes_icon_trans));
         }
         else{
-            eatariesImg.setImageDrawable(rootView.getResources().getDrawable(R.drawable.no_icon));
+            eatariesImg.setImageDrawable(rootView.getResources().getDrawable(R.drawable.no_icon_trans));
 
 
         }
 
         String isParking = prgObj.getParking();
         if(null != isParking && isParking.equalsIgnoreCase("yes")){
-            parkingImg.setImageDrawable(rootView.getResources().getDrawable(R.drawable.yes_icon));
+            parkingImg.setImageDrawable(rootView.getResources().getDrawable(R.drawable.yes_icon_trans));
         }
         else{
-            parkingImg.setImageDrawable(rootView.getResources().getDrawable(R.drawable.no_icon));
+            parkingImg.setImageDrawable(rootView.getResources().getDrawable(R.drawable.no_icon_trans));
         }
 
 

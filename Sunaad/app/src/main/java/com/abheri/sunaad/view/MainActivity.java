@@ -25,6 +25,8 @@ import com.abheri.sunaad.R;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.PicassoTools;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -191,6 +193,10 @@ public class MainActivity extends AppCompatActivity
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 Fragment f = fragmentManager.findFragmentById(R.id.container);
                 String fragname="";
+
+                //If refresh is called, clear the picasso cache
+                Picasso p = Picasso.with(getApplicationContext());
+                PicassoTools.clearCache(p);
 
                 if (f instanceof HomeFragment){
                     fragname="HomeFragment";

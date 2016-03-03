@@ -37,6 +37,7 @@ public class Program implements Serializable{
     private String artiste_image;
     private String is_featured;
     private String splash_url;
+    private String is_published;
 
 
     public long getId() {  return id;
@@ -238,6 +239,14 @@ public class Program implements Serializable{
             this.splash_url = splashUrl;
         }
     }
+
+    public String getIs_published() {
+        return is_published;
+    }
+    public void setIs_published(String published) {
+        this.is_published = published;
+    }
+
 
 
     public static int selectedPosition=-1;

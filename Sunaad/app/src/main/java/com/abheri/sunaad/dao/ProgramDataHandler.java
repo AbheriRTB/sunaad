@@ -1,26 +1,23 @@
 package com.abheri.sunaad.dao;
 
 import com.abheri.sunaad.R;
+import com.abheri.sunaad.view.Util;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.Policy;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Iterator;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
+
 
 /**
  * Created by prasanna.ramaswamy on 25/10/15.
@@ -33,7 +30,6 @@ public class ProgramDataHandler {
     public List<Program> parseProgramListFromJsonResponse(String jsonstring) {
 
 
-        TreeSet<Program> programTreeSet = new TreeSet<Program>(new ProgramComparator());
         List<Program> programs = new ArrayList<Program>();
         Program tmpPrg;
 
@@ -74,22 +70,11 @@ public class ProgramDataHandler {
                     tmpPrg.setArtiste_image(jo.getString("artiste_image"));
                     tmpPrg.setIs_featured(jo.getString("is_featured"));
                     tmpPrg.setSplash_url(jo.getString("splash_url"));
+                    tmpPrg.setIs_published(jo.getString("is_published"));
 
-                    programTreeSet.add(tmpPrg);
-                    //programs.add(tmpPrg);
-                }
-
-                TreeSet<Program> treereverse = (TreeSet)programTreeSet.descendingSet();
-
-                // create descending set
-                Iterator iterator;
-                iterator = treereverse.iterator();
-
-                // Fill the ArrayList with the reverse order set
-                while (iterator.hasNext()){
-                    //System.out.println(iterator.next() + " ");
-                    Program np = (Program)iterator.next();
-                    programs.add(np);
+                    if(Util.isYes(tmpPrg.getIs_published())) {
+                        programs.add(tmpPrg);
+                    }
                 }
             }
         } catch (JSONException e) {

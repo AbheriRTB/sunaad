@@ -192,7 +192,7 @@ public class HomeFragment extends Fragment implements HandleServiceResponse {
         swv.setOnTouchListener(new WebViewOnTouchListener());
         viewAnimator.addView(swv);
 
-
+        int cycletime = 15; //Initialize to 15 sec delay
         Util ut = new Util();
         if (null != pages && ut.isNetworkAvailable(context) ) {
 
@@ -204,15 +204,18 @@ public class HomeFragment extends Fragment implements HandleServiceResponse {
                 wv.loadUrl(urlBase + pages[i]);
                 viewAnimator.addView(wv);
             }
+            if (pages.length >= 1){
+                //If there are web urls available,
+                //reduce the cycle time to 5 sec
+                cycletime = 5;
+            }
         }
 
         inAnim = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
         outAnim = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);
 
-        int cycletime = 8;
-        if (null==pages || pages.length <= 1){
-            cycletime = 15;
-        }
+
+
 
         viewAnimator.setInAnimation(inAnim);
         viewAnimator.setOutAnimation(outAnim);
