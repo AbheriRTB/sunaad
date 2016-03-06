@@ -9,6 +9,7 @@ import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,6 +69,8 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
         WebView prgDetailWV = (WebView)rootView.findViewById(R.id.programDetailsWV);
 
         TextView date = (TextView)rootView.findViewById(R.id.date);
+        TextView onText = (TextView)rootView.findViewById(R.id.onText);
+        TextView atText = (TextView)rootView.findViewById(R.id.atText);
         TextView place = (TextView)rootView.findViewById(R.id.place);
         TextView line1 = (TextView)rootView.findViewById(R.id.addressLine1);
         TextView line2 = (TextView)rootView.findViewById(R.id.addressLine2);
@@ -95,7 +98,15 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
 
         Date eDate = prgObj.getEventDate();
         Date tDate = new Date();
-        if(null != eDate && eDate.compareTo(tDate) < 0){
+        if(Util.isEventToday(prgObj, false) > 0) {
+            rootView.setBackgroundColor(rootView.getResources().getColor(android.R.color.white));
+            prgDetailWV.setBackgroundColor(rootView.getResources().getColor(android.R.color.white));
+            titleWV.setBackgroundColor(rootView.getResources().getColor(android.R.color.white));
+            parkingImg.setBackgroundColor(rootView.getResources().getColor(android.R.color.white));
+            eatariesImg.setBackgroundColor(rootView.getResources().getColor(android.R.color.white));
+
+        }
+        else {
             rootView.setBackgroundColor(rootView.getResources().getColor(R.color.oldgray));
             prgDetailWV.setBackgroundColor(rootView.getResources().getColor(R.color.oldgray));
             titleWV.setBackgroundColor(rootView.getResources().getColor(R.color.oldgray));
@@ -103,13 +114,48 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
             eatariesImg.setBackgroundColor(rootView.getResources().getColor(R.color.oldgray));
 
         }
-        else {
-            rootView.setBackgroundColor(rootView.getResources().getColor(android.R.color.white));
-            prgDetailWV.setBackgroundColor(rootView.getResources().getColor(android.R.color.white));
-            titleWV.setBackgroundColor(rootView.getResources().getColor(android.R.color.white));
-            parkingImg.setBackgroundColor(rootView.getResources().getColor(android.R.color.white));
-            eatariesImg.setBackgroundColor(rootView.getResources().getColor(android.R.color.white));
+
+        if(!Util.isYes(prgObj.getIs_published())){
+            rootView.setBackgroundColor(rootView.getResources().getColor(R.color.orange));
         }
+
+        if(Util.isEventToday(prgObj, true) == 1) {
+
+
+            date.setTextColor(rootView.getResources().getColor(R.color.darkblue));
+            onText.setTextColor(rootView.getResources().getColor(R.color.darkblue));
+            atText.setTextColor(rootView.getResources().getColor(R.color.darkblue));
+            place.setTextColor(rootView.getResources().getColor(R.color.darkblue));
+            line1.setTextColor(rootView.getResources().getColor(R.color.darkblue));
+            line2.setTextColor(rootView.getResources().getColor(R.color.darkblue));
+            city.setTextColor(rootView.getResources().getColor(R.color.darkblue));
+            state.setTextColor(rootView.getResources().getColor(R.color.darkblue));
+            phNo.setTextColor(rootView.getResources().getColor(R.color.darkblue));
+            time.setTextColor(rootView.getResources().getColor(R.color.darkblue));
+
+            //String colorStr="<font color='" +
+            //                    Color.parseColor("#"+Integer.toHexString(context.getResources().getColor(R.color.darkblue))) +
+             //                   "'>";
+
+            String colorStr="<font color='" +
+                                "#0099FF" +
+                               "'>";
+
+            prgDetailWV.loadData("<html><body><center><h4>" + colorStr + prgObj.getDetails() + "</h4></center></body></html>",
+                    "text/html", "utf-8");
+
+            titleWV.loadData("<html><body><center><h3><u>" + colorStr + prgObj.getTitle() + "</u></h3></center></body></html>",
+                    "text/html", "utf-8");
+        }
+        else {
+            prgDetailWV.loadData("<html><body><center><h4><font color='#000000'>" + prgObj.getDetails() + "</h4></center></body></html>",
+                    "text/html", "utf-8");
+
+            titleWV.loadData("<html><body><center><h3><u><font color='#000000'> " + prgObj.getTitle() + "</u></h3></center></body></html>",
+                    "text/html", "utf-8");
+
+        }
+
 
         /*
         //Set the fontsize for the webview component
@@ -117,11 +163,7 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
         Resources res = getResources();
         float fontSize = res.getDimension(R.dimen.prg_detail_text);
         webSettings.setDefaultFontSize((int)fontSize); */
-        prgDetailWV.loadData("<html><body><center><h4>" + prgObj.getDetails() + "</h4></center></body></html>",
-                "text/html", "utf-8");
 
-        titleWV.loadData("<html><body><center><h3><u> " + prgObj.getTitle() + "</u></h3></center></body></html>",
-                "text/html", "utf-8");
 
         date.setText(eventDate);
         place.setText(prgObj.getPlace());

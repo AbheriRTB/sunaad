@@ -62,7 +62,7 @@ public class SabhaExpandableListAdapter extends BaseExpandableListAdapter {
 
         String uri = program.getArtiste_image();
         if(uri == null && uri.length()<=0){
-            uri = "@drawable/subbulakshmi";
+            uri = "@drawable/default_artiste";
         }
 
         uri = Util.getImageUrl() + uri;
@@ -106,6 +106,22 @@ public class SabhaExpandableListAdapter extends BaseExpandableListAdapter {
                 .load(uri)
                 .placeholder(R.drawable.default_artiste)
                 .into(iv);
+
+        if (Util.isEventToday(program, false) < 0) {
+            convertView.setBackgroundColor(convertView.getResources().getColor(R.color.oldgray));
+        }
+        else {
+            convertView.setBackgroundColor(convertView.getResources().getColor(android.R.color.white));
+        }
+        if (Util.isEventToday(program, true) == 1) {
+            item.setTextColor(convertView.getResources().getColor(R.color.darkblue));
+            aDate.setTextColor(convertView.getResources().getColor(R.color.darkblue));
+        }
+        else
+        {
+            item.setTextColor(convertView.getResources().getColor(R.color.black));
+            aDate.setTextColor(convertView.getResources().getColor(R.color.black));
+        }
         return convertView;
     }
 
@@ -127,7 +143,7 @@ public class SabhaExpandableListAdapter extends BaseExpandableListAdapter {
 
     public View getGroupView(int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
-        String laptopName = (String) getGroup(groupPosition);
+        String sabhaName = (String) getGroup(groupPosition);
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -136,7 +152,7 @@ public class SabhaExpandableListAdapter extends BaseExpandableListAdapter {
         }
         TextView item = (TextView) convertView.findViewById(R.id.sabhaName);
         item.setTypeface(null, Typeface.BOLD);
-        item.setText(laptopName);
+        item.setText(sabhaName);
         return convertView;
     }
 

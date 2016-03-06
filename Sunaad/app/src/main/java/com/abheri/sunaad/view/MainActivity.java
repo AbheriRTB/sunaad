@@ -21,6 +21,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.abheri.sunaad.BuildConfig;
 import com.abheri.sunaad.R;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
@@ -41,7 +42,6 @@ public class MainActivity extends AppCompatActivity
      */
     private CharSequence mTitle;
     Context context;
-    private Tracker mTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,15 +61,7 @@ public class MainActivity extends AppCompatActivity
         // Obtain the shared Tracker instance.
         //AnalyticsApplication application = (AnalyticsApplication) getApplication();
         GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-        AnalyticsApplication application = (AnalyticsApplication) new AnalyticsApplication();
-        mTracker = application.getDefaultTracker();
-        Log.i("Sunaad", "Setting screen name: " + Util.HOME_SCREEN);
-        mTracker.setScreenName("Image~" + Util.HOME_SCREEN);
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        mTracker.send(new HitBuilders.EventBuilder()
-                .setCategory("Action")
-                .setAction("Share")
-                .build());
+        Util.logToGA(Util.HOME_SCREEN);
     }
 
     @Override
@@ -138,7 +130,7 @@ public class MainActivity extends AppCompatActivity
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
+        //actionBar.setTitle(mTitle);
     }
 
 
@@ -287,6 +279,10 @@ public class MainActivity extends AppCompatActivity
             ((MainActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
+    }
+
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
     }
 
 }
