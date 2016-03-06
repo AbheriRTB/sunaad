@@ -1,13 +1,17 @@
 package com.abheri.sunaad.view;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
+import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +22,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.abheri.sunaad.R;
-import com.abheri.sunaad.dao.RequestTask;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.PicassoTools;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -33,6 +41,7 @@ public class MainActivity extends AppCompatActivity
      */
     private CharSequence mTitle;
     Context context;
+    private Tracker mTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,37 +51,72 @@ public class MainActivity extends AppCompatActivity
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
+        context = getApplicationContext();
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        // Obtain the shared Tracker instance.
+        //AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+        AnalyticsApplication application = (AnalyticsApplication) new AnalyticsApplication();
+        mTracker = application.getDefaultTracker();
+        Log.i("Sunaad", "Setting screen name: " + Util.HOME_SCREEN);
+        mTracker.setScreenName("Image~" + Util.HOME_SCREEN);
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Share")
+                .build());
     }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        Toast.makeText(
+        /*Toast.makeText(
                 this.getApplicationContext(),
                 "Drawer Item" + position + "  Selected...",
-                Toast.LENGTH_SHORT).show();
+                Toast.LENGTH_SHORT).show(); */
+
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
+        android.support.v4.app.FragmentTransaction transaction =
+                                    fragmentManager.beginTransaction();
+
+        mNavigationDrawerFragment = (NavigationDrawerFragment)
+                fragmentManager.findFragmentById(R.id.navigation_drawer);
+
         if(position == 0){
+            Bundle args = new Bundle();
+            args.putSerializable(Util.NAVIGATION_FRAGMET, mNavigationDrawerFragment);
+
             HomeFragment hf =  new HomeFragment();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container,  hf)
-                    .commit();
+            hf.setArguments(args);
+            transaction.replace(R.id.container, hf);
+            //Don't add addToBackStack here
+            transaction.commit();
         } else if(position == 1){
             ProgramFragment pf =  new ProgramFragment();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container,  pf)
-                    .commit();
+            transaction.replace(R.id.container,  pf);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }else if(position == 2){
+            ArtisteFragment af =  new ArtisteFragment();
+            transaction.replace(R.id.container,  af);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }else if(position == 3){
+            SabhaFragment sf =  new SabhaFragment();
+            transaction.replace(R.id.container,  sf);
+            transaction.addToBackStack(null);
+            transaction.commit();
         }else {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                    .commit();
+            transaction.replace(R.id.container, PlaceholderFragment.newInstance(position + 1));
+            transaction.addToBackStack(null);
+            transaction.commit();
         }
     }
 
@@ -98,13 +142,15 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.main, menu);
+            getMenuInflater().inflate(R.menu.global, menu);
             restoreActionBar();
             return true;
         }
@@ -119,9 +165,81 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+       /* if (id == R.id.action_settings) {
             return true;
+        } */
+
+        int v = 0;
+        String vn = "";
+        try {
+            String pkgname = context.getPackageName();
+            PackageManager pm = context.getPackageManager();
+            v = pm.getPackageInfo(pkgname, 0).versionCode;
+            vn = pm.getPackageInfo(pkgname, 0).versionName;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+        switch (id) {
+            // action with ID action_refresh was selected
+            case R.id.action_refresh:
+                /* Find which fragment is active when refresh button is pressed
+                 * Call corresponding 'getData()' method with force refresh
+                 * (second argument as true).
+                 *
+                 * ProgramDetailsFragment does not have getData method. Hence user
+                 * has to go back one screen to ProgramFragment to refresh the data
+                 */
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                Fragment f = fragmentManager.findFragmentById(R.id.container);
+                String fragname="";
+
+                //If refresh is called, clear the picasso cache
+                Picasso p = Picasso.with(getApplicationContext());
+                PicassoTools.clearCache(p);
+
+                if (f instanceof HomeFragment){
+                    fragname="HomeFragment";
+                    ((HomeFragment) f).getData((HomeFragment)f, true);
+                }else if(f instanceof ProgramFragment){
+                    fragname="ProgramFragment";
+                    ((ProgramFragment) f).getData((ProgramFragment)f, true);
+                }else if(f instanceof ProgramDetailsFragment){
+                    fragname="ProgramDetailsFragment";
+                    Toast.makeText(this, "Please use back button before refresh",
+                            Toast.LENGTH_SHORT).show();
+                }else if(f instanceof ArtisteFragment){
+                    fragname="ArtisteFragment";
+                    ((ArtisteFragment) f).getData((ArtisteFragment)f, true);
+                }else if(f instanceof SabhaFragment){
+                    fragname="SabhaFragment";
+                    ((SabhaFragment) f).getData((SabhaFragment)f, true);
+                }
+
+                //Toast.makeText(this, "Refresh selected:"+fragname, Toast.LENGTH_SHORT).show();
+                break;
+            // action with ID action_settings was selected
+            case R.id.action_about:
+
+                Toast.makeText(this, "Sunaad: v"+vn, Toast.LENGTH_LONG)
+                        .show();
+                break;
+            case R.id.action_settings:
+                /*Toast.makeText(this, "Settings", Toast.LENGTH_SHORT)
+                        .show();*/
+
+                String subject = "Feedback on Sunaad v" + vn;
+                String body ="Hi Team Abheri, \n\nHere is my feedback on Sunaad!";
+                String to = "prasmax@gmail.com";
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                Uri data = Uri.parse("mailto:?subject=" + subject + "&body=" + body + "&to=" + to);
+                intent.setData(data);
+                startActivity(intent);
+                break;
+            default:
+                break;
+        }
+
 
         return super.onOptionsItemSelected(item);
     }

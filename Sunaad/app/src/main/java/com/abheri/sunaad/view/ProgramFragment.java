@@ -2,12 +2,9 @@ package com.abheri.sunaad.view;
 
 
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -23,11 +20,13 @@ import android.widget.Toast;
 import android.widget.ViewAnimator;
 
 import com.abheri.sunaad.R;
-import com.abheri.sunaad.dao.GetDataForProgramFragment;
 import com.abheri.sunaad.dao.Program;
+import com.abheri.sunaad.dao.ProgramDataHandler;
+import com.abheri.sunaad.dao.ProgramListDataCache;
 import com.abheri.sunaad.dao.RequestTask;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
-import java.lang.annotation.Target;
 import java.util.List;
 
 /**
@@ -43,6 +42,8 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
     ProgressBar progressBar;
     TextView errTextView;
     Activity myActivity;
+    List<Program> cachedProgramList;
+    Tracker mTracker;
 
     public ProgramFragment() {
 
@@ -54,6 +55,10 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
 
         rootView = inflater.inflate(R.layout.fragment_program, container,
                 false);
+
+        if(null == context){
+            context = rootView.getContext();
+        }
 
         Log.i("PRAS", "In ProgramFragment");
         Program.selectedPosition = -1; //Reset the position
@@ -74,11 +79,10 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
         errTextView = (TextView)rootView.findViewById(R.id.serviceErrorText);
         errTextView.setVisibility(View.GONE);
 
-        RequestTask rt = new RequestTask(this, SunaadViews.PROGRAM);
-        rt.execute(Util.getServiceUrl(SunaadViews.PROGRAM));
-
         final android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
         myActivity = getActivity();
+
+        getData(this, false);
 
         //Onclick listener not required for initial implementation
         //Implemented here just for reference
@@ -92,10 +96,10 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
                 // ListView Clicked item value
                 Program itemValue = (Program) parent.getItemAtPosition(position);
 
-                Toast.makeText(
+                /*Toast.makeText(
                         view.getContext(),
                         itemValue.getTitle() + "  Selected...",
-                        Toast.LENGTH_SHORT).show();
+                        Toast.LENGTH_SHORT).show(); */
 
                 Intent prgIntent = new Intent();
                 prgIntent.putExtra("ProgramDetails", itemValue);
@@ -111,13 +115,46 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
 
         });
 
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) new AnalyticsApplication();
+        mTracker = application.getDefaultTracker();
+        Log.i("Sunaad", "Setting screen name: " + Util.PROGRAM_SCREEN);
+        mTracker.setScreenName("Image~" + Util.PROGRAM_SCREEN);
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Share")
+                .build());
+
         return rootView;
+    }
+
+    public void getData(ProgramFragment fragmentThis, boolean doRefresh) {
+
+        ProgramListDataCache plc = new ProgramListDataCache(context);
+        Util ut = new Util();
+        if ((plc.isProgramDataCacheOld() || doRefresh) && ut.isNetworkAvailable(context)) {
+            progressBar.setVisibility(View.VISIBLE);
+            RequestTask rt = new RequestTask(fragmentThis, SunaadViews.PROGRAM);
+            rt.execute(Util.getServiceUrl(SunaadViews.PROGRAM));
+        } else {
+            cachedProgramList = plc.RetrieveProgramDataFromCache();
+            //If network is available the cached list will be non-null
+            //Else it will be null. If null, show error text
+            if(cachedProgramList != null) {
+                updateViewFromData(cachedProgramList);
+            }
+            else {
+                errTextView.setText("Connect to network to get Sunaad Data");
+                errTextView.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     void updateProgramList(View rootView, ListView programList, List<Program>values) {
 
-        //GetDataForProgramFragment prgdata = new GetDataForProgramFragment();
-        //List<Program> values = prgdata.getData(jsonstring);
+        //ProgramDataHandler prgdata = new ProgramDataHandler();
+        //List<Program> values = prgdata.parseProgramListFromJsonResponse(jsonstring);
 
         // use the SimpleCursorAdapter to show the
         // elements in a ListView
@@ -127,14 +164,24 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
         programList.setAdapter(adapter);
     }
 
-    public void onSuccess(Object result){
+    public void onSuccess(Object result) {
 
-        List<Program> values = (List<Program>)result;
+        List<Program> values = (List<Program>) result;
 
+        ProgramListDataCache plc = new ProgramListDataCache(context);
+        plc.SaveProgramDataInCache((List<Program>) result);
+
+        updateViewFromData(values);
+    }
+
+    public void updateViewFromData(List<Program> values){
         progressBar.setVisibility(View.GONE);
         listView.setVisibility(View.VISIBLE);
-        updateProgramList(rootView, listView, values);
 
+        //Filter old programs from the list
+        List<Program> fValues = ProgramDataHandler.filterOldPrograms(values, Util.HOW_OLD);
+
+        updateProgramList(rootView, listView, fValues);
     }
 
     public void onError(Object result){

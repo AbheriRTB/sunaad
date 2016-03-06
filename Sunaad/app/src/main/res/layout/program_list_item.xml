@@ -9,8 +9,8 @@
 
         <ImageView
             android:id="@+id/programImageSmall"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             android:contentDescription="ProgramImage"
             android:layout_gravity="center_vertical"/>
 
@@ -28,11 +28,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:textSize="12dp"
+                android:textSize="16dp"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
-                android:id="@+id/description"
+                android:id="@+id/details"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -40,31 +40,32 @@
                 android:layout_below="@+id/title"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:textSize="10dp"
+                android:textSize="14dp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
-                android:id="@+id/description2"
+                android:id="@+id/eventDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/description"
+                android:layout_below="@+id/details"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:textSize="10dp"
+                android:textSize="14dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
             <TextView
-                android:id="@+id/description3"
+                android:id="@+id/locationAddress1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@id/description2"
+                android:layout_below="@id/eventDate"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:textSize="10dp"
-                android:text="Next Line"
+                android:textSize="14dp"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
         </LinearLayout>
     </TableRow>
