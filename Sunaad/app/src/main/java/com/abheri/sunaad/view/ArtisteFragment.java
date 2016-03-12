@@ -1,6 +1,7 @@
 package com.abheri.sunaad.view;
 
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -48,7 +49,6 @@ public class ArtisteFragment extends Fragment implements HandleServiceResponse{
     TextView errTextView;
     Activity myActivity;
     List<Program> cachedProgramList;
-    Tracker mTracker;
 
     public ArtisteFragment() {
 
@@ -100,7 +100,7 @@ public class ArtisteFragment extends Fragment implements HandleServiceResponse{
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 // ListView Clicked item value
-                Program itemValue = (Program)expListView.getExpandableListAdapter().getChild( groupPosition, childPosition);
+                Program itemValue = (Program) expListView.getExpandableListAdapter().getChild(groupPosition, childPosition);
 
                 /*Toast.makeText(
                         v.getContext(),
@@ -123,16 +123,9 @@ public class ArtisteFragment extends Fragment implements HandleServiceResponse{
 
         });
 
+        ((MainActivity)getActivity()).setActionBarTitle(getString(R.string.title_section3));
         // Obtain the shared Tracker instance.
-        AnalyticsApplication application = (AnalyticsApplication) new AnalyticsApplication();
-        mTracker = application.getDefaultTracker();
-        Log.i("Sunaad", "Setting screen name: " + Util.ARTISTE_SCREEN);
-        mTracker.setScreenName("Image~" + Util.ARTISTE_SCREEN);
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        mTracker.send(new HitBuilders.EventBuilder()
-                .setCategory("Action")
-                .setAction("Share")
-                .build());
+        Util.logToGA(Util.ARTISTE_SCREEN);
 
         return rootView;
     }

@@ -32,7 +32,7 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
     Context myContext;
 
     public ProgramListAdapter(Context context, int resource,
-                         List<Program> Programlist) {
+                              List<Program> Programlist) {
         super(context, resource, Programlist);
         this.Programs = Programlist;
         myContext = context;
@@ -81,7 +81,7 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
             holder = (ViewHolder) v.getTag();
         }
 
-        SimpleDateFormat ft = new SimpleDateFormat ("E, dd-MMM-yyyy");
+        SimpleDateFormat ft = new SimpleDateFormat("E, dd-MMM-yyyy");
 
         Program currentProgram = this.Programs.get(position);
         String title = currentProgram.getTitle();
@@ -89,7 +89,7 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
         String eventDate = ft.format(currentProgram.getEventDate());
         String locationAddress1 = currentProgram.getLocation_address1();
         String uri = currentProgram.getArtiste_image();
-        if(uri == null && uri.length()<=0){
+        if (uri == null && uri.length() <= 0) {
             uri = "@drawable/default_artiste.jpeg";
         }
 
@@ -98,47 +98,36 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
         int imageResource = v.getResources().getIdentifier(uri, null, v.getContext().getPackageName());
 
 
-        if (position == Program.selectedPosition)
-        {
+        if (position == Program.selectedPosition) {
             v.setBackgroundColor(v.getResources().getColor(android.R.color.holo_blue_light));
-        }
-        else
+        } else
             v.setBackgroundColor(v.getResources().getColor(android.R.color.white));
 
         //TODO put correct event time and current time for compariosn
+        if (Util.isEventToday(currentProgram, false) < 0) {
+            v.setBackgroundColor(v.getResources().getColor(R.color.oldgray));
+        } else if (!Util.isYes(currentProgram.getIs_published())) {
+            v.setBackgroundColor(v.getResources().getColor(R.color.orange));
+        }
+
         Date eDate = currentProgram.getEventDate();
         Calendar cae = Calendar.getInstance();
         cae.setTime(eDate);
-        cae.set(cae.get(Calendar.YEAR), cae.get(Calendar.MONTH), cae.get(Calendar.DATE),0,1);
+        cae.set(cae.get(Calendar.YEAR), cae.get(Calendar.MONTH), cae.get(Calendar.DATE), 0, 1);
         eDate = cae.getTime();
 
-        Calendar cat = Calendar.getInstance();
-        cat.set(cat.get(Calendar.YEAR), cat.get(Calendar.MONTH), cat.get(Calendar.DATE),0,0);
-        Date tDate = cat.getTime();
 
-        if(null != eDate){
-            if(eDate.compareTo(tDate) < 0){
-                v.setBackgroundColor(v.getResources().getColor(R.color.oldgray));
-            }
-
-            //If the event is for today, set the text color to blue
-            String dateStr1 = ft.format(eDate);
-            String dateStr2 = ft.format(tDate);
-            if(dateStr1.equalsIgnoreCase(dateStr2)){
-                holder.title.setTextColor(v.getResources().getColor(R.color.darkblue));
-                holder.description.setTextColor(v.getResources().getColor(R.color.darkblue));
-                holder.descripton2.setTextColor(v.getResources().getColor(R.color.darkblue));
-                holder.description3.setTextColor(v.getResources().getColor(R.color.darkblue));
-            }
-            else{
-                holder.title.setTextColor(v.getResources().getColor(R.color.black));
-                holder.description.setTextColor(v.getResources().getColor(R.color.black));
-                holder.descripton2.setTextColor(v.getResources().getColor(R.color.black));
-                holder.description3.setTextColor(v.getResources().getColor(R.color.black));
-            }
-
+        if (Util.isEventToday(currentProgram, true) == 1) {
+            holder.title.setTextColor(v.getResources().getColor(R.color.darkblue));
+            holder.description.setTextColor(v.getResources().getColor(R.color.darkblue));
+            holder.descripton2.setTextColor(v.getResources().getColor(R.color.darkblue));
+            holder.description3.setTextColor(v.getResources().getColor(R.color.darkblue));
+        } else {
+            holder.title.setTextColor(v.getResources().getColor(R.color.black));
+            holder.description.setTextColor(v.getResources().getColor(R.color.black));
+            holder.descripton2.setTextColor(v.getResources().getColor(R.color.black));
+            holder.description3.setTextColor(v.getResources().getColor(R.color.black));
         }
-
 
         holder.title.setText(title);
         holder.description.setText(details);
@@ -153,7 +142,7 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
         return v;
     }
 
-    private static class ViewHolder{
+    private static class ViewHolder {
         TextView title, description, descripton2, description3;
         ImageView iv;
     }

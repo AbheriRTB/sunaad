@@ -27,7 +27,8 @@ public class ProgramListDataCache {
 
     public boolean SaveProgramDataInCache(List<Program> programList){
         //Creating a shared preference
-        SharedPreferences.Editor prefsEditor = context.getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE).edit();
+        SharedPreferences settings = context.getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = settings.edit();
         Gson gson = new Gson();
 
         Date currentDate = new Date();
@@ -91,6 +92,12 @@ public class ProgramListDataCache {
 
         return true;
 
+    }
+
+    public void removeCache(){
+        SharedPreferences settings = context.getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = settings.edit();
+        settings.edit().clear().commit();
     }
 
 

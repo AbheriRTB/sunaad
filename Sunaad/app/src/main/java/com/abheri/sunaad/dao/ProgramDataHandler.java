@@ -1,5 +1,6 @@
 package com.abheri.sunaad.dao;
 
+import com.abheri.sunaad.BuildConfig;
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.view.Util;
 
@@ -14,9 +15,11 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 
 /**
@@ -72,7 +75,10 @@ public class ProgramDataHandler {
                     tmpPrg.setSplash_url(jo.getString("splash_url"));
                     tmpPrg.setIs_published(jo.getString("is_published"));
 
-                    if(Util.isYes(tmpPrg.getIs_published())) {
+                    //Add unpublished data only when the build type is NOT Release
+                    if(BuildConfig.DEBUG) {
+                        programs.add(tmpPrg);
+                    }else if(Util.isYes(tmpPrg.getIs_published())){
                         programs.add(tmpPrg);
                     }
                 }
@@ -92,7 +98,7 @@ public class ProgramDataHandler {
     public List<String> getArtisteListFromPrograms(List<Program> prgList) {
 
         List<String> artisteList = new ArrayList<String>();
-        Set<String> artisteSet = new HashSet<String>();
+        TreeSet<String> artisteSet = new TreeSet<String>();
 
         for (int i = 0; i < prgList.size(); ++i) {
 
@@ -136,7 +142,7 @@ public class ProgramDataHandler {
     public List<String> getSabhaListFromPrograms(List<Program> prgList) {
 
         List<String> sabhaList = new ArrayList<String>();
-        Set<String> sabhaSet = new HashSet<String>();
+        TreeSet<String> sabhaSet = new TreeSet<String>();
 
         for (int i = 0; i < prgList.size(); ++i) {
 
@@ -156,7 +162,8 @@ public class ProgramDataHandler {
         LinkedHashMap<String, List<Program>> sabhaProgramCollection = new LinkedHashMap<String, List<Program>>();
         String sab = "";
 
-        for (int i = 0; i < sabhaList.size(); ++i) {
+
+        for(int i=0; i< sabhaList.size(); ++i){
             String selSab = sabhaList.get(i);
             List<Program> sabhaProgramList = new ArrayList<Program>();
 

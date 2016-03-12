@@ -214,9 +214,6 @@ public class HomeFragment extends Fragment implements HandleServiceResponse {
         inAnim = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
         outAnim = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);
 
-
-
-
         viewAnimator.setInAnimation(inAnim);
         viewAnimator.setOutAnimation(outAnim);
 
@@ -225,6 +222,7 @@ public class HomeFragment extends Fragment implements HandleServiceResponse {
 
     }
 
+    //Reads the default flyer HTML from Assets folder
     String readSunaadFlyer(Context c) {
 
         String retStr = "";

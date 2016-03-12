@@ -4,7 +4,7 @@
     <string name="title_section1">Home</string>
     <string name="title_section2">Programs</string>
     <string name="title_section3">Artiste</string>
-    <string name="title_section4">Sabha</string>
+    <string name="title_section4">Venue</string>
     <string name="title_section5">Location</string>
 
     <string name="lbl_artistName">Artist : </string>

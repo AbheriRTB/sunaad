@@ -1,11 +1,13 @@
 package com.abheri.sunaad.view;
 
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -43,7 +45,7 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
     TextView errTextView;
     Activity myActivity;
     List<Program> cachedProgramList;
-    Tracker mTracker;
+    int scrollPos=0;
 
     public ProgramFragment() {
 
@@ -115,19 +117,29 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
 
         });
 
+        ((MainActivity)getActivity()).setActionBarTitle(getString(R.string.title_section2));
+
+        timerDelayRunForScroll(500l);
+
         // Obtain the shared Tracker instance.
-        AnalyticsApplication application = (AnalyticsApplication) new AnalyticsApplication();
-        mTracker = application.getDefaultTracker();
-        Log.i("Sunaad", "Setting screen name: " + Util.PROGRAM_SCREEN);
-        mTracker.setScreenName("Image~" + Util.PROGRAM_SCREEN);
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        mTracker.send(new HitBuilders.EventBuilder()
-                .setCategory("Action")
-                .setAction("Share")
-                .build());
+        Util.logToGA(Util.PROGRAM_SCREEN);
 
         return rootView;
     }
+
+    public void timerDelayRunForScroll(final long time) {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                try {
+                    int h1 = listView.getHeight();
+                    int h2 = rootView.getHeight();
+                    listView.smoothScrollToPositionFromTop(scrollPos, h1 / 2 - h2 / 2, 500);
+                } catch (Exception e) {}
+            }
+        }, time);
+    }
+
 
     public void getData(ProgramFragment fragmentThis, boolean doRefresh) {
 
@@ -156,12 +168,16 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
         //ProgramDataHandler prgdata = new ProgramDataHandler();
         //List<Program> values = prgdata.parseProgramListFromJsonResponse(jsonstring);
 
+        scrollPos = Util.getScrollPosition(values);
+
         // use the SimpleCursorAdapter to show the
         // elements in a ListView
         ProgramListAdapter adapter = new ProgramListAdapter(
                 rootView.getContext(), R.layout.program_list_item, values);
 
         programList.setAdapter(adapter);
+        timerDelayRunForScroll(500l);
+
     }
 
     public void onSuccess(Object result) {

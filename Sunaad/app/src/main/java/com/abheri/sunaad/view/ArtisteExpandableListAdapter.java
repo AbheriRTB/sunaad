@@ -106,6 +106,21 @@ public class ArtisteExpandableListAdapter extends BaseExpandableListAdapter {
                 .placeholder(R.drawable.default_artiste)
                 .into(iv);
 
+        if (Util.isEventToday(program, false) < 0) {
+            convertView.setBackgroundColor(convertView.getResources().getColor(R.color.oldgray));
+        }
+        else {
+            convertView.setBackgroundColor(convertView.getResources().getColor(android.R.color.white));
+        }
+        if (Util.isEventToday(program, true) == 1) {
+            item.setTextColor(convertView.getResources().getColor(R.color.darkblue));
+            aDate.setTextColor(convertView.getResources().getColor(R.color.darkblue));
+        }
+        else
+        {
+            item.setTextColor(convertView.getResources().getColor(R.color.black));
+            aDate.setTextColor(convertView.getResources().getColor(R.color.black));
+        }
         return convertView;
     }
 

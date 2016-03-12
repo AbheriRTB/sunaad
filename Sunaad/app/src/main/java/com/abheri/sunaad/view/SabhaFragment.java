@@ -1,6 +1,7 @@
 package com.abheri.sunaad.view;
 
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -41,7 +42,6 @@ public class SabhaFragment extends Fragment implements HandleServiceResponse{
     View rootView;
     List<String> sList = new ArrayList<String>();
     LinkedHashMap<String, List<Program>> sabhaProgramCollection = new LinkedHashMap<String, List<Program>>();
-    Tracker mTracker;
 
     ExpandableListView expListView;
     ProgressBar progressBar;
@@ -122,16 +122,8 @@ public class SabhaFragment extends Fragment implements HandleServiceResponse{
 
         });
 
-        // Obtain the shared Tracker instance.
-        AnalyticsApplication application = (AnalyticsApplication) new AnalyticsApplication();
-        mTracker = application.getDefaultTracker();
-        Log.i("Sunaad", "Setting screen name: " + Util.SABHA_SCREEN);
-        mTracker.setScreenName("Image~" + Util.SABHA_SCREEN);
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        mTracker.send(new HitBuilders.EventBuilder()
-                .setCategory("Action")
-                .setAction("Share")
-                .build());
+        ((MainActivity)getActivity()).setActionBarTitle(getString(R.string.title_section4));
+        Util.logToGA(Util.SABHA_SCREEN);
 
         return rootView;
     }
@@ -184,9 +176,9 @@ public class SabhaFragment extends Fragment implements HandleServiceResponse{
         //Filter old programs from the list
         List<Program> fValues = ProgramDataHandler.filterOldPrograms(values, Util.HOW_OLD);
 
-        ProgramDataHandler gdp = new ProgramDataHandler();
-        sList = gdp.getSabhaListFromPrograms(fValues);
-        sabhaProgramCollection = gdp.createSabhaProgramCollection(fValues, sList);
+        ProgramDataHandler pdh = new ProgramDataHandler();
+        sList = pdh.getSabhaListFromPrograms(fValues);
+        sabhaProgramCollection = pdh.createSabhaProgramCollection(fValues, sList);
 
         progressBar.setVisibility(View.GONE);
         expListView.setVisibility(View.VISIBLE);
