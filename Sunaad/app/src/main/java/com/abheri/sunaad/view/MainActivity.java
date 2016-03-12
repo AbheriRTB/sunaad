@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.abheri.sunaad.BuildConfig;
 import com.abheri.sunaad.R;
+import com.abheri.sunaad.dao.DBHelper;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -57,6 +58,10 @@ public class MainActivity extends AppCompatActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        //Force DB OnCreate & OnUpgrade
+        DBHelper dbh = new DBHelper(context);
+        dbh.getWritableDatabase();
 
         // Obtain the shared Tracker instance.
         //AnalyticsApplication application = (AnalyticsApplication) getApplication();
