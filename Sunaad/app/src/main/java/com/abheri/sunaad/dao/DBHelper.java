@@ -11,7 +11,7 @@ import android.widget.Toast;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "sunaad.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private Context dbContext;
 
@@ -22,7 +22,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase database) {
-
 
         switch(DATABASE_VERSION){
 
