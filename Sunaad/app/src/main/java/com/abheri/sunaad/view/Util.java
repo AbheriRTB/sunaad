@@ -33,6 +33,7 @@ public class Util {
     public static final String ARTISTE_SCREEN = "Artiste";
 
     public static final String NAVIGATION_FRAGMET = "NavigationFragment";
+    public static final String FEATURED_CONCERT_TICKER="featured_concert_ticker.htm";
 
     public static final long SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;//7*24*60*60*1000;
 

@@ -23,14 +23,14 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
-public class OrganizerExpandableListAdapter extends BaseExpandableListAdapter {
+public class VenueExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Activity context;
     private Map<String, List<String>> sabhaCollections;
     private List<String> sabhas;
 
-    public OrganizerExpandableListAdapter(Activity context, List<String> sabhaList,
-                                          Map<String, List<String>> sabhaCollections) {
+    public VenueExpandableListAdapter(Activity context, List<String> sabhaList,
+                                      Map<String, List<String>> sabhaCollections) {
         this.context = context;
         this.sabhaCollections = sabhaCollections;
         this.sabhas = sabhaList;
@@ -158,7 +158,6 @@ public class OrganizerExpandableListAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
-    //Test
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
     }

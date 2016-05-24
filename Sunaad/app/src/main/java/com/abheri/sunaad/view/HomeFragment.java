@@ -15,6 +15,7 @@ import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -42,7 +43,7 @@ import java.util.TimerTask;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment implements HandleServiceResponse {
+public class HomeFragment extends Fragment implements HandleServiceResponse, View.OnTouchListener {
 
     ViewAnimator viewAnimator;
     Context context;
@@ -82,13 +83,16 @@ public class HomeFragment extends Fragment implements HandleServiceResponse {
         errTextView.setVisibility(View.GONE);
 
 
+        ImageView logoImg = (ImageView)rootView.findViewById(R.id.homeLogo);
         viewAnimator = (ViewAnimator) rootView.findViewById(R.id.viewAnimator);
+
+        logoImg.setOnTouchListener((View.OnTouchListener) this);
 
         //final Animation inAnim = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
         //final Animation outAnim = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);
 
-        getData(this, false);
-
+        //getData(this, false);
+        updateWebViews();
         //viewAnimator.setInAnimation(inAnim);
         //viewAnimator.setOutAnimation(outAnim);
 
@@ -178,22 +182,18 @@ public class HomeFragment extends Fragment implements HandleServiceResponse {
     void updateWebViews() {
 
         Animation inAnim, outAnim;
+        progressBar.setVisibility(View.GONE);
+
 
         String urlBase = Util.getPageUrl(SunaadViews.HOME);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
 
-        //Add the Sunaad static flyer page at the beginning
-        String sunaadFlyerStr = readSunaadFlyer(context);
-        WebView swv = new WebView(rootView.getContext());
-        swv.setLayoutParams(lp);
-        swv.setWebViewClient(new WebViewClient());
-        swv.loadData(sunaadFlyerStr, "text/html; charset=utf-8", "utf-8");
-        swv.setOnTouchListener(new WebViewOnTouchListener());
-        viewAnimator.addView(swv);
-
-        int cycletime = 15; //Initialize to 15 sec delay
         Util ut = new Util();
+
+        String newpages[] = {Util.FEATURED_CONCERT_TICKER} ;
+        pages = newpages;
+
         if (null != pages && ut.isNetworkAvailable(context) ) {
 
             for (int i = 0; i < pages.length; ++i) {
@@ -202,12 +202,58 @@ public class HomeFragment extends Fragment implements HandleServiceResponse {
                 wv.setWebViewClient(new WebViewClient());
                 wv.setOnTouchListener(new WebViewOnTouchListener());
                 wv.loadUrl(urlBase + pages[i]);
+
+                viewAnimator.addView(wv);
+            }
+        }
+
+
+    }
+
+    void updateWebViews_old() {
+
+        Animation inAnim, outAnim;
+        progressBar.setVisibility(View.GONE);
+
+
+        String urlBase = Util.getPageUrl(SunaadViews.HOME);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+
+
+        //Add the Sunaad static flyer page at the beginning
+        /*
+        String sunaadFlyerStr = readSunaadFlyer(context);
+        WebView swv = new WebView(rootView.getContext());
+        swv.setLayoutParams(lp);
+        swv.setWebViewClient(new WebViewClient());
+        swv.loadData(sunaadFlyerStr, "text/html; charset=utf-8", "utf-8");
+        swv.setOnTouchListener(new WebViewOnTouchListener());
+        viewAnimator.addView(swv);
+        */
+
+        float cycletime = (float) 2; //Initialize to 15 sec delay
+        Util ut = new Util();
+
+        String newpages[] = {Util.FEATURED_CONCERT_TICKER} ;
+        pages = newpages;
+
+        if (null != pages && ut.isNetworkAvailable(context) ) {
+
+            for (int i = 0; i < pages.length; ++i) {
+                WebView wv = new WebView(rootView.getContext());
+                wv.setLayoutParams(lp);
+                wv.setWebViewClient(new WebViewClient());
+                wv.setOnTouchListener(new WebViewOnTouchListener());
+                wv.loadUrl(urlBase + pages[i]);
+                //wv.loadUrl(pages[i]);
+
                 viewAnimator.addView(wv);
             }
             if (pages.length >= 1){
                 //If there are web urls available,
                 //reduce the cycle time to 5 sec
-                cycletime = 5;
+                cycletime = (float)2;
             }
         }
 
@@ -218,6 +264,15 @@ public class HomeFragment extends Fragment implements HandleServiceResponse {
         viewAnimator.setOutAnimation(outAnim);
 
         viewAnimator.startLayoutAnimation();
+
+        if(pages.length >=1) {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            viewAnimator.showNext();
+        }
         rc = new CycleView(cycletime);
 
     }
@@ -245,13 +300,19 @@ public class HomeFragment extends Fragment implements HandleServiceResponse {
         return retStr;
     }
 
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        mDrawerFragmet.openDrawer();
+        return true;
+    }
+
 
     class CycleView {
         Timer timer;
 
-        public CycleView(int seconds) {
+        public CycleView(float seconds) {
             timer = new Timer();
-            timer.schedule(new CycleTask(), seconds * 1000, seconds * 1000);
+            timer.schedule(new CycleTask(), (int)(seconds * 1000), (int)(seconds * 1000));
         }
 
         class CycleTask extends TimerTask {

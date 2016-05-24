@@ -56,6 +56,7 @@ public class ProgramDataHandler {
 
 
                     tmpPrg.setPlace(jo.getString("place"));
+                    tmpPrg.setOrganizer(jo.getString("organizer"));
                     tmpPrg.setArtiste(jo.getString("artiste"));
                     tmpPrg.setPhone(jo.getString("phone"));
                     tmpPrg.setStartTime(jo.getString("event_start"));
@@ -182,6 +183,51 @@ public class ProgramDataHandler {
         }
 
         return sabhaProgramCollection;
+    }
+
+    public List<String> getOrganizerListFromPrograms(List<Program> prgList) {
+
+        List<String> organizerList = new ArrayList<String>();
+        TreeSet<String> organizerSet = new TreeSet<String>();
+
+        for (int i = 0; i < prgList.size(); ++i) {
+
+            Program pr = prgList.get(i);
+            String org = pr.getOrganizer();
+
+            organizerSet.add(org);
+        }
+
+        organizerList = new ArrayList<String>(organizerSet);
+
+        return organizerList;
+    }
+
+    public LinkedHashMap<String, List<Program>> createOrganizerProgramCollection(List<Program> prgList, List<String> organizerList) {
+
+        LinkedHashMap<String, List<Program>> organizerProgramCollection = new LinkedHashMap<String, List<Program>>();
+        String org = "";
+
+
+        for(int i=0; i< organizerList.size(); ++i){
+            String selOrg = organizerList.get(i);
+            List<Program> organizerProgramList = new ArrayList<Program>();
+
+            for (int j = 0; j < prgList.size(); ++j) {
+
+                Program pr = prgList.get(j);
+                org = pr.getOrganizer();
+
+                if (org.trim().equalsIgnoreCase(selOrg)) {
+                    organizerProgramList.add(pr);
+                }
+
+            }
+
+            organizerProgramCollection.put(selOrg, organizerProgramList);
+        }
+
+        return organizerProgramCollection;
     }
 
     public List<Program> dummyPrograms() {
