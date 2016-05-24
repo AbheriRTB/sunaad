@@ -19,11 +19,13 @@ public class Program implements Serializable{
     private String entry_fee;
     private String website;
     private String artiste;
+    private String accompanists;
     private double  duration;
     private Date   eventDate;
     private String startTime;
     private String endTime;
     private String place;
+    private String organizer;
     private String phone;
     private String location_address1;
     private String location_address2;
@@ -91,6 +93,12 @@ public class Program implements Serializable{
     public void setArtiste(String artiste) {this.artiste = artiste;
     }
 
+    public String getAccompanists() {
+        return accompanists;
+    }
+    public void setAccompanists(String accompanists) {this.accompanists = accompanists;
+    }
+
     public double getDuration() {
         return duration;
     }
@@ -126,6 +134,14 @@ public class Program implements Serializable{
     }
 
 
+    public String getOrganizer() {
+        return organizer;
+    }
+
+    public void setOrganizer(String organizer) {
+        this.organizer = organizer;
+    }
+
     public String getPlace() {
         return place;
     }
@@ -133,7 +149,6 @@ public class Program implements Serializable{
     public void setPlace(String place) {
         this.place = place;
     }
-
 
     public String getPhone() {
         return phone;
