@@ -2,10 +2,10 @@
     <string name="app_name">Sunaad</string>
 
     <string name="title_section1">Home</string>
-    <string name="title_section2">Programs</string>
+    <string name="title_section2">Concerts</string>
     <string name="title_section3">Artiste</string>
     <string name="title_section4">Venue</string>
-    <string name="title_section5">Location</string>
+    <string name="title_section5">Organizer</string>
 
     <string name="lbl_artistName">Artist : </string>
     <string name="lbl_date">Date : </string>
