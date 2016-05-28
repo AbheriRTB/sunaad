@@ -50,6 +50,7 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
     CycleView rc;
     String[] pages;
     View rootView;
+    WebView tickerView;
     ProgressBar progressBar;
     TextView errTextView;
     List<Program> cachedProgramList;
@@ -83,16 +84,17 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
         errTextView.setVisibility(View.GONE);
 
 
-        ImageView logoImg = (ImageView)rootView.findViewById(R.id.homeLogo);
+        //ImageView logoImg = (ImageView)rootView.findViewById(R.id.homeLogo);
         viewAnimator = (ViewAnimator) rootView.findViewById(R.id.viewAnimator);
+        tickerView = (WebView) rootView.findViewById(R.id.viewTicker);
 
-        logoImg.setOnTouchListener((View.OnTouchListener) this);
+        viewAnimator.setOnTouchListener((View.OnTouchListener) this);
 
         //final Animation inAnim = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
         //final Animation outAnim = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);
 
-        //getData(this, false);
-        updateWebViews();
+        getData(this, false);
+        //updateWebViews();
         //viewAnimator.setInAnimation(inAnim);
         //viewAnimator.setOutAnimation(outAnim);
 
@@ -179,7 +181,7 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
         errTextView.setVisibility(View.VISIBLE);
     }
 
-    void updateWebViews() {
+    void updateWebViews_new() {
 
         Animation inAnim, outAnim;
         progressBar.setVisibility(View.GONE);
@@ -210,7 +212,7 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
 
     }
 
-    void updateWebViews_old() {
+    void updateWebViews() {
 
         Animation inAnim, outAnim;
         progressBar.setVisibility(View.GONE);
@@ -220,6 +222,7 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
 
+        tickerView.loadUrl(urlBase+Util.FEATURED_CONCERT_TICKER);
 
         //Add the Sunaad static flyer page at the beginning
         /*
@@ -232,11 +235,15 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
         viewAnimator.addView(swv);
         */
 
-        float cycletime = (float) 2; //Initialize to 15 sec delay
+        ImageView sunaadImage = new ImageView(rootView.getContext());
+        sunaadImage.setImageResource(R.drawable.sunaad_logo);
+        viewAnimator.addView(sunaadImage);
+
+        float cycletime = (float) 3; //Initialize to 15 sec delay
         Util ut = new Util();
 
-        String newpages[] = {Util.FEATURED_CONCERT_TICKER} ;
-        pages = newpages;
+        //String newpages[] = {Util.FEATURED_CONCERT_TICKER} ;
+        //pages = newpages;
 
         if (null != pages && ut.isNetworkAvailable(context) ) {
 
