@@ -1,5 +1,7 @@
 package com.abheri.sunaad.dao;
 
+import android.util.Log;
+
 import com.abheri.sunaad.BuildConfig;
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.view.Util;
@@ -26,7 +28,7 @@ import java.util.TreeSet;
  * Created by prasanna.ramaswamy on 25/10/15.
  */
 public class ProgramDataHandler {
-
+    String TAG = "ProgramDataHandler :: ";
     String[] GET_DATA_FOR_PROGRAM_FRAGMENT = {"http://192.168.1.115:80/api/programs/"};
     JSONArray ja;
 
@@ -56,6 +58,7 @@ public class ProgramDataHandler {
 
 
                     tmpPrg.setPlace(jo.getString("place"));
+                    tmpPrg.setOrganizer(jo.getString("organizer"));
                     tmpPrg.setArtiste(jo.getString("artiste"));
                     tmpPrg.setPhone(jo.getString("phone"));
                     tmpPrg.setStartTime(jo.getString("event_start"));
@@ -182,6 +185,51 @@ public class ProgramDataHandler {
         }
 
         return sabhaProgramCollection;
+    }
+
+    public List<String> getOrganizerListFromPrograms(List<Program> prgList) {
+
+        List<String> organizerList = new ArrayList<String>();
+        TreeSet<String> organizerSet = new TreeSet<String>();
+
+        for (int i = 0; i < prgList.size(); ++i) {
+
+            Program pr = prgList.get(i);
+            String org = pr.getOrganizer();
+
+            organizerSet.add(org);
+        }
+
+        organizerList = new ArrayList<String>(organizerSet);
+
+        return organizerList;
+    }
+
+    public LinkedHashMap<String, List<Program>> createOrganizerProgramCollection(List<Program> prgList, List<String> organizerList) {
+
+        LinkedHashMap<String, List<Program>> organizerProgramCollection = new LinkedHashMap<String, List<Program>>();
+        String org = "";
+
+
+        for(int i=0; i< organizerList.size(); ++i){
+            String selOrg = organizerList.get(i);
+            List<Program> organizerProgramList = new ArrayList<Program>();
+
+            for (int j = 0; j < prgList.size(); ++j) {
+
+                Program pr = prgList.get(j);
+                org = pr.getOrganizer();
+
+                if (org.trim().equalsIgnoreCase(selOrg)) {
+                    organizerProgramList.add(pr);
+                }
+
+            }
+
+            organizerProgramCollection.put(selOrg, organizerProgramList);
+        }
+
+        return organizerProgramCollection;
     }
 
     public List<Program> dummyPrograms() {

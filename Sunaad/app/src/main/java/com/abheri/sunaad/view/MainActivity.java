@@ -1,7 +1,6 @@
 package com.abheri.sunaad.view;
 
 import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -11,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,12 +19,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.abheri.sunaad.BuildConfig;
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.dao.DBHelper;
 import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.PicassoTools;
 
@@ -69,6 +64,7 @@ public class MainActivity extends AppCompatActivity
         Util.logToGA(Util.HOME_SCREEN);
     }
 
+
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
@@ -106,7 +102,12 @@ public class MainActivity extends AppCompatActivity
             transaction.addToBackStack(null);
             transaction.commit();
         }else if(position == 3){
-            SabhaFragment sf =  new SabhaFragment();
+            VenueFragment sf =  new VenueFragment();
+            transaction.replace(R.id.container,  sf);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }else if(position == 4){
+            OrganizerFragment sf =  new OrganizerFragment();
             transaction.replace(R.id.container,  sf);
             transaction.addToBackStack(null);
             transaction.commit();
@@ -127,6 +128,12 @@ public class MainActivity extends AppCompatActivity
                 break;
             case 3:
                 mTitle = getString(R.string.title_section3);
+                break;
+            case 4:
+                mTitle = getString(R.string.title_section4);
+                break;
+            case 5:
+                mTitle = getString(R.string.title_section5);
                 break;
         }
     }
@@ -208,12 +215,14 @@ public class MainActivity extends AppCompatActivity
                 }else if(f instanceof ArtisteFragment){
                     fragname="ArtisteFragment";
                     ((ArtisteFragment) f).getData((ArtisteFragment)f, true);
-                }else if(f instanceof SabhaFragment){
-                    fragname="SabhaFragment";
-                    ((SabhaFragment) f).getData((SabhaFragment)f, true);
+                }else if(f instanceof VenueFragment){
+                    fragname="VenueFragment";
+                    ((VenueFragment) f).getData((VenueFragment)f, true);
+                }else if(f instanceof OrganizerFragment) {
+                    fragname = "OrganizerFragment";
+                    ((OrganizerFragment) f).getData((OrganizerFragment)f, true);
                 }
-
-                //Toast.makeText(this, "Refresh selected:"+fragname, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "Refresh selected:"+fragname, Toast.LENGTH_SHORT).show();
                 break;
             // action with ID action_settings was selected
             case R.id.action_about:

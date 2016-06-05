@@ -60,7 +60,7 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = convertView;
-        ViewHolder holder = null;
+        ProgramViewHolder holder = null;
 
         if (v == null) {
 
@@ -68,17 +68,17 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
                     Context.LAYOUT_INFLATER_SERVICE);
             v = vi.inflate(R.layout.program_list_item, null);
 
-            holder = new ViewHolder();
+            holder = new ProgramViewHolder();
             holder.title = (TextView) v.findViewById(R.id.title);
-            holder.description = (TextView) v.findViewById(R.id.details);
-            holder.descripton2 = (TextView) v.findViewById(R.id.eventDate);
-            holder.description3 = (TextView) v.findViewById(R.id.locationAddress1);
+            holder.details = (TextView) v.findViewById(R.id.details);
+            holder.eventDate = (TextView) v.findViewById(R.id.eventDate);
+            holder.locationAddress1 = (TextView) v.findViewById(R.id.locationAddress1);
 
             holder.iv = (ImageView) v.findViewById(R.id.programImageSmall);
 
             v.setTag(holder);
         } else {
-            holder = (ViewHolder) v.getTag();
+            holder = (ProgramViewHolder) v.getTag();
         }
 
         SimpleDateFormat ft = new SimpleDateFormat("E, dd-MMM-yyyy");
@@ -119,20 +119,20 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
 
         if (Util.isEventToday(currentProgram, true) == 1) {
             holder.title.setTextColor(v.getResources().getColor(R.color.darkblue));
-            holder.description.setTextColor(v.getResources().getColor(R.color.darkblue));
-            holder.descripton2.setTextColor(v.getResources().getColor(R.color.darkblue));
-            holder.description3.setTextColor(v.getResources().getColor(R.color.darkblue));
+            holder.details.setTextColor(v.getResources().getColor(R.color.darkblue));
+            holder.eventDate.setTextColor(v.getResources().getColor(R.color.darkblue));
+            holder.locationAddress1.setTextColor(v.getResources().getColor(R.color.darkblue));
         } else {
             holder.title.setTextColor(v.getResources().getColor(R.color.black));
-            holder.description.setTextColor(v.getResources().getColor(R.color.black));
-            holder.descripton2.setTextColor(v.getResources().getColor(R.color.black));
-            holder.description3.setTextColor(v.getResources().getColor(R.color.black));
+            holder.details.setTextColor(v.getResources().getColor(R.color.black));
+            holder.eventDate.setTextColor(v.getResources().getColor(R.color.black));
+            holder.locationAddress1.setTextColor(v.getResources().getColor(R.color.black));
         }
 
         holder.title.setText(title);
-        holder.description.setText(details);
-        holder.descripton2.setText(eventDate);
-        holder.description3.setText(locationAddress1);
+        holder.details.setText(details);
+        holder.eventDate.setText(eventDate);
+        holder.locationAddress1.setText(locationAddress1);
         //holder.iv.setImageDrawable(v.getResources().getDrawable(R.drawable.vocal));
         Picasso.with(myContext)
                 .load(uri)
@@ -142,8 +142,8 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
         return v;
     }
 
-    private static class ViewHolder {
-        TextView title, description, descripton2, description3;
+    private static class ProgramViewHolder {
+        TextView title, details, eventDate, locationAddress1;
         ImageView iv;
     }
 
