@@ -41,10 +41,11 @@ public class DBHelper extends SQLiteOpenHelper {
         Log.w(DBHelper.class.getName(),
                 "Upgrading database from version " + oldVersion + " to "
                         + newVersion + ", which will destroy all old data");
+        Log.d("DBHelper", "DBVersion :: " + oldVersion + "  " + newVersion);
 
 
         //Clear the cache from SharedPreferences while upgrading
-        switch(DATABASE_VERSION){
+        switch(oldVersion){
 
             case 1://First DB version without tables. Just to trigger upgrade
                 ProgramListDataCache pldc = new ProgramListDataCache(dbContext);

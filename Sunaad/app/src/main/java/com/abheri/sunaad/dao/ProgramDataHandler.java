@@ -1,5 +1,7 @@
 package com.abheri.sunaad.dao;
 
+import android.util.Log;
+
 import com.abheri.sunaad.BuildConfig;
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.view.Util;
@@ -26,7 +28,7 @@ import java.util.TreeSet;
  * Created by prasanna.ramaswamy on 25/10/15.
  */
 public class ProgramDataHandler {
-
+    String TAG = "ProgramDataHandler :: ";
     String[] GET_DATA_FOR_PROGRAM_FRAGMENT = {"http://192.168.1.115:80/api/programs/"};
     JSONArray ja;
 

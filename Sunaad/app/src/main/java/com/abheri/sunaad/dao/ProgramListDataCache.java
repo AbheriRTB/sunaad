@@ -3,6 +3,7 @@ package com.abheri.sunaad.dao;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.abheri.sunaad.view.Util;
 import com.google.gson.Gson;
@@ -95,9 +96,11 @@ public class ProgramListDataCache {
     }
 
     public void removeCache(){
+        Log.d("ProgramlistDataCahce","InremoveCache :: ");
         SharedPreferences settings = context.getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = settings.edit();
-        settings.edit().clear().commit();
+        boolean s = settings.edit().clear().commit();
+        Log.d("ProgramlistDataCahce","removeCache :: "+s);
     }
 
 

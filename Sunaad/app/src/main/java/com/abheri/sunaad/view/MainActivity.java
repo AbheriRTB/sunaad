@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity
         Util.logToGA(Util.HOME_SCREEN);
     }
 
+
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
