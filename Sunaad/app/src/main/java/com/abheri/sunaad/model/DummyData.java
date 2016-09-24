@@ -1,4 +1,4 @@
-package com.abheri.sunaad.dao;
+package com.abheri.sunaad.model;
 
 /**
  * Created by Maha on 06/03/16.

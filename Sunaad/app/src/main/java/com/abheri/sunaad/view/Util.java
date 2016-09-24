@@ -7,7 +7,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.abheri.sunaad.BuildConfig;
-import com.abheri.sunaad.dao.Program;
+import com.abheri.sunaad.model.Program;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
@@ -31,11 +31,12 @@ public class Util {
     public static final String PROGRAM_SCREEN = "Program";
     public static final String SABHA_SCREEN = "Venue";
     public static final String ARTISTE_SCREEN = "Artiste";
+    public static final String SETTINGS_SCREEN = "Settings";
 
     public static final String NAVIGATION_FRAGMET = "NavigationFragment";
     public static final String FEATURED_CONCERT_TICKER="featured_concert_ticker.htm";
 
-    public static final long SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;//7*24*60*60*1000;
+    public static final long AUTO_REFRESH_INTERVAL = 1 * 24 * 60 * 60 * 1000;//7*24*60*60*1000;
 
 
     //-----------------
@@ -173,6 +174,60 @@ public class Util {
                 retVal = eDate.compareTo(tDate);
             }
         }
+
+        return retVal;
+    }
+
+    public static long startTimeInMillis(Program prg) {
+
+        long retVal = 0;
+
+        SimpleDateFormat ft = new SimpleDateFormat("dd-MMM-yyyy");
+        String timec[] = prg.getStartTime().split(":");
+
+        int eventHour = 11, eventMin = 0;
+        if (timec[0] != null)
+            eventHour = Integer.parseInt(timec[0]);
+        if (timec[1] != null)
+            eventMin = Integer.parseInt(timec[1]);
+
+
+        Date eDate = prg.getEventDate();
+        Calendar cae = Calendar.getInstance();
+        cae.setTime(eDate);
+        cae.set(cae.get(Calendar.YEAR), cae.get(Calendar.MONTH), cae.get(Calendar.DATE), eventHour, eventMin);
+        eDate = cae.getTime();
+
+        retVal = cae.getTimeInMillis();
+
+        return retVal;
+    }
+
+    public static long getAlaramMillies(Program prg, int days_before, int hr_at, int min_at ) {
+
+        long retVal = 0;
+
+        SimpleDateFormat ft = new SimpleDateFormat("dd-MMM-yyyy");
+        String timec[] = prg.getStartTime().split(":");
+
+        int eventHour = 11, eventMin = 0;
+        if (timec[0] != null)
+            eventHour = Integer.parseInt(timec[0]);
+        if (timec[1] != null)
+            eventMin = Integer.parseInt(timec[1]);
+
+
+        Date eDate = prg.getEventDate();
+        Calendar cae = Calendar.getInstance();
+        cae.setTime(eDate);
+        cae.set(cae.get(Calendar.YEAR), cae.get(Calendar.MONTH), cae.get(Calendar.DATE),
+                hr_at, min_at);
+
+        cae.add(Calendar.DATE, days_before*-1);
+
+        eDate = cae.getTime();
+
+        retVal = cae.getTimeInMillis();
 
         return retVal;
     }

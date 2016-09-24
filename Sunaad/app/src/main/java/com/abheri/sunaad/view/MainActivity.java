@@ -20,7 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.abheri.sunaad.R;
-import com.abheri.sunaad.dao.DBHelper;
+import com.abheri.sunaad.model.DBHelper;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.PicassoTools;
@@ -111,6 +111,11 @@ public class MainActivity extends AppCompatActivity
             transaction.replace(R.id.container,  sf);
             transaction.addToBackStack(null);
             transaction.commit();
+        }else if(position == 5){
+            EventtypeFragment ef =  new EventtypeFragment();
+            transaction.replace(R.id.container,  ef);
+            transaction.addToBackStack(null);
+            transaction.commit();
         }else {
             transaction.replace(R.id.container, PlaceholderFragment.newInstance(position + 1));
             transaction.addToBackStack(null);
@@ -134,6 +139,9 @@ public class MainActivity extends AppCompatActivity
                 break;
             case 5:
                 mTitle = getString(R.string.title_section5);
+                break;
+            case 6:
+                mTitle = getString(R.string.title_section6);
                 break;
         }
     }
@@ -168,6 +176,8 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        FragmentManager fragmentManager;
+
         //noinspection SimplifiableIfStatement
        /* if (id == R.id.action_settings) {
             return true;
@@ -194,7 +204,7 @@ public class MainActivity extends AppCompatActivity
                  * ProgramDetailsFragment does not have getData method. Hence user
                  * has to go back one screen to ProgramFragment to refresh the data
                  */
-                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager = getSupportFragmentManager();
                 Fragment f = fragmentManager.findFragmentById(R.id.container);
                 String fragname="";
 
@@ -230,7 +240,7 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(this, "Sunaad: v"+vn, Toast.LENGTH_LONG)
                         .show();
                 break;
-            case R.id.action_settings:
+            case R.id.action_feedback:
                 /*Toast.makeText(this, "Settings", Toast.LENGTH_SHORT)
                         .show();*/
 
@@ -241,6 +251,22 @@ public class MainActivity extends AppCompatActivity
                 Uri data = Uri.parse("mailto:?subject=" + subject + "&body=" + body + "&to=" + to);
                 intent.setData(data);
                 startActivity(intent);
+                break;
+            case R.id.action_settings:
+                /*Toast.makeText(this, "Settings", Toast.LENGTH_SHORT)
+                        .show();*/
+
+                fragmentManager = getSupportFragmentManager();
+
+                android.support.v4.app.FragmentTransaction transaction =
+                        fragmentManager.beginTransaction();
+
+                SettingsFragment sf =  new SettingsFragment();
+                transaction.replace(R.id.container,  sf);
+                transaction.addToBackStack(null);
+                transaction.commit();
+
+
                 break;
             default:
                 break;

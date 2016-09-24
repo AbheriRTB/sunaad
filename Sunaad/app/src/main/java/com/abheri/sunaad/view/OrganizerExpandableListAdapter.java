@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.abheri.sunaad.R;
-import com.abheri.sunaad.dao.Program;
+import com.abheri.sunaad.model.Program;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;

@@ -1,9 +1,6 @@
-package com.abheri.sunaad.dao;
-
-import android.util.Log;
+package com.abheri.sunaad.model;
 
 import com.abheri.sunaad.BuildConfig;
-import com.abheri.sunaad.R;
 import com.abheri.sunaad.view.Util;
 
 import org.json.JSONArray;
@@ -15,12 +12,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashSet;
 
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
 import java.util.TreeSet;
 
 
@@ -230,6 +224,51 @@ public class ProgramDataHandler {
         }
 
         return organizerProgramCollection;
+    }
+
+    public List<String> getEventtypeListFromPrograms(List<Program> prgList) {
+
+        List<String> eventtypeList = new ArrayList<String>();
+        TreeSet<String> eventtypeSet = new TreeSet<String>();
+
+        for (int i = 0; i < prgList.size(); ++i) {
+
+            Program pr = prgList.get(i);
+            String eventType = pr.getEventType();
+
+            eventtypeSet.add(eventType);
+        }
+
+        eventtypeList = new ArrayList<String>(eventtypeSet);
+
+        return eventtypeList;
+    }
+
+    public LinkedHashMap<String, List<Program>> createEventtypeProgramCollection(List<Program> prgList, List<String> organizerList) {
+
+        LinkedHashMap<String, List<Program>> eventtypeProgramCollection = new LinkedHashMap<String, List<Program>>();
+        String eventtype = "";
+
+
+        for(int i=0; i< organizerList.size(); ++i){
+            String selEventtype = organizerList.get(i);
+            List<Program> organizerProgramList = new ArrayList<Program>();
+
+            for (int j = 0; j < prgList.size(); ++j) {
+
+                Program pr = prgList.get(j);
+                eventtype = pr.getEventType();
+
+                if (eventtype.trim().equalsIgnoreCase(selEventtype)) {
+                    organizerProgramList.add(pr);
+                }
+
+            }
+
+            eventtypeProgramCollection.put(selEventtype, organizerProgramList);
+        }
+
+        return eventtypeProgramCollection;
     }
 
     public List<Program> dummyPrograms() {

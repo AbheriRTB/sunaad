@@ -7,14 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.NetworkPolicy;
+import com.abheri.sunaad.controller.ProgramController;
 import com.squareup.picasso.Picasso;
 
 import com.abheri.sunaad.R;
-import com.abheri.sunaad.dao.Program;
+import com.abheri.sunaad.model.Program;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -75,15 +75,23 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
             holder.locationAddress1 = (TextView) v.findViewById(R.id.locationAddress1);
 
             holder.iv = (ImageView) v.findViewById(R.id.programImageSmall);
+            holder.alarmSwitch = (Switch) v.findViewById(R.id.alarm_switch);
+
 
             v.setTag(holder);
         } else {
             holder = (ProgramViewHolder) v.getTag();
         }
 
-        SimpleDateFormat ft = new SimpleDateFormat("E, dd-MMM-yyyy");
 
         Program currentProgram = this.Programs.get(position);
+
+        //Set alarm setting callback
+        holder.alarmSwitch.setTag(currentProgram);
+        holder.alarmSwitch.setOnCheckedChangeListener(new ProgramController(myContext));
+
+        SimpleDateFormat ft = new SimpleDateFormat("E, dd-MMM-yyyy");
+
         String title = currentProgram.getTitle();
         String details = currentProgram.getDetails();
         String eventDate = ft.format(currentProgram.getEventDate());
@@ -145,6 +153,7 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
     private static class ProgramViewHolder {
         TextView title, details, eventDate, locationAddress1;
         ImageView iv;
+        Switch alarmSwitch;
     }
 
 
