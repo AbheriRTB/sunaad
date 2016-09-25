@@ -1,7 +1,4 @@
-package com.abheri.sunaad.dao;
-
-import android.os.Parcelable;
-import android.os.Parcel;
+package com.abheri.sunaad.model;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -40,6 +37,9 @@ public class Program implements Serializable{
     private String is_featured;
     private String splash_url;
     private String is_published;
+
+    //Locally updated (not from services)
+    public long alarm_millis=-1;
 
 
     public long getId() {  return id;

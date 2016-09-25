@@ -1,4 +1,4 @@
-package com.abheri.sunaad.dao;
+package com.abheri.sunaad.model;
 
 import com.abheri.sunaad.view.SunaadViews;
 

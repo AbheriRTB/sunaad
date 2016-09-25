@@ -14,7 +14,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -23,22 +22,22 @@ import android.widget.Toast;
 import android.widget.ViewAnimator;
 import android.util.Log;
 
+import com.abheri.sunaad.BuildConfig;
 import com.abheri.sunaad.R;
-import com.abheri.sunaad.dao.GetDataForHomeFragment;
-import com.abheri.sunaad.dao.Program;
-import com.abheri.sunaad.dao.ProgramListDataCache;
-import com.abheri.sunaad.dao.RequestTask;
+import com.abheri.sunaad.model.Program;
+import com.abheri.sunaad.model.ProgramListDataCache;
+import com.abheri.sunaad.model.RequestTask;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Logger;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -239,48 +238,54 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
         sunaadImage.setImageResource(R.drawable.sunaad_logo);
         viewAnimator.addView(sunaadImage);
 
-        float cycletime = (float) 3; //Initialize to 15 sec delay
-        Util ut = new Util();
+        Toast.makeText(context, "Debug:" + BuildConfig.DEBUG, Toast.LENGTH_LONG).show();
+        System.out.println("Debug:" + BuildConfig.DEBUG);
 
-        //String newpages[] = {Util.FEATURED_CONCERT_TICKER} ;
-        //pages = newpages;
+        //Load flyers only for release builds
+        if(!BuildConfig.DEBUG) {
+            float cycletime = (float) 3; //Initialize to 15 sec delay
+            Util ut = new Util();
 
-        if (null != pages && ut.isNetworkAvailable(context) ) {
+            //String newpages[] = {Util.FEATURED_CONCERT_TICKER} ;
+            //pages = newpages;
 
-            for (int i = 0; i < pages.length; ++i) {
-                WebView wv = new WebView(rootView.getContext());
-                wv.setLayoutParams(lp);
-                wv.setWebViewClient(new WebViewClient());
-                wv.setOnTouchListener(new WebViewOnTouchListener());
-                wv.loadUrl(urlBase + pages[i]);
-                //wv.loadUrl(pages[i]);
+            if (null != pages && ut.isNetworkAvailable(context)) {
 
-                viewAnimator.addView(wv);
+                for (int i = 0; i < pages.length; ++i) {
+                    WebView wv = new WebView(rootView.getContext());
+                    wv.setLayoutParams(lp);
+                    wv.setWebViewClient(new WebViewClient());
+                    wv.setOnTouchListener(new WebViewOnTouchListener());
+                    wv.loadUrl(urlBase + pages[i]);
+                    //wv.loadUrl(pages[i]);
+
+                    viewAnimator.addView(wv);
+                }
+                if (pages.length >= 1) {
+                    //If there are web urls available,
+                    //reduce the cycle time to 5 sec
+                    cycletime = (float) 2;
+                }
             }
-            if (pages.length >= 1){
-                //If there are web urls available,
-                //reduce the cycle time to 5 sec
-                cycletime = (float)2;
+
+            inAnim = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
+            outAnim = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);
+
+            viewAnimator.setInAnimation(inAnim);
+            viewAnimator.setOutAnimation(outAnim);
+
+            viewAnimator.startLayoutAnimation();
+
+            if (pages.length >= 1) {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                viewAnimator.showNext();
             }
+            rc = new CycleView(cycletime);
         }
-
-        inAnim = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
-        outAnim = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);
-
-        viewAnimator.setInAnimation(inAnim);
-        viewAnimator.setOutAnimation(outAnim);
-
-        viewAnimator.startLayoutAnimation();
-
-        if(pages.length >=1) {
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            viewAnimator.showNext();
-        }
-        rc = new CycleView(cycletime);
 
     }
 

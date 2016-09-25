@@ -1,7 +1,6 @@
 package com.abheri.sunaad.view;
 
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -18,16 +17,13 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewAnimator;
 
 import com.abheri.sunaad.R;
-import com.abheri.sunaad.dao.Program;
-import com.abheri.sunaad.dao.ProgramDataHandler;
-import com.abheri.sunaad.dao.ProgramListDataCache;
-import com.abheri.sunaad.dao.RequestTask;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
+import com.abheri.sunaad.model.Program;
+import com.abheri.sunaad.model.ProgramDataHandler;
+import com.abheri.sunaad.model.ProgramListDataCache;
+import com.abheri.sunaad.model.RequestTask;
 
 import java.util.List;
 

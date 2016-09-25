@@ -68,5 +68,17 @@
                 android:textSize="14dp"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
         </LinearLayout>
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:id="@+id/alarm_switch"
+            android:thumb="@drawable/switch_thumb"
+            android:layout_gravity="center_vertical"
+            android:focusable="false"
+            android:switchMinWidth="40dp" />
     </TableRow>
+
 </TableLayout>

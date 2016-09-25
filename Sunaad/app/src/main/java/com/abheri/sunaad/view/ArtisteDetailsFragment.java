@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.abheri.sunaad.R;
-import com.abheri.sunaad.dao.Program;
+import com.abheri.sunaad.model.Program;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -47,8 +47,7 @@ public class ArtisteDetailsFragment extends Fragment {
         //TextView time = (TextView)rootView.findViewById(R.id.time);
         TextView place = (TextView)rootView.findViewById(R.id.place);
         TextView phNo = (TextView)rootView.findViewById(R.id.Phone);
-        TextView eateriesNY = (TextView)rootView.findViewById(R.id.eateriesYN);
-        TextView parkingYN = (TextView)rootView.findViewById(R.id.parkingYN);
+
 
 
         title.setText(prgObj.getTitle());
@@ -57,8 +56,6 @@ public class ArtisteDetailsFragment extends Fragment {
         //time.setText(prgObj.getStartTime());
         place.setText(prgObj.getPlace());
         phNo.setText(prgObj.getPhone());
-        eateriesNY.setText(prgObj.getLocation_eataries());
-        parkingYN.setText(prgObj.getParking());
 
         return rootView;
     }

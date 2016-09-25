@@ -1,39 +1,27 @@
 package com.abheri.sunaad.view;
 
-
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.abheri.sunaad.R;
-import com.abheri.sunaad.dao.Program;
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.NetworkPolicy;
+import com.abheri.sunaad.controller.SettingsController;
+import com.abheri.sunaad.model.Program;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 
 /**
@@ -44,6 +32,10 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
     Context context;
     Program prgObj;
     View rootView;
+
+    String eatariesMsg = "";
+    String parkingMsg = "";
+    String alarmMg = "";
 
     public ProgramDetailsFragment() {
         // Required empty public constructor
@@ -80,8 +72,9 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
         TextView time = (TextView)rootView.findViewById(R.id.time);
 
         ImageView mapimg = (ImageView)rootView.findViewById(R.id.mapImage);
+        ImageView alarmimg = (ImageView)rootView.findViewById(R.id.alarmImage);
 
-        ImageView eatariesImg = (ImageView)rootView.findViewById(R.id.eateriesImage);
+        ImageView eatariesImg = (ImageView)rootView.findViewById(R.id.eatariesImage);
         ImageView parkingImg = (ImageView)rootView.findViewById(R.id.parkingImage);
 
         String imageUri = prgObj.getArtiste_image();
@@ -179,34 +172,50 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
         state.setText(prgObj.getLocation_state());
         phNo.setText(prgObj.getPhone());
         try {
-            time.setText(getFormattedTime(prgObj.getStartTime()));
+            time.setText(SettingsController.getFormattedTime(prgObj.getStartTime()));
         }
         catch (Exception e) {
             System.out.print("Time Error");
             e.printStackTrace();
         }
 
-        mapimg.setImageDrawable(rootView.getResources().getDrawable(R.drawable.map_icon));
+        mapimg.setImageDrawable(rootView.getResources().getDrawable(R.drawable.mapicon));
         mapimg.setOnClickListener(this);
+
+        alarmimg.setImageDrawable(rootView.getResources().getDrawable(R.drawable.alarm));
+        alarmimg.setTag(prgObj);
+        alarmimg.setOnClickListener(this);
+
 
 
         String isEataries = prgObj.getLocation_eataries();
         if(null != isEataries && isEataries.equalsIgnoreCase("yes")){
-            eatariesImg.setImageDrawable(rootView.getResources().getDrawable(R.drawable.yes_icon_trans));
+            eatariesImg.setImageDrawable(rootView.getResources().getDrawable(R.drawable.eataries_yes));
+            eatariesMsg = "Eataries Are Available at Location";
+            eatariesImg.setTag(eatariesMsg);
+
         }
         else{
-            eatariesImg.setImageDrawable(rootView.getResources().getDrawable(R.drawable.no_icon_trans));
-
-
+            eatariesImg.setImageDrawable(rootView.getResources().getDrawable(R.drawable.eataries_no));
+            eatariesMsg = "Eataries Not Available at Location";
         }
 
         String isParking = prgObj.getParking();
         if(null != isParking && isParking.equalsIgnoreCase("yes")){
-            parkingImg.setImageDrawable(rootView.getResources().getDrawable(R.drawable.yes_icon_trans));
+            parkingImg.setImageDrawable(rootView.getResources().getDrawable(R.drawable.parking_yes));
+            parkingMsg = "Parking Is Available at Location";
         }
         else{
-            parkingImg.setImageDrawable(rootView.getResources().getDrawable(R.drawable.no_icon_trans));
+            parkingImg.setImageDrawable(rootView.getResources().getDrawable(R.drawable.parking_no));
+            parkingMsg = "Parking Not Available at Location";
         }
+
+        eatariesImg.setOnClickListener(this);
+        eatariesImg.setTag(eatariesMsg);
+
+        parkingImg.setOnClickListener(this);
+        parkingImg.setTag(parkingMsg);
+
 
 
         /*
@@ -222,27 +231,36 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
     @Override
     public void onClick(View v) {
         System.out.println("map clicked");
-        String uri = "geo:"+ prgObj.getLocation_coords() + "?q=" + prgObj.getLocation_coords() +
-                  "(Program Location)";
-        //String uri = String.format(Locale.ENGLISH, "geo:%f,%f", 13.0104054,77.5488072);
-        Intent mapIntent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
-        Context ct = rootView.getContext();
-        ct.startActivity(mapIntent);
+        int id = v.getId();
+        if(id == R.id.alarmImage){
+            String msg="";
+            Program pObj = (Program) v.getTag();
+
+            if(pObj.alarm_millis < 0){
+                msg = "Alarm Not Set";
+            }if(pObj.alarm_millis > 0){
+                msg = "Alarm Is Set";
+            }
+
+            Toast.makeText(v.getContext(), msg, Toast.LENGTH_SHORT).show();
+        }else if(id == R.id.mapImage) {
+            String uri = "geo:" + prgObj.getLocation_coords() + "?q=" + prgObj.getLocation_coords() +
+                    "(Program Location)";
+            //String uri = String.format(Locale.ENGLISH, "geo:%f,%f", 13.0104054,77.5488072);
+            Intent mapIntent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
+            Context ct = rootView.getContext();
+            ct.startActivity(mapIntent);
+        }
+        else if(id == R.id.eatariesImage) {
+            Toast.makeText(v.getContext(), (String)v.getTag(), Toast.LENGTH_SHORT).show();
+        }
+        else if(id == R.id.parkingImage) {
+            Toast.makeText(v.getContext(), (String)v.getTag(), Toast.LENGTH_SHORT).show();
+        }
     }
 
-    public String getFormattedTime(String time){
+    public void showAlarmStatus(Program pObj, Context ctxt) {
 
-        Calendar ca =  Calendar.getInstance();
-        String timec[] = time.split(":");
-
-        ca.set(ca.get(Calendar.YEAR), ca.get(Calendar.MONTH), ca.get(Calendar.DATE),
-                                Integer.parseInt(timec[0]), Integer.parseInt(timec[1]));
-
-        DateFormat tf = new SimpleDateFormat("hh:mm a");
-
-        String returnStr = tf.format(ca.getTime()).toString();
-
-        return returnStr;
 
     }
 

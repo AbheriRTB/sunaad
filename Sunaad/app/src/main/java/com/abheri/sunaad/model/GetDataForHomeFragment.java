@@ -1,4 +1,4 @@
-package com.abheri.sunaad.dao;
+package com.abheri.sunaad.model;
 
 import org.json.JSONArray;
 

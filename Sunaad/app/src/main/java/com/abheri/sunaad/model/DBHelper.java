@@ -1,19 +1,33 @@
-package com.abheri.sunaad.dao;
+package com.abheri.sunaad.model;
 
 import android.database.sqlite.SQLiteOpenHelper;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.widget.Toast;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "sunaad.db";
-    private static final int DATABASE_VERSION = 2;
+    protected static final String DATABASE_NAME = "sunaad.db";
+    protected static final int DATABASE_VERSION = 2;
 
-    private Context dbContext;
+    protected static final String TABLE_SETTINGS = "settings";
+    protected static final String COLUMN_ALARM_DAYS_BEFORE = "alarm_days_before";
+    protected static final String COLUMN_ALARM_AT_TIME = "alarm_at_time";
+    protected static final String COLUMN_SOUND_ALARM = "sound_alarm";
+
+
+
+    protected static final String create_settings_table = "create table "
+            + TABLE_SETTINGS + "("
+            + COLUMN_ALARM_DAYS_BEFORE
+            + " integer not null,"
+            + COLUMN_ALARM_AT_TIME
+            + " text not null,"
+            + COLUMN_SOUND_ALARM
+            + " integer not null);";
+
+    protected Context dbContext;
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -22,6 +36,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase database) {
+
+        database.execSQL(create_settings_table);
 
         switch(DATABASE_VERSION){
 

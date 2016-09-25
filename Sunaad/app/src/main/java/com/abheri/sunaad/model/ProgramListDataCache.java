@@ -1,8 +1,7 @@
-package com.abheri.sunaad.dao;
+package com.abheri.sunaad.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.abheri.sunaad.view.Util;
@@ -86,7 +85,7 @@ public class ProgramListDataCache {
             current_ts = cd.getTime();
 
             /* cache is old if it is older than 7 days */
-            if((current_ts-cache_ts) < Util.SEVEN_DAYS){
+            if((current_ts-cache_ts) < Util.AUTO_REFRESH_INTERVAL){
                 return false;
             }
         }
