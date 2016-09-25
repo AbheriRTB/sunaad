@@ -47,6 +47,7 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_program_details, container, false);
+        context = getContext();
 
         Intent i = getActivity().getIntent();
         prgObj = (Program)i.getExtras().getSerializable("ProgramDetails");

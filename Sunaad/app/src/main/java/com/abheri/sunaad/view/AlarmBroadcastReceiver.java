@@ -9,11 +9,13 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.widget.Toast;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 
 import com.abheri.sunaad.R;
+import com.abheri.sunaad.model.Program;
 
 /**
  * Created by prasanna.ramaswamy on 20/08/16.
@@ -27,14 +29,19 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         Toast.makeText(context, "Alarm....", Toast.LENGTH_LONG).show();
 
         String messageText = intent.getStringExtra("MessageText");
+        Program prgObj = (Program)intent.getSerializableExtra("SelectedProgram");
 
-        Intent notificationIntent = new Intent(context, ProgramFragment.class);
+        Bundle args = new Bundle();
+        args.putSerializable("SelectedProgram", prgObj);
+
+        Intent notificationIntent = new Intent(context, MainActivity.class);
+        notificationIntent.putExtras(args);
         PendingIntent pIntent = PendingIntent.getActivity(context,
                 (int) System.currentTimeMillis(), notificationIntent, 0);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
 
-        Notification notification = builder.setContentTitle("Demo App Notification")
+        Notification notification = builder.setContentTitle("Sunaad Notification")
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(messageText))
                 .setContentText(messageText)

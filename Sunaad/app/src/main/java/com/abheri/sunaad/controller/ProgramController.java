@@ -66,6 +66,7 @@ public class ProgramController implements CompoundButton.OnCheckedChangeListener
         Intent intent = new Intent(context.getApplicationContext(),
                 AlarmBroadcastReceiver.class);
         intent.putExtra("MessageText", msgText);
+        intent.putExtra("SelectedProgram", prgObj);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 context.getApplicationContext(), (int)prgObj.getId(), intent, 0);
         AlarmManager alarmManager =

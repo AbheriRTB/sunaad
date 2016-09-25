@@ -2,6 +2,7 @@ package com.abheri.sunaad.view;
 
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -42,6 +43,7 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
     Activity myActivity;
     List<Program> cachedProgramList;
     int scrollPos=0;
+    Program noticePrgObj=null;
 
     public ProgramFragment() {
 
@@ -60,6 +62,9 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
 
         Log.i("PRAS", "In ProgramFragment");
         Program.selectedPosition = -1; //Reset the position
+
+
+
 
         /*Bundle b = getArguments();
         jsonstring = b.getString("jsonstring");
@@ -82,6 +87,17 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
 
         getData(this, false);
 
+        //Automatically open the details if coming from local notification
+        Bundle args = getArguments();
+        if(null != args) {
+            noticePrgObj = (Program) args.getSerializable("SelectedProgram");
+            if (null != noticePrgObj) {
+                Program nProgObj = noticePrgObj;
+                noticePrgObj = null;
+                openProgramDetails(nProgObj, fragmentManager);
+            }
+        }
+
         //Onclick listener not required for initial implementation
         //Implemented here just for reference
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -99,16 +115,7 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
                         itemValue.getTitle() + "  Selected...",
                         Toast.LENGTH_SHORT).show(); */
 
-                Intent prgIntent = new Intent();
-                prgIntent.putExtra("ProgramDetails", itemValue);
-                myActivity.setIntent(prgIntent);
-
-                ProgramDetailsFragment pdf = new ProgramDetailsFragment();
-
-                FragmentTransaction ft = fragmentManager.beginTransaction();
-                ft.replace(R.id.container, pdf);
-                ft.addToBackStack(null);
-                ft.commit();
+                openProgramDetails(itemValue, fragmentManager);
             }
 
         });
@@ -121,6 +128,21 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
         Util.logToGA(Util.PROGRAM_SCREEN);
 
         return rootView;
+    }
+
+    private void openProgramDetails(Program programToOpen,
+                                    android.support.v4.app.FragmentManager fragmentManager){
+        Intent prgIntent = new Intent();
+        prgIntent.putExtra("ProgramDetails", programToOpen);
+        myActivity.setIntent(prgIntent);
+
+        ProgramDetailsFragment pdf = new ProgramDetailsFragment();
+
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.replace(R.id.container, pdf);
+        ft.addToBackStack(null);
+        ft.commit();
+
     }
 
     public void timerDelayRunForScroll(final long time) {

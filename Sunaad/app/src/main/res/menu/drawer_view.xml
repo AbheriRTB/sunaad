@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:title="Home" />
+        <item
+            android:id="@+id/navigation_subheader"
+            android:title="Concerts">
+            <menu>
+                <item
+                    android:id="@+id/navigation_sub_item_1"
+                    android:icon="@drawable/yes_icon_trans"
+                    android:title="By Date" />
+                <item
+                    android:id="@+id/navigation_sub_item_2"
+                    android:icon="@drawable/yes_icon_trans"
+                    android:title="By Artieste" />
+                <item
+                    android:id="@+id/navigation_sub_item_3"
+                    android:icon="@drawable/yes_icon_trans"
+                    android:title="By Venue" />
+                <item
+                    android:id="@+id/navigation_sub_item_4"
+                    android:icon="@drawable/yes_icon_trans"
+                    android:title="By Organizer" />
+                <item
+                    android:id="@+id/navigation_sub_item_5"
+                    android:icon="@drawable/yes_icon_trans"
+                    android:title="By Event Type" />
+
+            </menu>
+        </item>
+        <item
+            android:id="@+id/nav_settings"
+            android:title="Settings" />
+    </group>
+</menu>
