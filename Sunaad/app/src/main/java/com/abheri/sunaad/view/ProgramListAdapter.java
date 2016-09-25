@@ -1,7 +1,11 @@
 package com.abheri.sunaad.view;
 
 import android.app.Activity;
+import android.support.v4.app.FragmentManager;
 import android.content.Context;
+import android.content.Context;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,8 +91,18 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
         Program currentProgram = this.Programs.get(position);
 
         //Set alarm setting callback
-        holder.alarmSwitch.setTag(currentProgram);
-        holder.alarmSwitch.setOnCheckedChangeListener(new ProgramController(myContext));
+        holder.alarmSwitch.setTag(R.string.alarm_program, currentProgram);
+
+        //Pass ProgramFragment to ProgramController so that it can update the
+        //Data to persist the alarmSwitch state
+        final Context context = parent.getContext();
+        FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+        Fragment f = fragmentManager.findFragmentById(R.id.container);
+        if(f instanceof ProgramFragment){
+            holder.alarmSwitch.setOnCheckedChangeListener(new ProgramController(myContext, f));
+        }else{
+            holder.alarmSwitch.setOnCheckedChangeListener(new ProgramController(myContext));
+        }
 
         SimpleDateFormat ft = new SimpleDateFormat("E, dd-MMM-yyyy");
 
@@ -99,6 +113,11 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
         String uri = currentProgram.getArtiste_image();
         if (uri == null && uri.length() <= 0) {
             uri = "@drawable/default_artiste.jpeg";
+        }
+        if(currentProgram.alarm_millis < 0){
+            holder.alarmSwitch.setChecked(false);
+        }else{
+            holder.alarmSwitch.setChecked(true);
         }
 
         uri = Util.getImageUrl() + uri;

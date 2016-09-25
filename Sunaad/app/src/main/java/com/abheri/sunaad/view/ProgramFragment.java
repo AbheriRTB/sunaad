@@ -2,7 +2,6 @@ package com.abheri.sunaad.view;
 
 
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
