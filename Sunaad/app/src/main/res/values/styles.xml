@@ -7,4 +7,13 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="Color1SwitchStyle">
+        <item name="android:thumb">@drawable/customswitchselector</item>
+        <item name="android:track">@drawable/my_custom_track</item>
+        //when use Switch in xml file
+        <item name="track">@drawable/my_custom_track</item>
+        //when use android.support.v7.widget.SwitchCompat in xml
+
+    </style>
+
 </resources>

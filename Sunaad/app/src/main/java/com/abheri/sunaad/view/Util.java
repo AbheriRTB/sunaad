@@ -208,13 +208,6 @@ public class Util {
         long retVal = 0;
 
         SimpleDateFormat ft = new SimpleDateFormat("dd-MMM-yyyy");
-        String timec[] = prg.getStartTime().split(":");
-
-        int eventHour = 11, eventMin = 0;
-        if (timec[0] != null)
-            eventHour = Integer.parseInt(timec[0]);
-        if (timec[1] != null)
-            eventMin = Integer.parseInt(timec[1]);
 
 
         Date eDate = prg.getEventDate();

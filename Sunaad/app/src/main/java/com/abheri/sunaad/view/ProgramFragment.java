@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -43,6 +44,7 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
     List<Program> cachedProgramList;
     int scrollPos=0;
     Program noticePrgObj=null;
+    public boolean doScroll=true;
 
     public ProgramFragment() {
 
@@ -61,7 +63,6 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
 
         Log.i("PRAS", "In ProgramFragment");
         Program.selectedPosition = -1; //Reset the position
-
 
 
 
@@ -93,9 +94,12 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
             if (null != noticePrgObj) {
                 Program nProgObj = noticePrgObj;
                 noticePrgObj = null;
+                args.remove("SelectedProgram");
                 openProgramDetails(nProgObj, fragmentManager);
             }
         }
+
+
 
         //Onclick listener not required for initial implementation
         //Implemented here just for reference
@@ -121,7 +125,9 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
 
         ((MainActivity)getActivity()).setActionBarTitle(getString(R.string.title_section2));
 
-        timerDelayRunForScroll(500l);
+        if(doScroll) {
+            timerDelayRunForScroll(500l);
+        }
 
         // Obtain the shared Tracker instance.
         Util.logToGA(Util.PROGRAM_SCREEN);
@@ -138,7 +144,7 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
         ProgramDetailsFragment pdf = new ProgramDetailsFragment();
 
         FragmentTransaction ft = fragmentManager.beginTransaction();
-        ft.replace(R.id.container, pdf);
+        ft.replace(R.id.container, pdf,"ProgramDetailsFragment");
         ft.addToBackStack(null);
         ft.commit();
 
@@ -182,18 +188,25 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
 
     void updateProgramList(View rootView, ListView programList, List<Program>values) {
 
-        //ProgramDataHandler prgdata = new ProgramDataHandler();
-        //List<Program> values = prgdata.parseProgramListFromJsonResponse(jsonstring);
-
         scrollPos = Util.getScrollPosition(values);
 
-        // use the SimpleCursorAdapter to show the
-        // elements in a ListView
-        ProgramListAdapter adapter = new ProgramListAdapter(
-                rootView.getContext(), R.layout.program_list_item, values);
+        ProgramListAdapter adapter;
+        adapter = (ProgramListAdapter)programList.getAdapter();
 
-        programList.setAdapter(adapter);
-        timerDelayRunForScroll(500l);
+        if(adapter == null){
+            adapter = new ProgramListAdapter(
+                    rootView.getContext(), R.layout.program_list_item, values);
+            programList.setAdapter(adapter);
+        }else{
+            adapter.setNotifyOnChange(false);
+            adapter.clear();
+            adapter.addAll(values);
+            adapter.notifyDataSetChanged();
+        }
+
+        if(doScroll) {
+            timerDelayRunForScroll(500l);
+        }
 
     }
 

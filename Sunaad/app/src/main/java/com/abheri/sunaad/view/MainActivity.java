@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity
         if(null != args) {
 
             noticePrgObj = (Program) args.getSerializable("SelectedProgram");
+            getIntent().removeExtra("SelectedProgram");
         }
 
 /*
@@ -112,6 +113,7 @@ public class MainActivity extends AppCompatActivity
 
         setupActionBarDrawerToogle();
         if (mNavigationView != null) {
+            mNavigationView.setItemIconTintList(null);
             setupDrawerContent(mNavigationView);
             mNavigationView.setNavigationItemSelectedListener(this);
 
@@ -128,7 +130,7 @@ public class MainActivity extends AppCompatActivity
                 args.putSerializable("SelectedProgram", noticePrgObj);
                 ProgramFragment pf = new ProgramFragment();
                 pf.setArguments(args);
-                transaction.replace(R.id.container, pf);
+                transaction.replace(R.id.container, pf,"ProgramFragment");
             }else {
                 HomeFragment hf = new HomeFragment();
                 hf.setArguments(args);
@@ -232,7 +234,7 @@ public class MainActivity extends AppCompatActivity
                     transaction.commit();
                 } else if (gMenuItem.getItemId() == R.id.navigation_sub_item_1) {
                     ProgramFragment pf = new ProgramFragment();
-                    transaction.replace(R.id.container, pf);
+                    transaction.replace(R.id.container, pf, "ProgramFragment");
                     transaction.addToBackStack(null);
                     transaction.commit();
                 } else if (gMenuItem.getItemId() == R.id.navigation_sub_item_2) {
@@ -329,22 +331,22 @@ public class MainActivity extends AppCompatActivity
     public void onSectionAttached(int number) {
         switch (number) {
             case 1:
-                mTitle = getString(R.string.title_section1);
+                mTitle = getString(R.string.title_menu1);
                 break;
             case 2:
-                mTitle = getString(R.string.title_section2);
+                mTitle = getString(R.string.title_submenu1);
                 break;
             case 3:
-                mTitle = getString(R.string.title_section3);
+                mTitle = getString(R.string.title_submenu2);
                 break;
             case 4:
-                mTitle = getString(R.string.title_section4);
+                mTitle = getString(R.string.title_submenu3);
                 break;
             case 5:
-                mTitle = getString(R.string.title_section5);
+                mTitle = getString(R.string.title_submenu4);
                 break;
             case 6:
-                mTitle = getString(R.string.title_section6);
+                mTitle = getString(R.string.title_submenu5);
                 break;
         }
     }

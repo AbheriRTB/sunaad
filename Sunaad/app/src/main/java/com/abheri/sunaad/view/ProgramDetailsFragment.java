@@ -1,5 +1,6 @@
 package com.abheri.sunaad.view;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -263,6 +264,17 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
     public void showAlarmStatus(Program pObj, Context ctxt) {
 
 
+    }
+
+    @Override
+    public void onDestroy(){
+        android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
+        Fragment fragment = fragmentManager.findFragmentByTag("ProgramFragment");
+        if(fragment instanceof ProgramFragment) {
+            ((ProgramFragment) fragment).doScroll=false;
+        }
+
+        super.onDestroy();
     }
 
 }

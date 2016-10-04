@@ -24,13 +24,14 @@ import java.util.List;
 /**
  * Created by prasanna.ramaswamy on 17/09/16.
  */
-public class ProgramController implements CompoundButton.OnCheckedChangeListener {
+public class  ProgramController implements CompoundButton.OnCheckedChangeListener {
 
     Context context;
     Fragment programFragment;
 
     public ProgramController(Context c){
         context = c;
+        programFragment = null;
     }
     public ProgramController(Context c, Fragment f){
         context = c;
@@ -82,14 +83,14 @@ public class ProgramController implements CompoundButton.OnCheckedChangeListener
         AlarmManager alarmManager =
                 (AlarmManager)context.getApplicationContext().
                         getSystemService(context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, alarmStart , pendingIntent);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmStart , pendingIntent);
 
         prgObj.alarm_millis = alarmStart;
 
         updateProgramList(prgObj);
 
-        Toast.makeText(context, "Alarm set " + alarm_days_before + " days before @" +
-                alarm_at_time + " minutes before event start", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Alarm set " + alarm_days_before + " days before at " +
+                alarm_at_time , Toast.LENGTH_SHORT).show();
     }
 
     public void CancelAlarm(Program prgObj){
@@ -125,7 +126,7 @@ public class ProgramController implements CompoundButton.OnCheckedChangeListener
     }
 
     public void updateProgramList(Program prgObject){
-        if(null == programFragment || null == context){
+        if(null == context){
             return;
         }
 
@@ -139,6 +140,12 @@ public class ProgramController implements CompoundButton.OnCheckedChangeListener
         }
 
         pdc.SaveProgramDataInCache(prgList);
+
+        if(null == programFragment){
+            return;
+        }
+
+        ((ProgramFragment)programFragment).doScroll=false;
         ((ProgramFragment)programFragment).getData((ProgramFragment)programFragment, false);
     }
 }

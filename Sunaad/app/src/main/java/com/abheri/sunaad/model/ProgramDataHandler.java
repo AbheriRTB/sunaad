@@ -43,6 +43,7 @@ public class ProgramDataHandler {
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                     Date dateObj = formatter.parse(dt);
 
+                    tmpPrg.setId(jo.getLong("id"));
                     tmpPrg.setTitle(jo.getString("title"));
                     tmpPrg.setEventType(jo.getString("event_type"));
                     tmpPrg.setDetails(jo.getString("description"));

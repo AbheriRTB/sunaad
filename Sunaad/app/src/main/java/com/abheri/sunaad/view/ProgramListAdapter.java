@@ -1,12 +1,14 @@
 package com.abheri.sunaad.view;
 
 import android.app.Activity;
+import android.graphics.Rect;
 import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -103,6 +105,7 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
         }else{
             holder.alarmSwitch.setOnCheckedChangeListener(new ProgramController(myContext));
         }
+        //expandTouchArea((View)holder.alarmSwitch.getParent(), holder.alarmSwitch, 30);
 
         SimpleDateFormat ft = new SimpleDateFormat("E, dd-MMM-yyyy");
 
@@ -133,6 +136,7 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
         //TODO put correct event time and current time for compariosn
         if (Util.isEventToday(currentProgram, false) < 0) {
             v.setBackgroundColor(v.getResources().getColor(R.color.oldgray));
+            holder.alarmSwitch.setClickable(false);//don't let user set alarm for past events
         } else if (!Util.isYes(currentProgram.getIs_published())) {
             v.setBackgroundColor(v.getResources().getColor(R.color.orange));
         }
@@ -173,6 +177,21 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
         TextView title, details, eventDate, locationAddress1;
         ImageView iv;
         Switch alarmSwitch;
+    }
+
+    public static void expandTouchArea(final View bigView, final View smallView, final int extraPadding) {
+        bigView.post(new Runnable() {
+            @Override
+            public void run() {
+                Rect rect = new Rect();
+                smallView.getHitRect(rect);
+                rect.top -= extraPadding;
+                rect.left -= extraPadding;
+                rect.right += extraPadding;
+                rect.bottom += extraPadding;
+                bigView.setTouchDelegate(new TouchDelegate(rect, smallView));
+            }
+        });
     }
 
 

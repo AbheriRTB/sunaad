@@ -5,21 +5,24 @@
     android:orientation="horizontal">
 
 
-    <TableRow>
+    <TableRow
+        android:weightSum="1">
 
         <ImageView
             android:id="@+id/programImageSmall"
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:contentDescription="ProgramImage"
+            android:layout_column="1"
             android:layout_gravity="center_vertical"/>
 
 
         <LinearLayout
             android:id="@+id/textholder"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
+            android:layout_weight=".75"
+            android:layout_column="2"
             android:orientation="vertical">
 
             <TextView
@@ -70,14 +73,16 @@
         </LinearLayout>
 
         <Switch
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight=".25"
             android:layout_marginRight="5dp"
             android:layout_marginLeft="5dp"
             android:id="@+id/alarm_switch"
-            android:thumb="@drawable/switch_thumb"
+            style="@style/Color1SwitchStyle"
             android:layout_gravity="center_vertical"
             android:focusable="false"
+            android:layout_column="3"
             android:switchMinWidth="40dp" />
     </TableRow>
 

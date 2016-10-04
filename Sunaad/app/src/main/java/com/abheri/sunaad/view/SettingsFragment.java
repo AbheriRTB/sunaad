@@ -66,9 +66,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
 
         Settings stg = settingsController.GetSettings();
         if(stg != null) {
-            days_before_textview.setText((new Integer(stg.getDaysBefore())).toString());
-            alarm_time.setText(stg.getAtTime());
-            sound_alarm_textview.setChecked(stg.getSound_alarm() > 0 ? true : false);
+            setDefaults(stg);
         }
 
         Util.logToGA(Util.SETTINGS_SCREEN);
@@ -78,7 +76,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
 
     public void setDefaults(Settings default_settings){
 
-        days_before_textview.setText(default_settings.getDaysBefore());
+        days_before_textview.setText((new Integer(default_settings.getDaysBefore())).toString());
         alarm_time.setText(default_settings.getAtTime());
         sound_alarm_textview.setChecked(default_settings.getSound_alarm()>0?true:false);
     }
@@ -87,6 +85,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
 
         int id = v.getId();
+
         if(id == R.id.settings_save){
             String days_before = (String)days_before_textview.getText().toString();
             String at_time = (String)alarm_time.getText().toString();
@@ -94,6 +93,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
 
             String msg = "Min:" + days_before + " Sound:" + sound_alarm;
 
+            days_before = days_before.trim();
+            if(days_before.length() <=0 ){
+                days_before = "0";
+            }
             Settings stg = new Settings();
             stg.setAtTime(at_time);
             stg.setDaysBefore(Integer.parseInt(days_before));
@@ -102,11 +105,12 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
             settingsController.SaveSettings(stg);
 
             Toast.makeText(context, "Settings saved successfully", Toast.LENGTH_LONG).show();
+            getFragmentManager().popBackStack();
         }else if (id == R.id.AlarmTime) {
             showTimePickerPopup(rootView);
         }
         else if (id == R.id.settings_cancel){
-
+            getFragmentManager().popBackStack();
         }
 
     }

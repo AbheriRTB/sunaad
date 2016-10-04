@@ -244,11 +244,12 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
         sunaadImage.setImageResource(R.drawable.sunaad_logo);
         viewAnimator.addView(sunaadImage);
 
-        Toast.makeText(context, "Debug:" + BuildConfig.DEBUG, Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, "Debug:" + BuildConfig.DEBUG, Toast.LENGTH_LONG).show();
         System.out.println("Debug:" + BuildConfig.DEBUG);
 
         //Load flyers only for release builds
-        if(!BuildConfig.DEBUG) {
+        //if(!BuildConfig.DEBUG)
+        {
             float cycletime = (float) 3; //Initialize to 15 sec delay
             Util ut = new Util();
 
