@@ -1,12 +1,17 @@
 package com.abheri.sunaad.view;
 
 import android.app.Activity;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.TouchDelegate;
 import android.view.View;
@@ -81,7 +86,11 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
             holder.locationAddress1 = (TextView) v.findViewById(R.id.locationAddress1);
 
             holder.iv = (ImageView) v.findViewById(R.id.programImageSmall);
-            holder.alarmSwitch = (Switch) v.findViewById(R.id.alarm_switch);
+            //holder.alarmSwitch = (Switch) v.findViewById(R.id.alarm_switch);
+            holder.alarmToggle = (ImageView) v.findViewById(R.id.alarmToggle);
+
+            TransparentView tv = new TransparentView(getContext());
+            holder.rect = tv;
 
 
             v.setTag(holder);
@@ -93,19 +102,29 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
         Program currentProgram = this.Programs.get(position);
 
         //Set alarm setting callback
-        holder.alarmSwitch.setTag(R.string.alarm_program, currentProgram);
+        //holder.alarmSwitch.setTag(R.string.alarm_program, currentProgram);
+        holder.alarmToggle.setTag(R.string.alarm_program, currentProgram);
 
         //Pass ProgramFragment to ProgramController so that it can update the
         //Data to persist the alarmSwitch state
         final Context context = parent.getContext();
         FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
         Fragment f = fragmentManager.findFragmentById(R.id.container);
+        /*
         if(f instanceof ProgramFragment){
             holder.alarmSwitch.setOnCheckedChangeListener(new ProgramController(myContext, f));
         }else{
             holder.alarmSwitch.setOnCheckedChangeListener(new ProgramController(myContext));
+        } */
+
+        if(f instanceof ProgramFragment){
+            holder.alarmToggle.setOnClickListener(new ProgramController(myContext, f));
+        }else{
+            holder.alarmToggle.setOnClickListener(new ProgramController(myContext));
         }
-        //expandTouchArea((View)holder.alarmSwitch.getParent(), holder.alarmSwitch, 30);
+
+
+        //expandTouchArea((View)holder.alarmSwitch.getParent(), holder.alarmSwitch, 20);
 
         SimpleDateFormat ft = new SimpleDateFormat("E, dd-MMM-yyyy");
 
@@ -117,10 +136,15 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
         if (uri == null && uri.length() <= 0) {
             uri = "@drawable/default_artiste.jpeg";
         }
+
+
         if(currentProgram.alarm_millis < 0){
-            holder.alarmSwitch.setChecked(false);
+            //holder.alarmSwitch.setChecked(false);
+            holder.alarmToggle.setBackground(null);
+            holder.alarmToggle.setColorFilter(Color.argb(150, 60, 60, 60));
         }else{
-            holder.alarmSwitch.setChecked(true);
+            //holder.alarmSwitch.setChecked(true);
+            holder.alarmToggle.clearColorFilter();
         }
 
         uri = Util.getImageUrl() + uri;
@@ -136,7 +160,10 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
         //TODO put correct event time and current time for compariosn
         if (Util.isEventToday(currentProgram, false) < 0) {
             v.setBackgroundColor(v.getResources().getColor(R.color.oldgray));
-            holder.alarmSwitch.setClickable(false);//don't let user set alarm for past events
+            //holder.alarmSwitch.setClickable(false);//don't let user set alarm for past events
+            holder.alarmToggle.setBackground(null);
+            holder.alarmToggle.setColorFilter(Color.argb(150, 60, 60, 60));
+            holder.alarmToggle.setClickable(false);
         } else if (!Util.isYes(currentProgram.getIs_published())) {
             v.setBackgroundColor(v.getResources().getColor(R.color.orange));
         }
@@ -175,11 +202,14 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
 
     private static class ProgramViewHolder {
         TextView title, details, eventDate, locationAddress1;
-        ImageView iv;
+        ImageView iv, alarmToggle;
         Switch alarmSwitch;
+        TransparentView rect;
     }
 
     public static void expandTouchArea(final View bigView, final View smallView, final int extraPadding) {
+
+
         bigView.post(new Runnable() {
             @Override
             public void run() {
@@ -192,8 +222,48 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
                 bigView.setTouchDelegate(new TouchDelegate(rect, smallView));
             }
         });
+
+
     }
 
 
 }
 
+class TransparentView extends View {
+
+    public TransparentView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+    }
+
+    public TransparentView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public TransparentView(Context context) {
+        super(context);
+    }
+
+    @Override
+    public void onDraw(Canvas canvas) {
+        super.draw(canvas);
+        canvas.drawColor(Color.parseColor("#60000000"));
+        Paint borderPaint = new Paint();
+        borderPaint.setARGB(255, 255, 128, 0);
+        borderPaint.setStyle(Paint.Style.STROKE);
+        borderPaint.setStrokeWidth(4);
+
+        Paint innerPaint = new Paint();
+        innerPaint.setARGB(120, 120, 0, 0);
+        innerPaint.setAlpha(0);
+        innerPaint.setStyle(Paint.Style.FILL);
+
+        RectF drawRect = new RectF();
+
+        drawRect.set(100, 100, 100,100);
+
+        canvas.drawRect(drawRect, innerPaint);
+        canvas.drawRect(drawRect, borderPaint);
+
+    }
+
+}

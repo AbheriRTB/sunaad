@@ -14,6 +14,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.appcompat.BuildConfig;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -30,6 +31,11 @@ import com.abheri.sunaad.model.Program;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.PicassoTools;
+
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
+
+
 
 import java.io.Serializable;
 import java.util.Timer;
@@ -59,9 +65,16 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main2);
         context = getApplicationContext();
 
+
+       /* TwitterAuthConfig authConfig = new TwitterAuthConfig(BuildConfig.CONSUMER_KEY, BuildConfig.CONSUMER_SECRET);
+        Fabric.with(this, new Crashlytics(), new Digits(), new Twitter(authConfig), new MoPub());
+
+        Crashlytics.setBool(CRASHLYTICS_KEY_CRASHES, areCrashesEnabled());
+*/
         noticePrgObj = null;
         Bundle args = getIntent().getExtras();
         if(null != args) {
@@ -445,7 +458,6 @@ public class MainActivity extends AppCompatActivity
                 break;
             // action with ID action_settings was selected
             case R.id.action_about:
-
                 Toast.makeText(this, "Sunaad: v"+vn, Toast.LENGTH_LONG)
                         .show();
                 break;

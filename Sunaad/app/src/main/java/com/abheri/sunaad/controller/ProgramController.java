@@ -3,9 +3,12 @@ package com.abheri.sunaad.controller;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -24,7 +27,7 @@ import java.util.List;
 /**
  * Created by prasanna.ramaswamy on 17/09/16.
  */
-public class  ProgramController implements CompoundButton.OnCheckedChangeListener {
+public class  ProgramController implements CompoundButton.OnCheckedChangeListener, ImageView.OnClickListener{
 
     Context context;
     Fragment programFragment;
@@ -147,5 +150,16 @@ public class  ProgramController implements CompoundButton.OnCheckedChangeListene
 
         ((ProgramFragment)programFragment).doScroll=false;
         ((ProgramFragment)programFragment).getData((ProgramFragment)programFragment, false);
+    }
+
+    @Override
+    public void onClick(View v) {
+        Program prgObj = (Program) v.getTag(R.string.alarm_program);
+
+        if(prgObj.alarm_millis<0) {//set alarm only if it is not already set
+            setAlarm(prgObj);
+        }else if(prgObj.alarm_millis>0){//Cancel alarm only if not already cancelled
+            CancelAlarm(prgObj);
+        }
     }
 }

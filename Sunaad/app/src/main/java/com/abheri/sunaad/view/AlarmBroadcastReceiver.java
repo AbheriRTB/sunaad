@@ -50,7 +50,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                         .bigText(messageText))
                 .setContentText(messageText)
                 .setTicker("New Message Alert!")
-                .setSmallIcon(R.drawable.sunaad_notification)
+                .setSmallIcon(R.drawable.notification)
                 .setContentIntent(pIntent).build();
 
         NotificationManager notificationManager = (NotificationManager)
@@ -58,7 +58,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
         //notification.flags |= Notification.FLAG_AUTO_CANCEL;
         notification.sound =  Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
-                + "://" + context.getPackageName() + "/raw/mahadeva_shivashambho");
+                + "://" + context.getPackageName() + "/raw/notice_vatapi_flute");
         notification.defaults |= Notification.DEFAULT_VIBRATE;
 
         notificationManager.notify((int)prgObj.getId(), notification);

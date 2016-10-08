@@ -94,6 +94,7 @@ public class DBHelper extends SQLiteOpenHelper {
     void createDefaultSettingsData(SQLiteDatabase db){
         //Create Default Settings data
         SettingsDataHelper sdh = new SettingsDataHelper(dbContext, db);
+        sdh.deleteAllSettings();
         sdh.createSettings(0, "10:00", 1);
     }
 

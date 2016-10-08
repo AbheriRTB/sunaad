@@ -13,7 +13,6 @@
             <corners
                 android:radius="@dimen/select_track_radius"/>
             <size
-                android:width="@dimen/select_track_width"
                 android:height="@dimen/select_track_height" />
 
             <stroke

@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.view.ViewGroup.LayoutParams;
@@ -100,16 +101,18 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
             Settings stg = new Settings();
             stg.setAtTime(at_time);
             stg.setDaysBefore(Integer.parseInt(days_before));
-            stg.setSound_alarm(sound_alarm?1:0);
+            stg.setSound_alarm(sound_alarm ? 1 : 0);
 
             settingsController.SaveSettings(stg);
 
             Toast.makeText(context, "Settings saved successfully", Toast.LENGTH_LONG).show();
+            hideKeyaborad(v);
             getFragmentManager().popBackStack();
         }else if (id == R.id.AlarmTime) {
             showTimePickerPopup(rootView);
         }
         else if (id == R.id.settings_cancel){
+            hideKeyaborad(v);
             getFragmentManager().popBackStack();
         }
 
@@ -145,5 +148,13 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
 
             }
         });
+    }
+
+    void hideKeyaborad(View v){
+        InputMethodManager imm = (InputMethodManager)v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if(imm.isAcceptingText()){
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
+
     }
 }
