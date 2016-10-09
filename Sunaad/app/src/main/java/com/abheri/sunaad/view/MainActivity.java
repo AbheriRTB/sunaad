@@ -1,37 +1,59 @@
 package com.abheri.sunaad.view;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.ActionBar;
+import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.appcompat.BuildConfig;
+import android.support.v7.widget.Toolbar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.model.DBHelper;
+import com.abheri.sunaad.model.Program;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.PicassoTools;
 
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
+
+
+
+import java.io.Serializable;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Handler;
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, NavigationView.OnNavigationItemSelectedListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
+    private NavigationView mNavigationView;
+    public static DrawerLayout mDrawerLayout;
+    protected ActionBarDrawerToggle mDrawerToggle;
+    MenuItem gMenuItem;
+    Program noticePrgObj;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -39,20 +61,44 @@ public class MainActivity extends AppCompatActivity
     private CharSequence mTitle;
     Context context;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        Fabric.with(this, new Crashlytics());
+        setContentView(R.layout.activity_main2);
+        context = getApplicationContext();
 
+
+       /* TwitterAuthConfig authConfig = new TwitterAuthConfig(BuildConfig.CONSUMER_KEY, BuildConfig.CONSUMER_SECRET);
+        Fabric.with(this, new Crashlytics(), new Digits(), new Twitter(authConfig), new MoPub());
+
+        Crashlytics.setBool(CRASHLYTICS_KEY_CRASHES, areCrashesEnabled());
+*/
+        noticePrgObj = null;
+        Bundle args = getIntent().getExtras();
+        if(null != args) {
+
+            noticePrgObj = (Program) args.getSerializable("SelectedProgram");
+            getIntent().removeExtra("SelectedProgram");
+        }
+
+/*
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
-        context = getApplicationContext();
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+                */
+
+        //mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
+
+        setupToolbar();
+        initNavigationDrawer();
+
 
         //Force DB OnCreate & OnUpgrade
         DBHelper dbh = new DBHelper(context);
@@ -62,6 +108,178 @@ public class MainActivity extends AppCompatActivity
         //AnalyticsApplication application = (AnalyticsApplication) getApplication();
         GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
         Util.logToGA(Util.HOME_SCREEN);
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        final ActionBar ab = getSupportActionBar();
+        ab.setHomeAsUpIndicator(R.drawable.ic_launcher);
+        ab.setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void initNavigationDrawer() {
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
+
+        setupActionBarDrawerToogle();
+        if (mNavigationView != null) {
+            mNavigationView.setItemIconTintList(null);
+            setupDrawerContent(mNavigationView);
+            mNavigationView.setNavigationItemSelectedListener(this);
+
+            //Open Home Fragment by default
+            FragmentManager fragmentManager = getSupportFragmentManager();
+
+            android.support.v4.app.FragmentTransaction transaction =
+                    fragmentManager.beginTransaction();
+
+            Bundle args = new Bundle();
+            //args.putSerializable(Util.NAVIGATION_FRAGMET, (Serializable) mDrawerLayout);
+
+            if(null != noticePrgObj){
+                args.putSerializable("SelectedProgram", noticePrgObj);
+                ProgramFragment pf = new ProgramFragment();
+                pf.setArguments(args);
+                transaction.replace(R.id.container, pf,"ProgramFragment");
+            }else {
+                HomeFragment hf = new HomeFragment();
+                hf.setArguments(args);
+                transaction.replace(R.id.container, hf);
+            }
+            //Don't add addToBackStack here
+            transaction.commit();
+        }
+    }
+
+    private void setupActionBarDrawerToogle() {
+
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,                  /* host Activity */
+                mDrawerLayout,         /* DrawerLayout object */
+                R.string.drawer_open,  /* "open drawer" description */
+                R.string.drawer_close  /* "close drawer" description */
+        ) {
+
+            /**
+             * Called when a drawer has settled in a completely closed state.
+             */
+            //public void onDrawerClosed(View view) {
+            //    Snackbar.make(view, R.string.drawer_close, Snackbar.LENGTH_SHORT).show();
+            //}
+
+            /**
+             * Called when a drawer has settled in a completely open state.
+             */
+            //public void onDrawerOpened(View drawerView) {
+            //    Snackbar.make(drawerView, R.string.drawer_open, Snackbar.LENGTH_SHORT).show();
+            //}
+        };
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+    }
+
+    private void setupDrawerContent(NavigationView navigationView) {
+
+        //setting up selected item listener
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        menuItem.setChecked(true);
+                        mDrawerLayout.closeDrawers();
+                        return true;
+                    }
+                });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isNavDrawerOpen()) {
+            closeNavDrawer();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    protected boolean isNavDrawerOpen() {
+        return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(GravityCompat.START);
+    }
+
+    protected void closeNavDrawer() {
+        if (mDrawerLayout != null) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        }
+    }
+
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
+        //menuItem.setChecked(true);
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+        gMenuItem = menuItem;
+
+        /*Toast.makeText(
+                this.getApplicationContext(),
+                "Drawer Item" + menuItem.getTitle() + "  Selected...",
+                Toast.LENGTH_SHORT).show();*/
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                // this code will be executed after 2 seconds
+
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+
+                android.support.v4.app.FragmentTransaction transaction =
+                        fragmentManager.beginTransaction();
+
+                if (gMenuItem.getItemId() == R.id.nav_home) {
+                    Bundle args = new Bundle();
+                    //args.putSerializable(Util.NAVIGATION_FRAGMET, (Serializable) mDrawerLayout);
+
+                    HomeFragment hf = new HomeFragment();
+                    hf.setArguments(args);
+                    transaction.replace(R.id.container, hf);
+                    //Don't add addToBackStack here
+                    transaction.commit();
+                } else if (gMenuItem.getItemId() == R.id.navigation_sub_item_1) {
+                    ProgramFragment pf = new ProgramFragment();
+                    transaction.replace(R.id.container, pf, "ProgramFragment");
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                } else if (gMenuItem.getItemId() == R.id.navigation_sub_item_2) {
+                    ArtisteFragment af = new ArtisteFragment();
+                    transaction.replace(R.id.container, af);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                } else if (gMenuItem.getItemId() == R.id.navigation_sub_item_3) {
+                    VenueFragment sf = new VenueFragment();
+                    transaction.replace(R.id.container, sf);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                } else if (gMenuItem.getItemId() == R.id.navigation_sub_item_4) {
+                    OrganizerFragment of = new OrganizerFragment();
+                    transaction.replace(R.id.container, of);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                } else if (gMenuItem.getItemId() == R.id.navigation_sub_item_5) {
+                    EventtypeFragment ef = new EventtypeFragment();
+                    transaction.replace(R.id.container, ef);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                } else {
+                    transaction.replace(R.id.container, PlaceholderFragment.newInstance(0 + 1));
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
+            }
+        }, 400);
+
+
+        return true;
     }
 
 
@@ -126,22 +344,22 @@ public class MainActivity extends AppCompatActivity
     public void onSectionAttached(int number) {
         switch (number) {
             case 1:
-                mTitle = getString(R.string.title_section1);
+                mTitle = getString(R.string.title_menu1);
                 break;
             case 2:
-                mTitle = getString(R.string.title_section2);
+                mTitle = getString(R.string.title_submenu1);
                 break;
             case 3:
-                mTitle = getString(R.string.title_section3);
+                mTitle = getString(R.string.title_submenu2);
                 break;
             case 4:
-                mTitle = getString(R.string.title_section4);
+                mTitle = getString(R.string.title_submenu3);
                 break;
             case 5:
-                mTitle = getString(R.string.title_section5);
+                mTitle = getString(R.string.title_submenu4);
                 break;
             case 6:
-                mTitle = getString(R.string.title_section6);
+                mTitle = getString(R.string.title_submenu5);
                 break;
         }
     }
@@ -158,7 +376,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!mNavigationDrawerFragment.isDrawerOpen()) {
+        if (!mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
@@ -195,6 +413,10 @@ public class MainActivity extends AppCompatActivity
         }
 
         switch (id) {
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                break;
+
             // action with ID action_refresh was selected
             case R.id.action_refresh:
                 /* Find which fragment is active when refresh button is pressed
@@ -236,7 +458,6 @@ public class MainActivity extends AppCompatActivity
                 break;
             // action with ID action_settings was selected
             case R.id.action_about:
-
                 Toast.makeText(this, "Sunaad: v"+vn, Toast.LENGTH_LONG)
                         .show();
                 break;
@@ -275,6 +496,7 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+
 
     /**
      * A placeholder fragment containing a simple view.

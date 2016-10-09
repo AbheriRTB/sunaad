@@ -10,7 +10,7 @@ public class DummyData {
                     "    {\n" +
                     "        \"id\": 9,\n" +
                     "        \"title\": \"Karthik Music Festival\",\n" +
-                    "        \"event_type\": \"Carnatic_Vocal\",\n" +
+                    "        \"by_event_type\": \"Carnatic_Vocal\",\n" +
                     "        \"description\": \"Flute by Prasanna\",\n" +
                     "        \"entry_fee\": \"Free\",\n" +
                     "        \"website\": \"www.abheri.in\",\n" +
@@ -37,7 +37,7 @@ public class DummyData {
                     "    {\n" +
                     "        \"id\": 10,\n" +
                     "        \"title\": \"Karthik Music Festival\",\n" +
-                    "        \"event_type\": \"Carnatic_Vocal\",\n" +
+                    "        \"by_event_type\": \"Carnatic_Vocal\",\n" +
                     "        \"description\": \"Vocal by Divyashree Manoj\",\n" +
                     "        \"entry_fee\": \"Free\",\n" +
                     "        \"website\": \"www.abheri.in\",\n" +
@@ -64,7 +64,7 @@ public class DummyData {
                     "    {\n" +
                     "        \"id\": 12,\n" +
                     "        \"title\": \"Indiranagar Sangeeta Sabha\",\n" +
-                    "        \"event_type\": \"Carnatic_Viollin\",\n" +
+                    "        \"by_event_type\": \"Carnatic_Viollin\",\n" +
                     "        \"description\": \"Violin by Akkarai Sisters\",\n" +
                     "        \"entry_fee\": \"Free\",\n" +
                     "        \"website\": \"www.abheri.in\",\n" +
@@ -91,7 +91,7 @@ public class DummyData {
                     "    {\n" +
                     "        \"id\": 14,\n" +
                     "        \"title\": \"Vikasita Mukula - SurSagar\",\n" +
-                    "        \"event_type\": \"Hindustani\",\n" +
+                    "        \"by_event_type\": \"Hindustani\",\n" +
                     "        \"description\": \"Musical programme by various scholars of SurSagar\",\n" +
                     "        \"entry_fee\": \"Free\",\n" +
                     "        \"website\": \"www.sursagar.com\",\n" +
@@ -118,7 +118,7 @@ public class DummyData {
                     "    {\n" +
                     "        \"id\": 15,\n" +
                     "        \"title\": \"Renaissance Temple Bells\",\n" +
-                    "        \"event_type\": \"Carnatic\",\n" +
+                    "        \"by_event_type\": \"Carnatic\",\n" +
                     "        \"description\": \"Tyagaraja Aaradhana\",\n" +
                     "        \"entry_fee\": \"Free\",\n" +
                     "        \"website\": \"www.adda.com\",\n" +
@@ -145,7 +145,7 @@ public class DummyData {
                     "    {\n" +
                     "        \"id\": 16,\n" +
                     "        \"title\": \"Mahamaya Festival\",\n" +
-                    "        \"event_type\": \"Dance\",\n" +
+                    "        \"by_event_type\": \"Dance\",\n" +
                     "        \"description\": \"Dance Performance by Dr Vasundhara Tilak\",\n" +
                     "        \"entry_fee\": \"Free\",\n" +
                     "        \"website\": \"\",\n" +
@@ -172,7 +172,7 @@ public class DummyData {
                     "    {\n" +
                     "        \"id\": 17,\n" +
                     "        \"title\": \"Sri Rama Lalitha Kala Mandira\",\n" +
-                    "        \"event_type\": \"Carnatic\",\n" +
+                    "        \"by_event_type\": \"Carnatic\",\n" +
                     "        \"description\": \"G RaviKiran - Vocal, Charulatha Ramanujam - Violin, K V Prasad - Mridangam, B RAjasekhar - Ghatam\",\n" +
                     "        \"entry_fee\": \"Free\",\n" +
                     "        \"website\": \"www.gayanasamaja.org\",\n" +
@@ -199,7 +199,7 @@ public class DummyData {
                     "    {\n" +
                     "        \"id\": 18,\n" +
                     "        \"title\": \"Sri Rama Lalitha Kala Mandira\",\n" +
-                    "        \"event_type\": \"Carnatic\",\n" +
+                    "        \"by_event_type\": \"Carnatic\",\n" +
                     "        \"description\": \"Bombay Jayashree - Vocal,Embar Kannan - Violin, Patri Satish kumar - Mridangam, G Guruprasad - Ghatam\",\n" +
                     "        \"entry_fee\": \"Free\",\n" +
                     "        \"website\": \"www.gayanasamaja.org\",\n" +
@@ -226,7 +226,7 @@ public class DummyData {
                     "    {\n" +
                     "        \"id\": 19,\n" +
                     "        \"title\": \"Sri Rama Lalitha Kala Mandira\",\n" +
-                    "        \"event_type\": \"Carnatic\",\n" +
+                    "        \"by_event_type\": \"Carnatic\",\n" +
                     "        \"description\": \"T M Krishnan - vocal, R K Shriram kumar - Violin, K Arun Prakash Mridangam\",\n" +
                     "        \"entry_fee\": \"Free\",\n" +
                     "        \"website\": \"www.srlkmandira.org\",\n" +
@@ -253,7 +253,7 @@ public class DummyData {
                     "    {\n" +
                     "        \"id\": 20,\n" +
                     "        \"title\": \"Sri Rama Lalitha Kala Mandira\",\n" +
-                    "        \"event_type\": \"Carnatic\",\n" +
+                    "        \"by_event_type\": \"Carnatic\",\n" +
                     "        \"description\": \"Priya Sisters - vocal, Mysore Shrikanth - Violin, Patri Satishkumar - Mridangam, B S Purushottam - Ghatam\",\n" +
                     "        \"entry_fee\": \"Free\",\n" +
                     "        \"website\": \"www.srlkmandira.org\",\n" +
@@ -280,7 +280,7 @@ public class DummyData {
                     "    {\n" +
                     "        \"id\": 21,\n" +
                     "        \"title\": \"Sri Rama Lalitha Kala Mandira\",\n" +
-                    "        \"event_type\": \"Carnatic\",\n" +
+                    "        \"by_event_type\": \"Carnatic\",\n" +
                     "        \"description\": \"Sudha Raghunathan - vocal, Embar Kannan - Violin, Neyveli Skanda Subramanyam - Mridangam, R Raman - Ghatam\",\n" +
                     "        \"entry_fee\": \"Free\",\n" +
                     "        \"website\": \"www.srlkmandira.org\",\n" +
@@ -307,7 +307,7 @@ public class DummyData {
                     "    {\n" +
                     "        \"id\": 22,\n" +
                     "        \"title\": \"Sri Rama Lalitha Kala Mandira\",\n" +
-                    "        \"event_type\": \"Carnatic\",\n" +
+                    "        \"by_event_type\": \"Carnatic\",\n" +
                     "        \"description\": \"Ashwin Anand - vocal, H M Smitha - Violin, Rajkamal - Flute, B C Manjunath - Mridangam\",\n" +
                     "        \"entry_fee\": \"Free\",\n" +
                     "        \"website\": \"www.srlkmandira.org\",\n" +
@@ -334,7 +334,7 @@ public class DummyData {
                     "    {\n" +
                     "        \"id\": 23,\n" +
                     "        \"title\": \"Sri Rama Lalitha Kala Mandira\",\n" +
-                    "        \"event_type\": \"Carnatic\",\n" +
+                    "        \"by_event_type\": \"Carnatic\",\n" +
                     "        \"description\": \"Ranjani & Gayatri - vocal, H N Bhaskar - Violin, Sai Giridhar - Mridangam, G S Ramanujam - Ghatam\",\n" +
                     "        \"entry_fee\": \"Free\",\n" +
                     "        \"website\": \"www.srlkmandira.org\",\n" +
@@ -361,7 +361,7 @@ public class DummyData {
                     "    {\n" +
                     "        \"id\": 24,\n" +
                     "        \"title\": \"Sri Rama Lalitha Kala Mandira\",\n" +
-                    "        \"event_type\": \"Awards\",\n" +
+                    "        \"by_event_type\": \"Awards\",\n" +
                     "        \"description\": \"Presentation of G Vedanta Iyengar memorial Award\",\n" +
                     "        \"entry_fee\": \"Free\",\n" +
                     "        \"website\": \"www.srlkmandira.org\",\n" +
@@ -388,7 +388,7 @@ public class DummyData {
                     "    {\n" +
                     "        \"id\": 25,\n" +
                     "        \"title\": \"Sri Rama Lalitha Kala Mandira\",\n" +
-                    "        \"event_type\": \"Carnatic\",\n" +
+                    "        \"by_event_type\": \"Carnatic\",\n" +
                     "        \"description\": \"Sanjay Subramanyam - Vocal, S Varadarajan - Violin, Neyveli Venkatesh - Mridangam, B Raja - Ghatam\",\n" +
                     "        \"entry_fee\": \"Free\",\n" +
                     "        \"website\": \"www.srlkmandira.org\",\n" +
@@ -415,7 +415,7 @@ public class DummyData {
                     "    {\n" +
                     "        \"id\": 26,\n" +
                     "        \"title\": \"Sri Ramanavami National Music Festival\",\n" +
-                    "        \"event_type\": \"Classical\",\n" +
+                    "        \"by_event_type\": \"Classical\",\n" +
                     "        \"description\": \"Vocal by Smt Bombay Jayashree\",\n" +
                     "        \"entry_fee\": \"Tickets of 100/150/200/250\",\n" +
                     "        \"website\": \"www.ramanavami.org\",\n" +
@@ -442,7 +442,7 @@ public class DummyData {
                     "    {\n" +
                     "        \"id\": 27,\n" +
                     "        \"title\": \"Carnatic flute\",\n" +
-                    "        \"event_type\": \"Carnatic\",\n" +
+                    "        \"by_event_type\": \"Carnatic\",\n" +
                     "        \"description\": \"Flute by V K Raman & Party\",\n" +
                     "        \"entry_fee\": \"Free\",\n" +
                     "        \"website\": \"\",\n" +
@@ -469,7 +469,7 @@ public class DummyData {
                     "    {\n" +
                     "        \"id\": 28,\n" +
                     "        \"title\": \"Sri Ramanavami National Music Festival\",\n" +
-                    "        \"event_type\": \"Classical\",\n" +
+                    "        \"by_event_type\": \"Classical\",\n" +
                     "        \"description\": \"Vocal by Sanjay Subramanyam & Party\",\n" +
                     "        \"entry_fee\": \"Tickets of 100/150/200/250\",\n" +
                     "        \"website\": \"www.ramanavami.org\",\n" +
@@ -496,7 +496,7 @@ public class DummyData {
                     "    {\n" +
                     "        \"id\": 29,\n" +
                     "        \"title\": \"Sri Ramanavami National Music Festival\",\n" +
-                    "        \"event_type\": \"Classical\",\n" +
+                    "        \"by_event_type\": \"Classical\",\n" +
                     "        \"description\": \"Vocal by K V Krishnaprasad & Party\",\n" +
                     "        \"entry_fee\": \"Tickets of 100/150/200/250\",\n" +
                     "        \"website\": \"www.ramanavami.org\",\n" +
@@ -523,7 +523,7 @@ public class DummyData {
                     "    {\n" +
                     "        \"id\": 30,\n" +
                     "        \"title\": \"Sri Ramanavami National Music Festival\",\n" +
-                    "        \"event_type\": \"Classical\",\n" +
+                    "        \"by_event_type\": \"Classical\",\n" +
                     "        \"description\": \"Vocal by Vignesh Ishwar & Party\",\n" +
                     "        \"entry_fee\": \"Tickets of 100/150/200/250\",\n" +
                     "        \"website\": \"www.ramanavami.org\",\n" +
@@ -550,7 +550,7 @@ public class DummyData {
                     "    {\n" +
                     "        \"id\": 31,\n" +
                     "        \"title\": \"Sri Ramanavami National Music Festival\",\n" +
-                    "        \"event_type\": \"Classical\",\n" +
+                    "        \"by_event_type\": \"Classical\",\n" +
                     "        \"description\": \"Vocal by Sandeep Narayan\",\n" +
                     "        \"entry_fee\": \"Tickets of 100/150/200/250\",\n" +
                     "        \"website\": \"www.ramanavami.org\",\n" +
@@ -577,7 +577,7 @@ public class DummyData {
                     "    {\n" +
                     "        \"id\": 32,\n" +
                     "        \"title\": \"Carnatic flute\",\n" +
-                    "        \"event_type\": \"Carnatic\",\n" +
+                    "        \"by_event_type\": \"Carnatic\",\n" +
                     "        \"description\": \"Flute by V K Raman & Party\",\n" +
                     "        \"entry_fee\": \"Free\",\n" +
                     "        \"website\": \"\",\n" +
@@ -604,7 +604,7 @@ public class DummyData {
                     "    {\n" +
                     "        \"id\": 33,\n" +
                     "        \"title\": \"Sri Ramanavami National Music Festival\",\n" +
-                    "        \"event_type\": \"Classical\",\n" +
+                    "        \"by_event_type\": \"Classical\",\n" +
                     "        \"description\": \"Violin by N Kartik & M Sumanth\",\n" +
                     "        \"entry_fee\": \"Tickets of 100/150/200/250\",\n" +
                     "        \"website\": \"www.ramanavami.org\",\n" +
@@ -631,7 +631,7 @@ public class DummyData {
                     "    {\n" +
                     "        \"id\": 34,\n" +
                     "        \"title\": \"Sri Ramanavami National Music Festival\",\n" +
-                    "        \"event_type\": \"Classical\",\n" +
+                    "        \"by_event_type\": \"Classical\",\n" +
                     "        \"description\": \"Vocal by Saashwathi Prabhu & Party\",\n" +
                     "        \"entry_fee\": \"Tickets of 100/150/200/250\",\n" +
                     "        \"website\": \"www.ramanavami.org\",\n" +

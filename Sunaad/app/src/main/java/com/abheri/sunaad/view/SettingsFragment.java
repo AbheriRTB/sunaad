@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.view.ViewGroup.LayoutParams;
@@ -66,9 +67,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
 
         Settings stg = settingsController.GetSettings();
         if(stg != null) {
-            days_before_textview.setText((new Integer(stg.getDaysBefore())).toString());
-            alarm_time.setText(stg.getAtTime());
-            sound_alarm_textview.setChecked(stg.getSound_alarm() > 0 ? true : false);
+            setDefaults(stg);
         }
 
         Util.logToGA(Util.SETTINGS_SCREEN);
@@ -78,7 +77,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
 
     public void setDefaults(Settings default_settings){
 
-        days_before_textview.setText(default_settings.getDaysBefore());
+        days_before_textview.setText((new Integer(default_settings.getDaysBefore())).toString());
         alarm_time.setText(default_settings.getAtTime());
         sound_alarm_textview.setChecked(default_settings.getSound_alarm()>0?true:false);
     }
@@ -87,6 +86,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
 
         int id = v.getId();
+
         if(id == R.id.settings_save){
             String days_before = (String)days_before_textview.getText().toString();
             String at_time = (String)alarm_time.getText().toString();
@@ -94,19 +94,26 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
 
             String msg = "Min:" + days_before + " Sound:" + sound_alarm;
 
+            days_before = days_before.trim();
+            if(days_before.length() <=0 ){
+                days_before = "0";
+            }
             Settings stg = new Settings();
             stg.setAtTime(at_time);
             stg.setDaysBefore(Integer.parseInt(days_before));
-            stg.setSound_alarm(sound_alarm?1:0);
+            stg.setSound_alarm(sound_alarm ? 1 : 0);
 
             settingsController.SaveSettings(stg);
 
             Toast.makeText(context, "Settings saved successfully", Toast.LENGTH_LONG).show();
+            hideKeyaborad(v);
+            getFragmentManager().popBackStack();
         }else if (id == R.id.AlarmTime) {
             showTimePickerPopup(rootView);
         }
         else if (id == R.id.settings_cancel){
-
+            hideKeyaborad(v);
+            getFragmentManager().popBackStack();
         }
 
     }
@@ -141,5 +148,13 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
 
             }
         });
+    }
+
+    void hideKeyaborad(View v){
+        InputMethodManager imm = (InputMethodManager)v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if(imm.isAcceptingText()){
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
+
     }
 }

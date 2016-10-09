@@ -132,7 +132,7 @@ public class ArtisteFragment extends Fragment implements HandleServiceResponse{
         ProgramListDataCache plc = new ProgramListDataCache(context);
         Util ut = new Util();
         if ((plc.isProgramDataCacheOld() || doRefresh) && ut.isNetworkAvailable(context)) {
-            RequestTask rt = new RequestTask(fragmentThis, SunaadViews.ARTISTE);
+            RequestTask rt = new RequestTask(fragmentThis, SunaadViews.ARTISTE, context);
             rt.execute(Util.getServiceUrl(SunaadViews.ARTISTE));
         }
         else {

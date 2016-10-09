@@ -40,6 +40,28 @@ public class ProgramListDataCache {
         return true;
     }
 
+    public List<Program> mergeLocalDataWithServer(List<Program> serverProgramList) {
+        List<Program> localProgramList = RetrieveProgramDataFromCache();
+        List<Program> sPrgList = serverProgramList;
+
+        if(null != localProgramList && null != sPrgList){
+            int lSize = localProgramList.size();
+            int sSize = sPrgList.size();
+
+            for(int i=0; i<sSize; ++i){
+                Program pS = sPrgList.get(i);
+                for(int j=0; j<lSize; ++j){
+                    Program pL = localProgramList.get(j);
+                    if(pL.getId() == pS.getId()){
+                        pS.alarm_millis = pL.alarm_millis;
+                        sPrgList.set(i,pS);
+                    }
+                }
+            }
+        }
+        return sPrgList;
+    }
+
     public List<Program> RetrieveProgramDataFromCache(){
         List<Program> programList = null;
 

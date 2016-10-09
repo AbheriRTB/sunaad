@@ -6,6 +6,8 @@ import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -53,13 +55,13 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
     ProgressBar progressBar;
     TextView errTextView;
     List<Program> cachedProgramList;
-    NavigationDrawerFragment mDrawerFragmet;
+    //NavigationDrawerFragment mDrawerFragmet;
+    private DrawerLayout mDrawerLayout;
+
 
     public HomeFragment() {
         // Required empty public constructor
         context = getContext();
-
-
     }
 
 
@@ -74,7 +76,9 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
         Bundle args;
 
         args = getArguments();
-        mDrawerFragmet =(NavigationDrawerFragment)args.getSerializable(Util.NAVIGATION_FRAGMET);
+        //mDrawerFragmet =(NavigationDrawerFragment)args.getSerializable(Util.NAVIGATION_FRAGMET);
+        //mDrawerLayout =(DrawerLayout)args.getSerializable(Util.NAVIGATION_FRAGMET);
+        mDrawerLayout = MainActivity.mDrawerLayout;
 
         progressBar = (ProgressBar) rootView.findViewById(R.id.homeProgressBar);
         progressBar.setVisibility(View.VISIBLE);
@@ -105,7 +109,7 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
         ProgramListDataCache plc = new ProgramListDataCache(context.getApplicationContext());
         Util ut = new Util();
         if (ut.isNetworkAvailable(context) && (plc.isProgramDataCacheOld() || doRefresh))  {
-            RequestTask rt = new RequestTask(fragmentThis, SunaadViews.HOME);
+            RequestTask rt = new RequestTask(fragmentThis, SunaadViews.HOME, context);
             rt.execute(Util.getServiceUrl(SunaadViews.HOME));
         } else {
             cachedProgramList = plc.RetrieveProgramDataFromCache();
@@ -238,11 +242,12 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
         sunaadImage.setImageResource(R.drawable.sunaad_logo);
         viewAnimator.addView(sunaadImage);
 
-        Toast.makeText(context, "Debug:" + BuildConfig.DEBUG, Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, "Debug:" + BuildConfig.DEBUG, Toast.LENGTH_LONG).show();
         System.out.println("Debug:" + BuildConfig.DEBUG);
 
         //Load flyers only for release builds
-        if(!BuildConfig.DEBUG) {
+        //if(!BuildConfig.DEBUG)
+        {
             float cycletime = (float) 3; //Initialize to 15 sec delay
             Util ut = new Util();
 
@@ -314,7 +319,8 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        mDrawerFragmet.openDrawer();
+        //mDrawerFragmet.openDrawer();
+        mDrawerLayout.openDrawer(GravityCompat.START);
         return true;
     }
 
@@ -347,7 +353,8 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
         //@Override
         public boolean onTouch1(View v, MotionEvent event) {
             // Do what you want
-            mDrawerFragmet.openDrawer();
+            //mDrawerFragmet.openDrawer();
+            mDrawerLayout.openDrawer(GravityCompat.START);
             return true;
         }
 
@@ -376,7 +383,8 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
                                     && fingerState != FINGER_UNDEFINED) {
                             fingerState = FINGER_RELEASED;
 
-                            mDrawerFragmet.openDrawer();
+                            //mDrawerFragmet.openDrawer();
+                            mDrawerLayout.openDrawer(GravityCompat.START);
 
                         }
                         else if (fingerState == FINGER_DRAGGING)

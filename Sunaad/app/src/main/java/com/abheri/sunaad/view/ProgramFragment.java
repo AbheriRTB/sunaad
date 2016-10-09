@@ -11,9 +11,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -42,6 +46,9 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
     Activity myActivity;
     List<Program> cachedProgramList;
     int scrollPos=0;
+    Program noticePrgObj=null;
+    public boolean doScroll=true;
+    boolean refreshRunning=false;
 
     public ProgramFragment() {
 
@@ -58,8 +65,12 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
             context = rootView.getContext();
         }
 
+        //setHasOptionsMenu(true);
+
         Log.i("PRAS", "In ProgramFragment");
         Program.selectedPosition = -1; //Reset the position
+
+
 
         /*Bundle b = getArguments();
         jsonstring = b.getString("jsonstring");
@@ -82,6 +93,20 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
 
         getData(this, false);
 
+        //Automatically open the details if coming from local notification
+        Bundle args = getArguments();
+        if(null != args) {
+            noticePrgObj = (Program) args.getSerializable("SelectedProgram");
+            if (null != noticePrgObj) {
+                //Program nProgObj = noticePrgObj;
+                //noticePrgObj = null;
+                args.remove("SelectedProgram");
+                openProgramDetails(noticePrgObj, fragmentManager);
+            }
+        }
+
+
+
         //Onclick listener not required for initial implementation
         //Implemented here just for reference
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -99,28 +124,36 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
                         itemValue.getTitle() + "  Selected...",
                         Toast.LENGTH_SHORT).show(); */
 
-                Intent prgIntent = new Intent();
-                prgIntent.putExtra("ProgramDetails", itemValue);
-                myActivity.setIntent(prgIntent);
-
-                ProgramDetailsFragment pdf = new ProgramDetailsFragment();
-
-                FragmentTransaction ft = fragmentManager.beginTransaction();
-                ft.replace(R.id.container, pdf);
-                ft.addToBackStack(null);
-                ft.commit();
+                openProgramDetails(itemValue, fragmentManager);
             }
 
         });
 
         ((MainActivity)getActivity()).setActionBarTitle(getString(R.string.title_section2));
 
-        timerDelayRunForScroll(500l);
+        if(doScroll) {
+            timerDelayRunForScroll(500l);
+        }
 
         // Obtain the shared Tracker instance.
         Util.logToGA(Util.PROGRAM_SCREEN);
 
         return rootView;
+    }
+
+    private void openProgramDetails(Program programToOpen,
+                                    android.support.v4.app.FragmentManager fragmentManager){
+        Intent prgIntent = new Intent();
+        prgIntent.putExtra("ProgramDetails", programToOpen);
+        myActivity.setIntent(prgIntent);
+
+        ProgramDetailsFragment pdf = new ProgramDetailsFragment();
+
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.replace(R.id.container, pdf,"ProgramDetailsFragment");
+        ft.addToBackStack(null);
+        ft.commit();
+
     }
 
     public void timerDelayRunForScroll(final long time) {
@@ -130,8 +163,10 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
                 try {
                     int h1 = listView.getHeight();
                     int h2 = rootView.getHeight();
+                    //scrollPos = Util.getScrollPosition(values);
                     listView.smoothScrollToPositionFromTop(scrollPos, h1 / 2 - h2 / 2, 500);
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                }
             }
         }, time);
     }
@@ -143,8 +178,9 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
         Util ut = new Util();
         if ((plc.isProgramDataCacheOld() || doRefresh) && ut.isNetworkAvailable(context)) {
             progressBar.setVisibility(View.VISIBLE);
-            RequestTask rt = new RequestTask(fragmentThis, SunaadViews.PROGRAM);
+            RequestTask rt = new RequestTask(fragmentThis, SunaadViews.PROGRAM, context);
             rt.execute(Util.getServiceUrl(SunaadViews.PROGRAM));
+            refreshRunning=true;
         } else {
             cachedProgramList = plc.RetrieveProgramDataFromCache();
             //If network is available the cached list will be non-null
@@ -159,24 +195,33 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
         }
     }
 
-    void updateProgramList(View rootView, ListView programList, List<Program>values) {
 
-        //ProgramDataHandler prgdata = new ProgramDataHandler();
-        //List<Program> values = prgdata.parseProgramListFromJsonResponse(jsonstring);
+    void updateProgramList(View rootView, ListView programList, List<Program>values) {
 
         scrollPos = Util.getScrollPosition(values);
 
-        // use the SimpleCursorAdapter to show the
-        // elements in a ListView
-        ProgramListAdapter adapter = new ProgramListAdapter(
-                rootView.getContext(), R.layout.program_list_item, values);
+        ProgramListAdapter adapter;
+        adapter = (ProgramListAdapter)programList.getAdapter();
 
-        programList.setAdapter(adapter);
-        timerDelayRunForScroll(500l);
+        if(adapter == null){
+            adapter = new ProgramListAdapter(
+                    rootView.getContext(), R.layout.program_list_item, values);
+            programList.setAdapter(adapter);
+        }else{
+            adapter.setNotifyOnChange(false);
+            adapter.clear();
+            adapter.addAll(values);
+            adapter.notifyDataSetChanged();
+        }
+
+        if(doScroll) {
+            timerDelayRunForScroll(500l);
+        }
 
     }
 
     public void onSuccess(Object result) {
+        refreshRunning=false;
 
         List<Program> values = (List<Program>) result;
 
@@ -197,6 +242,7 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
     }
 
     public void onError(Object result){
+        refreshRunning=false;
 
         Exception e = (Exception)result;
         String st = "";
@@ -210,6 +256,13 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
 
     }
 
+    /*
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.action_refresh).setVisible(!refreshRunning);
+        super.onPrepareOptionsMenu(menu);
 
+    }
+    */
 
 }

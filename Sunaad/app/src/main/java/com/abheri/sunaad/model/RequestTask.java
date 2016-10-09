@@ -3,6 +3,7 @@ package com.abheri.sunaad.model;
 import com.abheri.sunaad.view.SunaadViews;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import com.abheri.sunaad.view.HandleServiceResponse;
 
@@ -11,23 +12,24 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
 public class RequestTask extends AsyncTask<String, String, Object> {
 
-    android.support.v4.app.FragmentManager fragmgr;
-
     ProgressDialog progressDialog;
     HandleServiceResponse serviceResponseInterface;
     SunaadViews currentView;
+    Context context;
 
     public RequestTask(HandleServiceResponse handleServiceResponse,
-                       SunaadViews cview)
+                       SunaadViews cview, Context ctx)
     {
         serviceResponseInterface = handleServiceResponse;
         currentView = cview;
+        context = ctx;
     }
 
     @Override
@@ -67,7 +69,9 @@ public class RequestTask extends AsyncTask<String, String, Object> {
                     case SABHA:
                         ProgramDataHandler prgdata = new ProgramDataHandler();
                         List<Program> values = prgdata.parseProgramListFromJsonResponse(responseString);
-                        returnObj = (Object)values;
+                        ProgramListDataCache pldc = new ProgramListDataCache(context);
+                        List<Program> mergedValues = pldc.mergeLocalDataWithServer(values);
+                        returnObj = (Object)mergedValues;
                         break;
                     default:
                         break;

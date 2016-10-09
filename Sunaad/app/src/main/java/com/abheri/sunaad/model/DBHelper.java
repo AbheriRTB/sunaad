@@ -6,10 +6,12 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.abheri.sunaad.controller.SettingsController;
+
 public class DBHelper extends SQLiteOpenHelper {
 
     protected static final String DATABASE_NAME = "sunaad.db";
-    protected static final int DATABASE_VERSION = 2;
+    protected static final int DATABASE_VERSION = 3;
 
     protected static final String TABLE_SETTINGS = "settings";
     protected static final String COLUMN_ALARM_DAYS_BEFORE = "alarm_days_before";
@@ -29,6 +31,18 @@ public class DBHelper extends SQLiteOpenHelper {
 
     protected Context dbContext;
 
+
+    private static DBHelper instance;
+
+    public static synchronized DBHelper getHelper(Context context)
+    {
+        if (instance == null)
+            instance = new DBHelper(context);
+
+        return instance;
+    }
+
+
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         dbContext = context;
@@ -38,10 +52,12 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase database) {
 
         database.execSQL(create_settings_table);
+        createDefaultSettingsData(database);
 
         switch(DATABASE_VERSION){
 
             case 1://First DB version without tables. Just to trigger upgrade
+            case 2://First DB version without tables. Just to trigger upgrade
                 ProgramListDataCache pldc = new ProgramListDataCache(dbContext);
                 pldc.removeCache();
                 break;
@@ -53,7 +69,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
         Log.w(DBHelper.class.getName(),
                 "Upgrading database from version " + oldVersion + " to "
                         + newVersion + ", which will destroy all old data");
@@ -64,12 +80,23 @@ public class DBHelper extends SQLiteOpenHelper {
         switch(oldVersion){
 
             case 1://First DB version without tables. Just to trigger upgrade
+            case 2://First DB version without tables. Just to trigger upgrade
                 ProgramListDataCache pldc = new ProgramListDataCache(dbContext);
                 pldc.removeCache();
+                database.execSQL(create_settings_table);
+                createDefaultSettingsData(database);
                 break;
             default:
                 break;
         }
+    }
+
+    void createDefaultSettingsData(SQLiteDatabase db){
+        //Create Default Settings data
+        SettingsDataHelper sdh = new SettingsDataHelper(dbContext, db);
+        sdh.deleteAllSettings();
+        //Default alarm settings: 1 day before at 10:00AM
+        sdh.createSettings(1, "10:00", 1);
     }
 
 } 

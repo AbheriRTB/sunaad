@@ -30,6 +30,8 @@ public class ProgramDataHandler {
 
 
         List<Program> programs = new ArrayList<Program>();
+        List<Program> cachedPrograms = new ArrayList<Program>();
+
         Program tmpPrg;
 
         try {
@@ -43,6 +45,7 @@ public class ProgramDataHandler {
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                     Date dateObj = formatter.parse(dt);
 
+                    tmpPrg.setId(jo.getLong("id"));
                     tmpPrg.setTitle(jo.getString("title"));
                     tmpPrg.setEventType(jo.getString("event_type"));
                     tmpPrg.setDetails(jo.getString("description"));

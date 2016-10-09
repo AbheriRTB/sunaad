@@ -8,6 +8,14 @@
     <string name="title_section5">Organizer</string>
     <string name="title_section6">Event Type</string>
 
+    <string name="title_menu1">Home</string>
+    <string name="title_menu2">View Concerts</string>
+    <string name="title_submenu1">By Date</string>
+    <string name="title_submenu2">By Artiste</string>
+    <string name="title_submenu3">By Venue</string>
+    <string name="title_submenu4">By Organizer</string>
+    <string name="title_submenu5">By Event Type</string>
+
     <string name="lbl_artistName">Artist : </string>
     <string name="lbl_date">Date : </string>
     <string name="lbl_place">Place :</string>
@@ -38,4 +46,8 @@
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="drawer_open">Drawer Open</string>
+    <string name="drawer_close">Drawer Close</string>
+    <string name="alarm_program">AlarmProgram</string>
+    <string name="alarm_change_flag">AlarmChangeFlag</string>
 </resources>

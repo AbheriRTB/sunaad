@@ -130,7 +130,7 @@ public class SabhaFragment extends Fragment implements HandleServiceResponse{
         ProgramListDataCache plc = new ProgramListDataCache(context);
         Util ut = new Util();
         if ((plc.isProgramDataCacheOld() || doRefresh) && ut.isNetworkAvailable(context)) {
-            RequestTask rt = new RequestTask(fragmentThis, SunaadViews.SABHA);
+            RequestTask rt = new RequestTask(fragmentThis, SunaadViews.SABHA, context);
             rt.execute(Util.getServiceUrl(SunaadViews.SABHA));
         } else {
             cachedProgramList = plc.RetrieveProgramDataFromCache();

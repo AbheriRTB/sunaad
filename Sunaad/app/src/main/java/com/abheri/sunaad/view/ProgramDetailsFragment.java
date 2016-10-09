@@ -1,5 +1,6 @@
 package com.abheri.sunaad.view;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -21,7 +22,9 @@ import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 /**
@@ -47,6 +50,7 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_program_details, container, false);
+        context = getContext();
 
         Intent i = getActivity().getIntent();
         prgObj = (Program)i.getExtras().getSerializable("ProgramDetails");
@@ -239,10 +243,14 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
             if(pObj.alarm_millis < 0){
                 msg = "Alarm Not Set";
             }if(pObj.alarm_millis > 0){
-                msg = "Alarm Is Set";
+
+                Date d = new Date();
+                d.setTime(pObj.alarm_millis);
+                SimpleDateFormat ft = new SimpleDateFormat("dd-MMM hh:mm a");
+                msg = "Alarm is set at: " + ft.format(d);
             }
 
-            Toast.makeText(v.getContext(), msg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(v.getContext(), msg, Toast.LENGTH_LONG).show();
         }else if(id == R.id.mapImage) {
             String uri = "geo:" + prgObj.getLocation_coords() + "?q=" + prgObj.getLocation_coords() +
                     "(Program Location)";
@@ -262,6 +270,17 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
     public void showAlarmStatus(Program pObj, Context ctxt) {
 
 
+    }
+
+    @Override
+    public void onDestroy(){
+        android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
+        Fragment fragment = fragmentManager.findFragmentByTag("ProgramFragment");
+        if(fragment instanceof ProgramFragment) {
+            ((ProgramFragment) fragment).doScroll=false;
+        }
+
+        super.onDestroy();
     }
 
 }

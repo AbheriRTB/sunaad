@@ -12,7 +12,10 @@
     <item name="darkorange" type="color">#FFFF8800</item>
     <item name="darkred" type="color">#FFCC0000</item>
     <item name="oldgray" type="color">#ffdedede</item>
+    <item name="select_track_gray" type="color">#777777</item>
     <item name="black" type="color">#000000</item>
+    <item name="white" type="color">#ffffff</item>
+
 
     <integer-array name="androidcolors">
         <item>@color/blue</item>
