@@ -30,6 +30,8 @@ public class ProgramDataHandler {
 
 
         List<Program> programs = new ArrayList<Program>();
+        List<Program> cachedPrograms = new ArrayList<Program>();
+
         Program tmpPrg;
 
         try {

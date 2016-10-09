@@ -22,7 +22,9 @@ import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 /**
@@ -241,10 +243,14 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
             if(pObj.alarm_millis < 0){
                 msg = "Alarm Not Set";
             }if(pObj.alarm_millis > 0){
-                msg = "Alarm Is Set";
+
+                Date d = new Date();
+                d.setTime(pObj.alarm_millis);
+                SimpleDateFormat ft = new SimpleDateFormat("dd-MMM hh:mm a");
+                msg = "Alarm is set at: " + ft.format(d);
             }
 
-            Toast.makeText(v.getContext(), msg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(v.getContext(), msg, Toast.LENGTH_LONG).show();
         }else if(id == R.id.mapImage) {
             String uri = "geo:" + prgObj.getLocation_coords() + "?q=" + prgObj.getLocation_coords() +
                     "(Program Location)";

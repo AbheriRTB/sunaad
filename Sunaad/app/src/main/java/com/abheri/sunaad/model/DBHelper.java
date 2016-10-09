@@ -95,7 +95,8 @@ public class DBHelper extends SQLiteOpenHelper {
         //Create Default Settings data
         SettingsDataHelper sdh = new SettingsDataHelper(dbContext, db);
         sdh.deleteAllSettings();
-        sdh.createSettings(0, "10:00", 1);
+        //Default alarm settings: 1 day before at 10:00AM
+        sdh.createSettings(1, "10:00", 1);
     }
 
 } 

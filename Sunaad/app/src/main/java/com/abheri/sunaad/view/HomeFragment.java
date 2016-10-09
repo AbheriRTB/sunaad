@@ -62,8 +62,6 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
     public HomeFragment() {
         // Required empty public constructor
         context = getContext();
-
-
     }
 
 
@@ -111,7 +109,7 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
         ProgramListDataCache plc = new ProgramListDataCache(context.getApplicationContext());
         Util ut = new Util();
         if (ut.isNetworkAvailable(context) && (plc.isProgramDataCacheOld() || doRefresh))  {
-            RequestTask rt = new RequestTask(fragmentThis, SunaadViews.HOME);
+            RequestTask rt = new RequestTask(fragmentThis, SunaadViews.HOME, context);
             rt.execute(Util.getServiceUrl(SunaadViews.HOME));
         } else {
             cachedProgramList = plc.RetrieveProgramDataFromCache();

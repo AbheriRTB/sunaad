@@ -89,8 +89,8 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
             //holder.alarmSwitch = (Switch) v.findViewById(R.id.alarm_switch);
             holder.alarmToggle = (ImageView) v.findViewById(R.id.alarmToggle);
 
-            TransparentView tv = new TransparentView(getContext());
-            holder.rect = tv;
+            //TransparentView tv = new TransparentView(getContext());
+            //holder.rect = tv;
 
 
             v.setTag(holder);
@@ -163,7 +163,7 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
             //holder.alarmSwitch.setClickable(false);//don't let user set alarm for past events
             holder.alarmToggle.setBackground(null);
             holder.alarmToggle.setColorFilter(Color.argb(150, 60, 60, 60));
-            holder.alarmToggle.setClickable(false);
+            holder.alarmToggle.setClickable(false);//don't let user set alarm for past events
         } else if (!Util.isYes(currentProgram.getIs_published())) {
             v.setBackgroundColor(v.getResources().getColor(R.color.orange));
         }
@@ -204,7 +204,6 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
         TextView title, details, eventDate, locationAddress1;
         ImageView iv, alarmToggle;
         Switch alarmSwitch;
-        TransparentView rect;
     }
 
     public static void expandTouchArea(final View bigView, final View smallView, final int extraPadding) {
