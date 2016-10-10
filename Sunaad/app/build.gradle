@@ -21,8 +21,8 @@ android {
         applicationId "com.abheri.sunaad"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 6
-        versionName "2.0"
+        versionCode 7
+        versionName "2.1"
     }
     buildTypes {
         debug {

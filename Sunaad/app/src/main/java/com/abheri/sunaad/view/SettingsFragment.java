@@ -57,7 +57,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
 
         days_before_textview = (TextView)rootView.findViewById(R.id.AlarmDaysBefore);
         alarm_time = (TextView)rootView.findViewById(R.id.AlarmTime);
-        sound_alarm_textview = (CheckBox)rootView.findViewById(R.id.SoundAlarm);
+        //sound_alarm_textview = (CheckBox)rootView.findViewById(R.id.SoundAlarm);
         settings_save = (Button)rootView.findViewById(R.id.settings_save);
         settings_cancel = (Button)rootView.findViewById(R.id.settings_cancel);
 
@@ -79,7 +79,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
 
         days_before_textview.setText((new Integer(default_settings.getDaysBefore())).toString());
         alarm_time.setText(default_settings.getAtTime());
-        sound_alarm_textview.setChecked(default_settings.getSound_alarm()>0?true:false);
+        //sound_alarm_textview.setChecked(default_settings.getSound_alarm()>0?true:false);
     }
 
     @Override
@@ -90,7 +90,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         if(id == R.id.settings_save){
             String days_before = (String)days_before_textview.getText().toString();
             String at_time = (String)alarm_time.getText().toString();
-            boolean sound_alarm = (boolean)sound_alarm_textview.isChecked();
+            boolean sound_alarm = true;
+            //boolean sound_alarm = (boolean)sound_alarm_textview.isChecked();
+
 
             String msg = "Min:" + days_before + " Sound:" + sound_alarm;
 
