@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Sunaad</string>
 
-    <string name="title_section1">Home</string>
+    <string name="title_section1">Sunaad</string>
     <string name="title_section2">Concerts</string>
     <string name="title_section3">Artiste</string>
     <string name="title_section4">Venue</string>

@@ -11,7 +11,7 @@ import com.abheri.sunaad.controller.SettingsController;
 public class DBHelper extends SQLiteOpenHelper {
 
     protected static final String DATABASE_NAME = "sunaad.db";
-    protected static final int DATABASE_VERSION = 3;
+    protected static final int DATABASE_VERSION = 4;
 
     protected static final String TABLE_SETTINGS = "settings";
     protected static final String COLUMN_ALARM_DAYS_BEFORE = "alarm_days_before";
@@ -58,6 +58,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
             case 1://First DB version without tables. Just to trigger upgrade
             case 2://First DB version without tables. Just to trigger upgrade
+            case 3:
                 ProgramListDataCache pldc = new ProgramListDataCache(dbContext);
                 pldc.removeCache();
                 break;
@@ -75,15 +76,18 @@ public class DBHelper extends SQLiteOpenHelper {
                         + newVersion + ", which will destroy all old data");
         Log.d("DBHelper", "DBVersion :: " + oldVersion + "  " + newVersion);
 
-
+        ProgramListDataCache pldc = new ProgramListDataCache(dbContext);
         //Clear the cache from SharedPreferences while upgrading
         switch(oldVersion){
 
             case 1://First DB version without tables. Just to trigger upgrade
             case 2://First DB version without tables. Just to trigger upgrade
-                ProgramListDataCache pldc = new ProgramListDataCache(dbContext);
                 pldc.removeCache();
                 database.execSQL(create_settings_table);
+                createDefaultSettingsData(database);
+                break;
+            case 3://Has Settings table already
+                pldc.removeCache();
                 createDefaultSettingsData(database);
                 break;
             default:

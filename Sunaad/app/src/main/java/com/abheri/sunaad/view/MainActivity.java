@@ -43,14 +43,14 @@ import java.util.TimerTask;
 import java.util.logging.Handler;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
-    private NavigationDrawerFragment mNavigationDrawerFragment;
-    private NavigationView mNavigationView;
-    public static DrawerLayout mDrawerLayout;
+    //private NavigationDrawerFragment mNavigationDrawerFragment;
+    private NavigationView mNavigationView = null;
+    public DrawerLayout mDrawerLayout;
     protected ActionBarDrawerToggle mDrawerToggle;
     MenuItem gMenuItem;
     Program noticePrgObj;
@@ -69,12 +69,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main2);
         context = getApplicationContext();
 
-
-       /* TwitterAuthConfig authConfig = new TwitterAuthConfig(BuildConfig.CONSUMER_KEY, BuildConfig.CONSUMER_SECRET);
-        Fabric.with(this, new Crashlytics(), new Digits(), new Twitter(authConfig), new MoPub());
-
-        Crashlytics.setBool(CRASHLYTICS_KEY_CRASHES, areCrashesEnabled());
-*/
         noticePrgObj = null;
         Bundle args = getIntent().getExtras();
         if(null != args) {
@@ -83,7 +77,7 @@ public class MainActivity extends AppCompatActivity
             getIntent().removeExtra("SelectedProgram");
         }
 
-/*
+    /*
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -92,12 +86,14 @@ public class MainActivity extends AppCompatActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-                */
+    */
 
         //mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
 
-        setupToolbar();
-        initNavigationDrawer();
+        if(null == mNavigationView) {
+            setupToolbar();
+            initNavigationDrawer();
+        }
 
 
         //Force DB OnCreate & OnUpgrade
@@ -108,6 +104,36 @@ public class MainActivity extends AppCompatActivity
         //AnalyticsApplication application = (AnalyticsApplication) getApplication();
         GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
         Util.logToGA(Util.HOME_SCREEN);
+
+        //Navigate to Home screen by default
+        //If coming from notification, navigate to ProgramDetails screen
+        autoNavigate();
+    }
+
+    private void autoNavigate() {
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        android.support.v4.app.FragmentTransaction transaction =
+                fragmentManager.beginTransaction();
+
+        Bundle args = new Bundle();
+        //args.putSerializable(Util.NAVIGATION_FRAGMET, (Serializable) mDrawerLayout);
+
+        //Navigate to Home screen by default
+        //If coming from notification, navigate to ProgramDetails screen
+        if(null != noticePrgObj){
+            args.putSerializable("SelectedProgram", noticePrgObj);
+            ProgramFragment pf = new ProgramFragment();
+            pf.setArguments(args);
+            transaction.replace(R.id.container, pf,"ProgramFragment");
+        }else {
+            HomeFragment hf = new HomeFragment();
+            hf.setArguments(args);
+            transaction.replace(R.id.container, hf);
+        }
+        //Don't add addToBackStack here
+        transaction.commit();
     }
 
     private void setupToolbar() {
@@ -129,29 +155,11 @@ public class MainActivity extends AppCompatActivity
             mNavigationView.setItemIconTintList(null);
             setupDrawerContent(mNavigationView);
             mNavigationView.setNavigationItemSelectedListener(this);
-
-            //Open Home Fragment by default
-            FragmentManager fragmentManager = getSupportFragmentManager();
-
-            android.support.v4.app.FragmentTransaction transaction =
-                    fragmentManager.beginTransaction();
-
-            Bundle args = new Bundle();
-            //args.putSerializable(Util.NAVIGATION_FRAGMET, (Serializable) mDrawerLayout);
-
-            if(null != noticePrgObj){
-                args.putSerializable("SelectedProgram", noticePrgObj);
-                ProgramFragment pf = new ProgramFragment();
-                pf.setArguments(args);
-                transaction.replace(R.id.container, pf,"ProgramFragment");
-            }else {
-                HomeFragment hf = new HomeFragment();
-                hf.setArguments(args);
-                transaction.replace(R.id.container, hf);
-            }
-            //Don't add addToBackStack here
-            transaction.commit();
         }
+    }
+
+    public DrawerLayout getDrawerLayout(){
+        return mDrawerLayout;
     }
 
     private void setupActionBarDrawerToogle() {
@@ -226,13 +234,11 @@ public class MainActivity extends AppCompatActivity
                 "Drawer Item" + menuItem.getTitle() + "  Selected...",
                 Toast.LENGTH_SHORT).show();*/
         new Timer().schedule(new TimerTask() {
+
             @Override
             public void run() {
                 // this code will be executed after 2 seconds
-
-
                 FragmentManager fragmentManager = getSupportFragmentManager();
-
                 android.support.v4.app.FragmentTransaction transaction =
                         fragmentManager.beginTransaction();
 
@@ -283,13 +289,14 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    /*
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        /*Toast.makeText(
+        *Toast.makeText(
                 this.getApplicationContext(),
                 "Drawer Item" + position + "  Selected...",
-                Toast.LENGTH_SHORT).show(); */
+                Toast.LENGTH_SHORT).show(); *
 
 
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -340,6 +347,7 @@ public class MainActivity extends AppCompatActivity
             transaction.commit();
         }
     }
+    */
 
     public void onSectionAttached(int number) {
         switch (number) {
@@ -419,6 +427,10 @@ public class MainActivity extends AppCompatActivity
 
             // action with ID action_refresh was selected
             case R.id.action_refresh:
+
+                GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+                Util.logToGA(Util.REFRESH_CALLED);
+
                 /* Find which fragment is active when refresh button is pressed
                  * Call corresponding 'getData()' method with force refresh
                  * (second argument as true).
@@ -458,7 +470,7 @@ public class MainActivity extends AppCompatActivity
                 break;
             // action with ID action_settings was selected
             case R.id.action_about:
-                Toast.makeText(this, "Sunaad: v"+vn, Toast.LENGTH_LONG)
+                Toast.makeText(this, "Sunaad: (v"+vn +") - By Team Abheri", Toast.LENGTH_LONG)
                         .show();
                 break;
             case R.id.action_feedback:
@@ -496,7 +508,6 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
-
 
     /**
      * A placeholder fragment containing a simple view.

@@ -111,6 +111,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
             hideKeyaborad(v);
             getFragmentManager().popBackStack();
         }else if (id == R.id.AlarmTime) {
+            hideKeyaborad(v);
             showTimePickerPopup(rootView);
         }
         else if (id == R.id.settings_cancel){

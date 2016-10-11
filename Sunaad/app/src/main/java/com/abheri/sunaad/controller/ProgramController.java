@@ -20,6 +20,7 @@ import com.abheri.sunaad.model.SettingsDataHelper;
 import com.abheri.sunaad.view.AlarmBroadcastReceiver;
 import com.abheri.sunaad.view.ProgramFragment;
 import com.abheri.sunaad.view.Util;
+import com.google.android.gms.analytics.GoogleAnalytics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,10 @@ public class  ProgramController implements CompoundButton.OnCheckedChangeListene
 
         long startTimeInMillis = Util.startTimeInMillis(prgObj);
         long alarmStart = 0;
+
+        GoogleAnalytics analytics = GoogleAnalytics.getInstance(context.getApplicationContext());
+        Util.logToGA(Util.SET_ALARM_CALLED);
+
 
         SettingsDataHelper sdh = new SettingsDataHelper(context);
         sdh.open();
@@ -97,6 +102,9 @@ public class  ProgramController implements CompoundButton.OnCheckedChangeListene
     }
 
     public void CancelAlarm(Program prgObj){
+
+        GoogleAnalytics analytics = GoogleAnalytics.getInstance(context.getApplicationContext());
+        Util.logToGA(Util.UNSET_ALARM_CALLED);
 
         Intent intent = new Intent(context.getApplicationContext(),
                 AlarmBroadcastReceiver.class);

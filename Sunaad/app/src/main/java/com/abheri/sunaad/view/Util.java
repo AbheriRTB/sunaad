@@ -33,6 +33,12 @@ public class Util {
     public static final String ARTISTE_SCREEN = "Artiste";
     public static final String SETTINGS_SCREEN = "Settings";
 
+    public static final String REFRESH_CALLED = "Refresh Called";
+    public static final String SET_ALARM_CALLED = "Set Alarm Called";
+    public static final String UNSET_ALARM_CALLED = "Unset Alarm Called";
+
+
+
     public static final String NAVIGATION_FRAGMET = "NavigationFragment";
     public static final String FEATURED_CONCERT_TICKER="featured_concert_ticker.htm";
 
