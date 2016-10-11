@@ -119,7 +119,7 @@ public class EventtypeFragment extends Fragment implements HandleServiceResponse
 
         });
 
-        ((MainActivity)getActivity()).setActionBarTitle(getString(R.string.title_section5));
+        ((MainActivity)getActivity()).setActionBarTitle(getString(R.string.title_section6));
         Util.logToGA(Util.SABHA_SCREEN);
 
         return rootView;

@@ -1,6 +1,7 @@
 package com.abheri.sunaad.view;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Color;
@@ -78,7 +79,9 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
         args = getArguments();
         //mDrawerFragmet =(NavigationDrawerFragment)args.getSerializable(Util.NAVIGATION_FRAGMET);
         //mDrawerLayout =(DrawerLayout)args.getSerializable(Util.NAVIGATION_FRAGMET);
-        mDrawerLayout = MainActivity.mDrawerLayout;
+        //mDrawerLayout = MainActivity.mDrawerLayout;
+
+        mDrawerLayout = ((MainActivity)getActivity()).getDrawerLayout();
 
         progressBar = (ProgressBar) rootView.findViewById(R.id.homeProgressBar);
         progressBar.setVisibility(View.VISIBLE);
@@ -100,6 +103,8 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
         //updateWebViews();
         //viewAnimator.setInAnimation(inAnim);
         //viewAnimator.setOutAnimation(outAnim);
+
+        ((MainActivity)getActivity()).setActionBarTitle(getString(R.string.title_section1));
 
         return rootView;
     }
@@ -335,16 +340,19 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
 
         class CycleTask extends TimerTask {
             public void run() {
-                getActivity().runOnUiThread(new Runnable() {
+                Activity a = getActivity();
+                if(null != a) {
+                    a.runOnUiThread(new Runnable() {
 
-                    @Override
-                    public void run() {
-                        Random rand = new Random();
-                        //int index = rand.nextInt(image_rundow.length);
-                        //mapimg.setBackgroundResource(image_rundow[index]);
-                        viewAnimator.showNext();
-                    }
-                });
+                        @Override
+                        public void run() {
+                            Random rand = new Random();
+                            //int index = rand.nextInt(image_rundow.length);
+                            //mapimg.setBackgroundResource(image_rundow[index]);
+                            viewAnimator.showNext();
+                        }
+                    });
+                }
             }
         }
     }

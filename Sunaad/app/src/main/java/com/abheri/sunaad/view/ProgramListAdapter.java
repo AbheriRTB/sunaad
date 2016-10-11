@@ -89,10 +89,6 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
             //holder.alarmSwitch = (Switch) v.findViewById(R.id.alarm_switch);
             holder.alarmToggle = (ImageView) v.findViewById(R.id.alarmToggle);
 
-            //TransparentView tv = new TransparentView(getContext());
-            //holder.rect = tv;
-
-
             v.setTag(holder);
         } else {
             holder = (ProgramViewHolder) v.getTag();
@@ -228,41 +224,3 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
 
 }
 
-class TransparentView extends View {
-
-    public TransparentView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-    }
-
-    public TransparentView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public TransparentView(Context context) {
-        super(context);
-    }
-
-    @Override
-    public void onDraw(Canvas canvas) {
-        super.draw(canvas);
-        canvas.drawColor(Color.parseColor("#60000000"));
-        Paint borderPaint = new Paint();
-        borderPaint.setARGB(255, 255, 128, 0);
-        borderPaint.setStyle(Paint.Style.STROKE);
-        borderPaint.setStrokeWidth(4);
-
-        Paint innerPaint = new Paint();
-        innerPaint.setARGB(120, 120, 0, 0);
-        innerPaint.setAlpha(0);
-        innerPaint.setStyle(Paint.Style.FILL);
-
-        RectF drawRect = new RectF();
-
-        drawRect.set(100, 100, 100,100);
-
-        canvas.drawRect(drawRect, innerPaint);
-        canvas.drawRect(drawRect, borderPaint);
-
-    }
-
-}
