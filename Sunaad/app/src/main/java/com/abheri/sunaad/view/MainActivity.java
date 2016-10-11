@@ -470,7 +470,7 @@ public class MainActivity extends AppCompatActivity
                 break;
             // action with ID action_settings was selected
             case R.id.action_about:
-                Toast.makeText(this, "Sunaad: v"+vn, Toast.LENGTH_LONG)
+                Toast.makeText(this, "Sunaad: (v"+vn +") - By Team Abheri", Toast.LENGTH_LONG)
                         .show();
                 break;
             case R.id.action_feedback:
