@@ -12,20 +12,21 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
-public class RequestTask extends AsyncTask<String, String, Object> {
+import static com.abheri.sunaad.R.raw.artiste_sample_data;
+
+public class CloudDataFetcherAsyncTask extends AsyncTask<String, String, Object> {
 
     ProgressDialog progressDialog;
     HandleServiceResponse serviceResponseInterface;
     SunaadViews currentView;
     Context context;
 
-    public RequestTask(HandleServiceResponse handleServiceResponse,
-                       SunaadViews cview, Context ctx)
+    public CloudDataFetcherAsyncTask(HandleServiceResponse handleServiceResponse,
+                                     SunaadViews cview, Context ctx)
     {
         serviceResponseInterface = handleServiceResponse;
         currentView = cview;
@@ -67,11 +68,20 @@ public class RequestTask extends AsyncTask<String, String, Object> {
                     case PROGRAM:
                     case ARTISTE:
                     case SABHA:
-                        ProgramDataHandler prgdata = new ProgramDataHandler();
-                        List<Program> values = prgdata.parseProgramListFromJsonResponse(responseString);
+                        ProgramDataHelper prgdata = new ProgramDataHelper();
+                        List<Program> programs = prgdata.parseProgramListFromJsonResponse(responseString);
                         ProgramListDataCache pldc = new ProgramListDataCache(context);
-                        List<Program> mergedValues = pldc.mergeLocalDataWithServer(values);
+                        List<Program> mergedValues = pldc.mergeLocalDataWithServer(programs);
                         returnObj = (Object)mergedValues;
+                        break;
+                    case ARTISTE_DIR:
+                        responseString = DummyData.getJSONFromRawFile(context, artiste_sample_data);
+                        ArtisteDataHelper adh = new ArtisteDataHelper();
+                        List<Artiste> artistes = adh.parseArtisteListFromJsonResponse(responseString);
+                        //ProgramListDataCache pldc = new ProgramListDataCache(context);
+                        //List<Program> mergedValues = pldc.mergeLocalDataWithServer(values);
+                        //returnObj = (Object)mergedValues;
+                        returnObj = artistes;
                         break;
                     default:
                         break;

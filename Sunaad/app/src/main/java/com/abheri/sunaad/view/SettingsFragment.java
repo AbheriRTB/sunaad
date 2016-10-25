@@ -4,7 +4,6 @@ package com.abheri.sunaad.view;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,9 +21,6 @@ import android.widget.Toast;
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.controller.SettingsController;
 import com.abheri.sunaad.model.Settings;
-import com.abheri.sunaad.model.SettingsDataHelper;
-
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.

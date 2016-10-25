@@ -13,21 +13,18 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SettingsDataHelper {
+public class SettingsDBHelper {
 
     // Database fields
     private SQLiteDatabase database;
     private DBHelper dbHelper;
-    private String[] allColumns = {
-            DBHelper.COLUMN_ALARM_DAYS_BEFORE,
-            DBHelper.COLUMN_ALARM_AT_TIME,
-            DBHelper.COLUMN_SOUND_ALARM };
 
-    public SettingsDataHelper(Context context) {
+
+    public SettingsDBHelper(Context context) {
         dbHelper = new DBHelper(context);
     }
 
-    public SettingsDataHelper(Context context, SQLiteDatabase db) {
+    public SettingsDBHelper(Context context, SQLiteDatabase db) {
         dbHelper = new DBHelper(context);
         database = db;
     }
@@ -42,13 +39,13 @@ public class SettingsDataHelper {
 
     public Settings createSettings(int alarmDaysBefore, String alarmAtTime, int soundAlarm) {
         ContentValues values = new ContentValues();
-        values.put(DBHelper.COLUMN_ALARM_DAYS_BEFORE, alarmDaysBefore);
-        values.put(DBHelper.COLUMN_ALARM_AT_TIME, alarmAtTime);
-        values.put(DBHelper.COLUMN_SOUND_ALARM, soundAlarm);
-        long insertId = database.insert(DBHelper.TABLE_SETTINGS, null,
+        values.put(SQLStrings.COLUMN_ALARM_DAYS_BEFORE, alarmDaysBefore);
+        values.put(SQLStrings.COLUMN_ALARM_AT_TIME, alarmAtTime);
+        values.put(SQLStrings.COLUMN_SOUND_ALARM, soundAlarm);
+        long insertId = database.insert(SQLStrings.TABLE_SETTINGS, null,
                 values);
-        Cursor cursor = database.query(DBHelper.TABLE_SETTINGS,
-                allColumns, null, null, null, null, null);
+        Cursor cursor = database.query(SQLStrings.TABLE_SETTINGS,
+                SQLStrings.settingsAllColumns, null, null, null, null, null);
         cursor.moveToFirst();
         Settings newSettings = cursorToSettings(cursor);
         cursor.close();
@@ -66,7 +63,7 @@ public class SettingsDataHelper {
     public void deleteAllSettings() {
         List<Settings> allrows = getAllSettings();
         if(allrows != null && allrows.size() > 0) {
-            int nrows = database.delete(DBHelper.TABLE_SETTINGS, "1", null);
+            int nrows = database.delete(SQLStrings.TABLE_SETTINGS, "1", null);
             System.out.println(nrows + " Topics deleted");
         }
     }
@@ -74,8 +71,8 @@ public class SettingsDataHelper {
     public List<Settings> getAllSettings() {
         List<Settings> settings = new ArrayList<Settings>();
 
-        Cursor cursor = database.query(DBHelper.TABLE_SETTINGS,
-                allColumns, null, null, null, null, null);
+        Cursor cursor = database.query(SQLStrings.TABLE_SETTINGS,
+                SQLStrings.settingsAllColumns, null, null, null, null, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {

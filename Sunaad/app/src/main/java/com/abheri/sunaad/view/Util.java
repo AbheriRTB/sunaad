@@ -33,6 +33,9 @@ public class Util {
     public static final String ARTISTE_SCREEN = "Artiste";
     public static final String SETTINGS_SCREEN = "Settings";
 
+    public static final String ARTISTE_DIR_SCREEN = "Artiste Directory List";
+
+
     public static final String REFRESH_CALLED = "Refresh Called";
     public static final String SET_ALARM_CALLED = "Set Alarm Called";
     public static final String UNSET_ALARM_CALLED = "Unset Alarm Called";
@@ -62,6 +65,10 @@ public class Util {
             case PROGRAM:
             case ARTISTE:
             case SABHA:
+                url = "http://abheri.pythonanywhere.com/programs/";
+                //url="http://10.0.3.2:9999/programs/";
+                break;
+            case ARTISTE_DIR:
                 url = "http://abheri.pythonanywhere.com/programs/";
                 //url="http://10.0.3.2:9999/programs/";
                 break;

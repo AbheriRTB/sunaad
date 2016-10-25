@@ -21,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewAnimator;
 import android.util.Log;
 
@@ -29,7 +28,7 @@ import com.abheri.sunaad.BuildConfig;
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.model.Program;
 import com.abheri.sunaad.model.ProgramListDataCache;
-import com.abheri.sunaad.model.RequestTask;
+import com.abheri.sunaad.model.CloudDataFetcherAsyncTask;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -40,7 +39,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Logger;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -114,7 +112,7 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
         ProgramListDataCache plc = new ProgramListDataCache(context.getApplicationContext());
         Util ut = new Util();
         if (ut.isNetworkAvailable(context) && (plc.isProgramDataCacheOld() || doRefresh))  {
-            RequestTask rt = new RequestTask(fragmentThis, SunaadViews.HOME, context);
+            CloudDataFetcherAsyncTask rt = new CloudDataFetcherAsyncTask(fragmentThis, SunaadViews.HOME, context);
             rt.execute(Util.getServiceUrl(SunaadViews.HOME));
         } else {
             cachedProgramList = plc.RetrieveProgramDataFromCache();

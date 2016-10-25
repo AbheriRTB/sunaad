@@ -3,7 +3,7 @@ package com.abheri.sunaad.controller;
 import android.content.Context;
 
 import com.abheri.sunaad.model.Settings;
-import com.abheri.sunaad.model.SettingsDataHelper;
+import com.abheri.sunaad.model.SettingsDBHelper;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -23,7 +23,7 @@ public class SettingsController {
 
     public void SaveSettings(Settings settings_to_save){
 
-        SettingsDataHelper sdh = new SettingsDataHelper(context);
+        SettingsDBHelper sdh = new SettingsDBHelper(context);
         sdh.open();
         sdh.deleteAllSettings();
         sdh.createSettings(settings_to_save.getDaysBefore(),
@@ -34,7 +34,7 @@ public class SettingsController {
 
     public Settings GetSettings(){
 
-        SettingsDataHelper sdh = new SettingsDataHelper(context);
+        SettingsDBHelper sdh = new SettingsDBHelper(context);
         sdh.open();
         List<Settings>sl = sdh.getAllSettings();
         sdh.close();

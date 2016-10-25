@@ -37,5 +37,23 @@
 
             </menu>
         </item>
+        <item
+            android:id="@+id/navigation_dir_subheader"
+            android:title="@string/title_menu3">
+            <menu>
+                <item
+                    android:id="@+id/navigation_dir_sub_item_1"
+                    android:icon="@drawable/by_artiste"
+                    android:title="@string/title_dir_submenu1" />
+                <item
+                    android:id="@+id/navigation_dir_sub_item_2"
+                    android:icon="@drawable/by_organizer"
+                    android:title="@string/title_dir_submenu2" />
+                <item
+                    android:id="@+id/navigation_dir_sub_item_3"
+                    android:icon="@drawable/by_venue"
+                    android:title="@string/title_dir_submenu3" />
+            </menu>
+        </item>
     </group>
 </menu>

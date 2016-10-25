@@ -20,9 +20,8 @@ import android.widget.TextView;
 import android.widget.ViewAnimator;
 
 import com.abheri.sunaad.R;
-import com.abheri.sunaad.model.Program;
-import com.abheri.sunaad.model.ProgramDataHelper;
-import com.abheri.sunaad.model.ProgramListDataCache;
+import com.abheri.sunaad.model.Artiste;
+import com.abheri.sunaad.model.ArtisteListDataCache;
 import com.abheri.sunaad.model.CloudDataFetcherAsyncTask;
 
 import java.util.List;
@@ -30,7 +29,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProgramFragment extends Fragment implements HandleServiceResponse{
+public class ArtisteDirectoryFragment extends Fragment implements HandleServiceResponse{
 
     ViewAnimator viewAnimator;
     Context context;
@@ -40,13 +39,13 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
     ProgressBar progressBar;
     TextView errTextView;
     Activity myActivity;
-    List<Program> cachedProgramList;
+    List<Artiste> cachedArtisteList;
     int scrollPos=0;
-    Program noticePrgObj=null;
+    Artiste noticePrgObj=null;
     public boolean doScroll=true;
     boolean refreshRunning=false;
 
-    public ProgramFragment() {
+    public ArtisteDirectoryFragment() {
 
     }
 
@@ -54,7 +53,7 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_program, container,
+        rootView = inflater.inflate(R.layout.fragment_artiste_directory, container,
                 false);
 
         if(null == context){
@@ -63,17 +62,10 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
 
         //setHasOptionsMenu(true);
 
-        Log.i("PRAS", "In ProgramFragment");
-        Program.selectedPosition = -1; //Reset the position
-
-
-
-        /*Bundle b = getArguments();
-        jsonstring = b.getString("jsonstring");
-        System.out.println(jsonstring);*/
+        Log.i("PRAS", "In Artiste Directory Fragment");
 
         // Get ListView object from xml
-        listView = (ListView) rootView.findViewById(R.id.programList);
+        listView = (ListView) rootView.findViewById(R.id.artisteDirList);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         listView.setSelector(android.R.color.holo_blue_light);
         listView.setVisibility(View.GONE);
@@ -89,19 +81,6 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
 
         getData(this, false);
 
-        //Automatically open the details if coming from local notification
-        Bundle args = getArguments();
-        if(null != args) {
-            noticePrgObj = (Program) args.getSerializable("SelectedProgram");
-            if (null != noticePrgObj) {
-                //Program nProgObj = noticePrgObj;
-                //noticePrgObj = null;
-                args.remove("SelectedProgram");
-                openProgramDetails(noticePrgObj, fragmentManager);
-            }
-        }
-
-
 
         //Onclick listener not required for initial implementation
         //Implemented here just for reference
@@ -113,14 +92,14 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
 
 
                 // ListView Clicked item value
-                Program itemValue = (Program) parent.getItemAtPosition(position);
+                Artiste itemValue = (Artiste) parent.getItemAtPosition(position);
 
                 /*Toast.makeText(
                         view.getContext(),
                         itemValue.getTitle() + "  Selected...",
                         Toast.LENGTH_SHORT).show(); */
 
-                openProgramDetails(itemValue, fragmentManager);
+                openArtisteDetails(itemValue, fragmentManager);
             }
 
         });
@@ -131,22 +110,23 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
             timerDelayRunForScroll(500l);
         }
 
+        ((MainActivity)getActivity()).setActionBarTitle(getString(R.string.title_dir_submenu1));
         // Obtain the shared Tracker instance.
-        Util.logToGA(Util.PROGRAM_SCREEN);
+        Util.logToGA(Util.ARTISTE_DIR_SCREEN);
 
         return rootView;
     }
 
-    private void openProgramDetails(Program programToOpen,
+    private void openArtisteDetails(Artiste artisteToOpen,
                                     android.support.v4.app.FragmentManager fragmentManager){
         Intent prgIntent = new Intent();
-        prgIntent.putExtra("ProgramDetails", programToOpen);
+        prgIntent.putExtra("ArtisteDetails", artisteToOpen);
         myActivity.setIntent(prgIntent);
 
-        ProgramDetailsFragment pdf = new ProgramDetailsFragment();
+        ArtisteDetailsFragment adf = new ArtisteDetailsFragment();
 
         FragmentTransaction ft = fragmentManager.beginTransaction();
-        ft.replace(R.id.container, pdf,"ProgramDetailsFragment");
+        ft.replace(R.id.container, adf,"ArtisteDetailsFragment");
         ft.addToBackStack(null);
         ft.commit();
 
@@ -168,21 +148,21 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
     }
 
 
-    public void getData(ProgramFragment fragmentThis, boolean doRefresh) {
+    public void getData(ArtisteDirectoryFragment fragmentThis, boolean doRefresh) {
 
-        ProgramListDataCache plc = new ProgramListDataCache(context);
+        ArtisteListDataCache alc = new ArtisteListDataCache(context);
         Util ut = new Util();
-        if ((plc.isProgramDataCacheOld() || doRefresh) && ut.isNetworkAvailable(context)) {
+        if ((alc.isArtisteDataCacheOld() || doRefresh) && ut.isNetworkAvailable(context)) {
             progressBar.setVisibility(View.VISIBLE);
-            CloudDataFetcherAsyncTask rt = new CloudDataFetcherAsyncTask(fragmentThis, SunaadViews.PROGRAM, context);
-            rt.execute(Util.getServiceUrl(SunaadViews.PROGRAM));
+            CloudDataFetcherAsyncTask rt = new CloudDataFetcherAsyncTask(fragmentThis, SunaadViews.ARTISTE_DIR, context);
+            rt.execute(Util.getServiceUrl(SunaadViews.ARTISTE_DIR));
             refreshRunning=true;
         } else {
-            cachedProgramList = plc.RetrieveProgramDataFromCache();
+            cachedArtisteList = alc.RetrieveArtisteDataFromCache();
             //If network is available the cached list will be non-null
             //Else it will be null. If null, show error text
-            if(cachedProgramList != null) {
-                updateViewFromData(cachedProgramList);
+            if(cachedArtisteList != null) {
+                updateViewFromData(cachedArtisteList);
             }
             else {
                 errTextView.setText("Connect to network to get Sunaad Data");
@@ -192,17 +172,17 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
     }
 
 
-    void updateProgramList(View rootView, ListView programList, List<Program>values) {
+    void updateArtisteList(View rootView, ListView artisteList, List<Artiste> values) {
 
-        scrollPos = Util.getScrollPosition(values);
+        //scrollPos = Util.getScrollPosition(values);
 
-        ProgramListAdapter adapter;
-        adapter = (ProgramListAdapter)programList.getAdapter();
+        ArtisteListAdapter adapter;
+        adapter = (ArtisteListAdapter)artisteList.getAdapter();
 
         if(adapter == null){
-            adapter = new ProgramListAdapter(
-                    rootView.getContext(), R.layout.program_list_item, values);
-            programList.setAdapter(adapter);
+            adapter = new ArtisteListAdapter(
+                    rootView.getContext(), R.layout.artiste_dir_child_item, values);
+            artisteList.setAdapter(adapter);
         }else{
             adapter.setNotifyOnChange(false);
             adapter.clear();
@@ -219,22 +199,22 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse{
     public void onSuccess(Object result) {
         refreshRunning=false;
 
-        List<Program> values = (List<Program>) result;
+        List<Artiste> values = (List<Artiste>) result;
 
-        ProgramListDataCache plc = new ProgramListDataCache(context);
-        plc.SaveProgramDataInCache((List<Program>) result);
+        ArtisteListDataCache alc = new ArtisteListDataCache(context);
+        alc.SaveArtisteDataInCache((List<Artiste>) result);
 
         updateViewFromData(values);
     }
 
-    public void updateViewFromData(List<Program> values){
+    public void updateViewFromData(List<Artiste> values){
         progressBar.setVisibility(View.GONE);
         listView.setVisibility(View.VISIBLE);
 
         //Filter old programs from the list
-        List<Program> fValues = ProgramDataHelper.filterOldPrograms(values, Util.HOW_OLD);
+        //List<Program> fValues = ArtisteDataHelper.filterOldPrograms(values, Util.HOW_OLD);
 
-        updateProgramList(rootView, listView, fValues);
+        updateArtisteList(rootView, listView, values);
     }
 
     public void onError(Object result){

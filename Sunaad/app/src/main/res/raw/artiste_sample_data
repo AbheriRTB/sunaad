@@ -1,0 +1,28 @@
+[
+  {
+    "id": 1,
+    "artiste_name": "Ananthram BK",
+    "phone": "080 26699350",
+    "location_address1": "Near BDA Complex",
+    "location_address2": "BSK II Stg",
+    "location_city": "Bangalore",
+    "location_state": "Karnataka",
+    "location_country": "India",
+    "location_pincode": "560070",
+    "location_mapcoords": "12.922926, 77.565522",
+    "is_published": "Yes"
+  },
+  {
+    "id": 1,
+    "artiste_name": "Prasanna HR",
+    "phone": "080 23473974",
+    "location_address1": "E406, RTB",
+    "location_address2": "25/1 Chord Rd. Mahalakshmi Layout",
+    "location_city": "Bangalore",
+    "location_state": "Karnataka",
+    "location_country": "India",
+    "location_pincode": "560022",
+    "location_mapcoords": "12.922926, 77.565522",
+    "is_published": "Yes"
+  }
+]

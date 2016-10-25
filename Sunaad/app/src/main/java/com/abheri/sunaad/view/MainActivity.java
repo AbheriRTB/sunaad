@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.model.DBHelper;
+import com.abheri.sunaad.model.DummyData;
 import com.abheri.sunaad.model.Program;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.squareup.picasso.Picasso;
@@ -276,7 +277,12 @@ public class MainActivity extends AppCompatActivity
                     transaction.replace(R.id.container, ef);
                     transaction.addToBackStack(null);
                     transaction.commit();
-                } else {
+                } else if (gMenuItem.getItemId() == R.id.navigation_dir_sub_item_1) {
+                    ArtisteDirectoryFragment adf = new ArtisteDirectoryFragment();
+                    transaction.replace(R.id.container, adf);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }else {
                     transaction.replace(R.id.container, PlaceholderFragment.newInstance(0 + 1));
                     transaction.addToBackStack(null);
                     transaction.commit();
@@ -368,6 +374,9 @@ public class MainActivity extends AppCompatActivity
                 break;
             case 6:
                 mTitle = getString(R.string.title_submenu5);
+                break;
+            case 7:
+                mTitle = getString(R.string.title_dir_submenu1);
                 break;
         }
     }

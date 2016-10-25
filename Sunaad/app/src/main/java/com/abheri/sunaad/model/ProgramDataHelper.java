@@ -21,9 +21,8 @@ import java.util.TreeSet;
 /**
  * Created by prasanna.ramaswamy on 25/10/15.
  */
-public class ProgramDataHandler {
-    String TAG = "ProgramDataHandler :: ";
-    String[] GET_DATA_FOR_PROGRAM_FRAGMENT = {"http://192.168.1.115:80/api/programs/"};
+public class ProgramDataHelper {
+
     JSONArray ja;
 
     public List<Program> parseProgramListFromJsonResponse(String jsonstring) {

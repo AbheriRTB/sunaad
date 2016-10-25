@@ -20,9 +20,9 @@ import android.widget.ViewAnimator;
 
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.model.Program;
-import com.abheri.sunaad.model.ProgramDataHandler;
+import com.abheri.sunaad.model.ProgramDataHelper;
 import com.abheri.sunaad.model.ProgramListDataCache;
-import com.abheri.sunaad.model.RequestTask;
+import com.abheri.sunaad.model.CloudDataFetcherAsyncTask;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -130,7 +130,7 @@ public class OrganizerFragment extends Fragment implements HandleServiceResponse
         ProgramListDataCache plc = new ProgramListDataCache(context);
         Util ut = new Util();
         if ((plc.isProgramDataCacheOld() || doRefresh) && ut.isNetworkAvailable(context)) {
-            RequestTask rt = new RequestTask(fragmentThis, SunaadViews.SABHA, context);
+            CloudDataFetcherAsyncTask rt = new CloudDataFetcherAsyncTask(fragmentThis, SunaadViews.SABHA, context);
             rt.execute(Util.getServiceUrl(SunaadViews.SABHA));
         } else {
             cachedProgramList = plc.RetrieveProgramDataFromCache();
@@ -169,9 +169,9 @@ public class OrganizerFragment extends Fragment implements HandleServiceResponse
     public void updateViewFromData(List<Program> values){
 
         //Filter old programs from the list
-        List<Program> fValues = ProgramDataHandler.filterOldPrograms(values, Util.HOW_OLD);
+        List<Program> fValues = ProgramDataHelper.filterOldPrograms(values, Util.HOW_OLD);
 
-        ProgramDataHandler pdh = new ProgramDataHandler();
+        ProgramDataHelper pdh = new ProgramDataHelper();
         oList = pdh.getOrganizerListFromPrograms(fValues);
         sabhaProgramCollection = pdh.createOrganizerProgramCollection(fValues, oList);
 
