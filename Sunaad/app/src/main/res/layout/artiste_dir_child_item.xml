@@ -5,7 +5,7 @@
     android:padding="10dp" >
 
     <ImageView
-        android:id="@+id/artisteImage"
+        android:id="@+id/adArtisteImage"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:contentDescription="ArtisteImage"
@@ -13,24 +13,27 @@
         android:layout_gravity="center_vertical"/>
 
     <TextView
-        android:id="@+id/aName"
+        android:id="@+id/adName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/artisteImage"
+        android:layout_toRightOf="@id/adArtisteImage"
         android:layout_alignParentTop="true"
         android:text="Artiste Name"
-        android:paddingLeft="25dp" />
+        android:textColor="@color/black"
+        android:paddingLeft="25dp"
+        android:textSize="20dp" />
 
     <TextView
-        android:id="@+id/aPhone"
+        android:id="@+id/adDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/artisteImage"
-        android:layout_below="@id/aName"
-        android:textStyle="bold"
+        android:layout_toRightOf="@id/adArtisteImage"
+        android:layout_below="@id/adName"
         android:textColor="@color/black"
-        android:text="Phone#"
+        android:text="Specialization: "
         android:paddingLeft="25dp"
-        android:layout_alignParentBottom="false" />
+        android:layout_alignParentBottom="false"
+        android:textSize="18dp"
+        android:textStyle="italic" />
 
 </RelativeLayout>

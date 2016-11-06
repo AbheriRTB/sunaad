@@ -63,16 +63,12 @@ public class ArtisteDetailsFragment extends Fragment {
 
         //----- Details ----
         WebView detailWV = (WebView) rootView.findViewById(R.id.artisteDetailsWV);
-        detailWV.setScrollbarFadingEnabled(true); // Explicitly, however it's a default, I think.
-        detailWV.setScrollBarStyle(WebView.SCROLLBARS_INSIDE_OVERLAY);
-
-        //Set WebViewClient such that the link opens in a browser
 
         String htmlStr = cssStr + createArtisteHTML(artObj);
         detailWV.loadData(htmlStr, "text/html", "utf-8");
 
+        //Set WebViewClient such that the link opens in a browser
         detailWV.setWebViewClient(new CustomWebViewClient());
-
 
         return rootView;
     }

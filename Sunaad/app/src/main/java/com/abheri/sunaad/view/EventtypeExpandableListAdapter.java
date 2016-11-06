@@ -56,7 +56,7 @@ public class EventtypeExpandableListAdapter extends BaseExpandableListAdapter {
 
         TextView item = (TextView) convertView.findViewById(R.id.sprogramDetail);
         TextView aDate = (TextView)convertView.findViewById(R.id.aDate);
-        ImageView iv = (ImageView) convertView.findViewById(R.id.artisteImage);
+        ImageView iv = (ImageView) convertView.findViewById(R.id.adArtisteImage);
 
         String uri = program.getArtiste_image();
         if(uri == null && uri.length()<=0){

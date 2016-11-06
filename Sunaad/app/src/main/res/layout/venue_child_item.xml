@@ -5,7 +5,7 @@
     android:padding="10dp" >
 
     <ImageView
-        android:id="@+id/artisteImage"
+        android:id="@+id/adArtisteImage"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:contentDescription="ProgramImage"
@@ -16,7 +16,7 @@
         android:id="@+id/aDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/artisteImage"
+        android:layout_toRightOf="@id/adArtisteImage"
         android:layout_alignParentTop="true"
         android:text="Date"
         android:paddingLeft="25dp" />
@@ -25,7 +25,7 @@
         android:id="@+id/sprogramDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/artisteImage"
+        android:layout_toRightOf="@id/adArtisteImage"
         android:layout_below="@id/aDate"
         android:textStyle="bold"
         android:textColor="@color/black"

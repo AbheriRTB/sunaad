@@ -6,7 +6,7 @@
     android:padding="10dp" >
 
     <ImageView
-        android:id="@+id/artisteImage"
+        android:id="@+id/adArtisteImage"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:contentDescription="ProgramImage"

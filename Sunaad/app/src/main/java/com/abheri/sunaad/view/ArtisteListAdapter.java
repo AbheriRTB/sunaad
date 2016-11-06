@@ -69,10 +69,10 @@ public class ArtisteListAdapter extends ArrayAdapter<Artiste> {
             v = vi.inflate(R.layout.artiste_dir_child_item, null);
 
             holder = new ProgramViewHolder();
-            holder.name = (TextView) v.findViewById(R.id.aName);
-            holder.phone = (TextView) v.findViewById(R.id.aPhone);
+            holder.name = (TextView) v.findViewById(R.id.adName);
+            holder.detail = (TextView) v.findViewById(R.id.adDetail);
 
-            holder.iv = (ImageView) v.findViewById(R.id.artisteImage);
+            holder.iv = (ImageView) v.findViewById(R.id.adArtisteImage);
 
             v.setTag(holder);
         } else {
@@ -91,9 +91,11 @@ public class ArtisteListAdapter extends ArrayAdapter<Artiste> {
         SimpleDateFormat ft = new SimpleDateFormat("E, dd-MMM-yyyy");
 
         String name = currentArtiste.getgetArtisteName();
-        String phone = currentArtiste.getArtistePhone();
-        //String uri = currentArtiste.getArtiste_image();
-        String uri = null;
+        String specialization = currentArtiste.getArtisteInstrument();
+        if(specialization == null || specialization == ""){
+            specialization = "Vocal";
+        }
+        String uri = currentArtiste.getArtisteImage();
         if (uri == null || uri.length() <= 0) {
             uri = "@drawable/default_artiste.jpeg";
         }
@@ -115,7 +117,7 @@ public class ArtisteListAdapter extends ArrayAdapter<Artiste> {
 
 
         holder.name.setText(name);
-        holder.phone.setText(phone);
+        holder.detail.setText("Specialization:" + specialization);
 
         //holder.iv.setImageDrawable(v.getResources().getDrawable(R.drawable.vocal));
         Picasso.with(myContext)
@@ -127,7 +129,7 @@ public class ArtisteListAdapter extends ArrayAdapter<Artiste> {
     }
 
     private static class ProgramViewHolder {
-        TextView name, phone;
+        TextView name, detail;
         ImageView iv;
     }
 

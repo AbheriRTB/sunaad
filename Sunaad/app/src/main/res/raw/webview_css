@@ -2,13 +2,9 @@
 
     body.class1
     {
-        -webkit-box-shadow: 5px 0px 0px 0px rgba(0,0,0,0.75);
-        -moz-box-shadow: 5px 0px 0px 0px rgba(0,0,0,0.75);
-        box-shadow: 5px 0px 0px 0px rgba(0,0,0,0.75);
         font-family:Arial;
         font-size:1.3em;
         margin: 25px;
-
     }
 
     h3.underline
