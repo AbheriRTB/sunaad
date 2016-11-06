@@ -1,7 +1,6 @@
 package com.abheri.sunaad.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by prasanna.ramaswamy on 27/10/15.
@@ -11,14 +10,19 @@ import java.util.Date;
 public class Artiste implements Serializable {
     private long id;
     private String artiste_name;
-    private String phone;
-    private String location_address1;
-    private String location_address2;
-    private String location_city;
-    private String location_state;
-    private String location_country;
-    private String loacation_pincode;
-    private String location_coords;
+    private String artiste_phone;
+    private String artiste_address1;
+    private String artiste_address2;
+    private String artiste_city;
+    private String artiste_state;
+    private String artiste_country;
+    private String artiste_pincode;
+    private String artiste_coords;
+    private String artiste_website;
+    private String artiste_image;
+    private String artiste_instrument;
+    private String artiste_audio_clip;
+    private String art_type;
 
     private String is_published;
 
@@ -31,83 +35,126 @@ public class Artiste implements Serializable {
         this.id = id;
     }
 
-    public String getArtiste_name() {
+    public String getgetArtisteName() {
         return artiste_name;
     }
 
-    public void setArtiste_name(String name) {
+    public void setArtisteName(String name) {
         this.artiste_name = name;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getArtistePhone() {
+        return artiste_phone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-
-    public String getLocation_address1() {
-        return location_address1;
-    }
-
-    public void setLocation_address1(String location_address1) {
-        this.location_address1 = location_address1;
-    }
-
-    public String getLocation_address2() {
-        return location_address2;
-    }
-
-    public void setLocation_address2(String location_address2) {
-        this.location_address2 = location_address2;
+    public void setArtistePhone(String phone) {
+        this.artiste_phone = phone;
     }
 
 
-    public String getLocation_city() {
-        return location_city;
+    public String getArtisteAddress1() {
+        return artiste_address1;
     }
 
-    public void setLocation_city(String location_city) {
-        this.location_city = location_city;
+    public void setArtisteAddress1(String location_address1) {
+        this.artiste_address1 = location_address1;
     }
 
-
-    public String getLocation_state() {
-        return location_state;
+    public String getArtisteAddress2() {
+        return artiste_address2;
     }
 
-    public void setLocation_state(String location_state) {
-        this.location_state = location_state;
-    }
-
-
-    public String getLocation_country() {
-        return location_country;
-    }
-
-    public void setLocation_country(String location_country) {
-        this.location_country = location_country;
+    public void setArtisteAddress2(String location_address2) {
+        this.artiste_address2 = location_address2;
     }
 
 
-    public String getLoacation_pincode() {
-        return loacation_pincode;
+    public String getArtisteCity() {
+        return artiste_city;
     }
 
-    public void setLoacation_pincode(String loacation_pincode) {
-        this.loacation_pincode = loacation_pincode;
+    public void setArtisteCity(String location_city) {
+        this.artiste_city = location_city;
     }
 
 
-    public String getLocation_coords() {
-        return location_coords;
+    public String getArtisteState() {
+        return artiste_state;
     }
 
-    public void setLocation_coords(String location_coords) {
-        this.location_coords = location_coords;
+    public void setArtisteState(String location_state) {
+        this.artiste_state = location_state;
     }
+
+
+    public String getArtisteCountry() {
+        return artiste_country;
+    }
+
+    public void setArtisteCountry(String location_country) {
+        this.artiste_country = location_country;
+    }
+
+
+    public String getArtistePincode() {
+        return artiste_pincode;
+    }
+
+    public void setArtistePincode(String loacation_pincode) {
+        this.artiste_pincode = loacation_pincode;
+    }
+
+
+    public String getArtisteCoords() {
+        return artiste_coords;
+    }
+
+    public void setArtisteCoords(String location_coords) {
+        this.artiste_coords = location_coords;
+    }
+
+    public String getArtisteImage() {
+        return artiste_image;
+    }
+
+    public void setArtisteImage(String image) {
+        this.artiste_image = image;
+    }
+
+    public String getArtisteWebsite() {
+        return artiste_website;
+    }
+
+    public void setArtisteWebsite(String website) {
+        this.artiste_website = website;
+    }
+
+    public String getArtisteInstrument() {
+        return artiste_instrument;
+    }
+
+    public void setArtisteInstrument(String instrument) {
+        this.artiste_instrument = instrument;
+    }
+
+    public String getArtisteAudioClip() {
+        return artiste_audio_clip;
+    }
+
+    public void setArtisteAudioClip(String audioClip) {
+        this.artiste_audio_clip = audioClip;
+    }
+
+    public String getArtisteArtType() {
+        return art_type;
+    }
+
+    public void setArtisteArtType(String artType) {
+        this.art_type = artType;
+    }
+
+
+
 
     public String getIs_published() {
         return is_published;

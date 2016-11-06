@@ -1,6 +1,5 @@
 package com.abheri.sunaad.view;
 
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -22,9 +21,7 @@ import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 
 /**
@@ -155,7 +152,7 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
 
 
         /*
-        //Set the fontsize for the webview component
+        //Set the fontsize for the webview_css component
         final WebSettings webSettings = prgDetailWV.getSettings();
         Resources res = getResources();
         float fontSize = res.getDimension(R.dimen.prg_detail_text);
@@ -163,18 +160,18 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
 
 
         date.setText(eventDate);
-        place.setText(prgObj.getPlace());
-        line1.setText(prgObj.getLocation_address1());
+        place.setText(prgObj.getVenueName());
+        line1.setText(prgObj.getVenueAddress1());
 
-        String line2str = prgObj.getLocation_address2();
+        String line2str = prgObj.getVenueAddress2();
         if(line2str != null && !line2str.trim().equals("") &&
                     !line2str.trim().equalsIgnoreCase("null")) {
-            line2.setText(prgObj.getLocation_address2());
+            line2.setText(prgObj.getVenueAddress2());
         }
 
-        city.setText(prgObj.getLocation_city());
-        state.setText(prgObj.getLocation_state());
-        phNo.setText(prgObj.getPhone());
+        city.setText(prgObj.getVenueCity());
+        state.setText(prgObj.getVenueState());
+        phNo.setText(prgObj.getOrganizerPhone());
         try {
             time.setText(SettingsController.getFormattedTime(prgObj.getStartTime()));
         }
@@ -192,7 +189,7 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
 
 
 
-        String isEataries = prgObj.getLocation_eataries();
+        String isEataries = prgObj.getVenueEataries();
         if(null != isEataries && isEataries.equalsIgnoreCase("yes")){
             eatariesImg.setImageDrawable(rootView.getResources().getDrawable(R.drawable.eataries_yes));
             eatariesMsg = "Eataries Are Available at Location";
@@ -204,7 +201,7 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
             eatariesMsg = "Eataries Not Available at Location";
         }
 
-        String isParking = prgObj.getParking();
+        String isParking = prgObj.getVenueParking();
         if(null != isParking && isParking.equalsIgnoreCase("yes")){
             parkingImg.setImageDrawable(rootView.getResources().getDrawable(R.drawable.parking_yes));
             parkingMsg = "Parking Is Available at Location";
@@ -223,7 +220,7 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
 
 
         /*
-        String uri = "geo:"+ prgObj.getLocation_coords();
+        String uri = "geo:"+ prgObj.getVenueCoords();
         //String uri = String.format(Locale.ENGLISH, "geo:%f,%f", 13.0104054,77.5488072);
         Intent mapIntent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
         Context ct = rootView.getContext();
@@ -252,7 +249,7 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
 
             Toast.makeText(v.getContext(), msg, Toast.LENGTH_LONG).show();
         }else if(id == R.id.mapImage) {
-            String uri = "geo:" + prgObj.getLocation_coords() + "?q=" + prgObj.getLocation_coords() +
+            String uri = "geo:" + prgObj.getVenueCoords() + "?q=" + prgObj.getVenueCoords() +
                     "(Program Location)";
             //String uri = String.format(Locale.ENGLISH, "geo:%f,%f", 13.0104054,77.5488072);
             Intent mapIntent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));

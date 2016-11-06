@@ -2,7 +2,6 @@ package com.abheri.sunaad.view;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,19 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.abheri.sunaad.R;
-import com.abheri.sunaad.controller.ProgramController;
 import com.abheri.sunaad.model.Artiste;
-import com.abheri.sunaad.model.Program;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -96,8 +90,8 @@ public class ArtisteListAdapter extends ArrayAdapter<Artiste> {
 
         SimpleDateFormat ft = new SimpleDateFormat("E, dd-MMM-yyyy");
 
-        String name = currentArtiste.getArtiste_name();
-        String phone = currentArtiste.getPhone();
+        String name = currentArtiste.getgetArtisteName();
+        String phone = currentArtiste.getArtistePhone();
         //String uri = currentArtiste.getArtiste_image();
         String uri = null;
         if (uri == null || uri.length() <= 0) {

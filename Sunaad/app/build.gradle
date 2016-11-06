@@ -1,11 +1,13 @@
 buildscript {
     repositories {
-        maven { url 'https://maven.fabric.io/public' }
+        maven { url 'https://maven.fabric.io/public'}
+        maven {url 'https://mvnrepository.com/artifact/commons-validator/commons-validator'}
     }
     dependencies {
         classpath 'io.fabric.tools:gradle:1.21.6'
     }
 }
+
 apply plugin: 'com.android.application'
 
 repositories {
@@ -49,6 +51,7 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.5.6@aar') {
         transitive = true
     }
+    compile 'commons-validator:commons-validator:1.5.1'
 }
 
 

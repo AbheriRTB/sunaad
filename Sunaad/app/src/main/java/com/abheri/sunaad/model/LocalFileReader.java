@@ -11,9 +11,9 @@ import java.io.InputStream;
 /**
  * Created by Maha on 06/03/16.
  */
-public class DummyData {
+public class LocalFileReader {
 
-    public static String getJSONFromRawFile(Context ctx, int resId) {
+    public static String readRawResourceFile(Context ctx, int resId) {
         InputStream inputStream = ctx.getResources().openRawResource(resId);
         String outStr = "";
 

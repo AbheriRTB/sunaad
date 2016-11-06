@@ -7,14 +7,12 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.appcompat.BuildConfig;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -27,7 +25,6 @@ import android.widget.Toast;
 
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.model.DBHelper;
-import com.abheri.sunaad.model.DummyData;
 import com.abheri.sunaad.model.Program;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.squareup.picasso.Picasso;
@@ -37,11 +34,8 @@ import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 
 
-
-import java.io.Serializable;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Handler;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

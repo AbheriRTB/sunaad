@@ -7,14 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.TreeSet;
 
 
 /**
@@ -32,6 +26,8 @@ public class ArtisteDataHelper {
 
         Artiste tmpArtiste;
 
+        String dummy_json =  "[{\"artiste_id\":1,\"artiste_name\":\"Ananthram B K\",\"artiste_phone\":\"123456789\",\"artiste_website\":\"null\",\"art_type\":\"Carnatic\",\"audio_clip\":\"aud    io_bka.wav\",\"artiste_instrument\":\"null\",\"artiste_address1\":\"9th Main\",\"artiste_address2\":\"Subramanyanagar\",\"artiste_city\":\"Bangalore\",\"artiste_state\":\"Karnataka\",\"artiste_country\":\"India\",\"artiste_pincode\":\"560079\",\"artiste_coords\":\"undefined\",\"artiste_image\":\"b_k_ananthram.jpeg\",\"artiste_is_published\":\"null\"}]";
+
         try {
             ja = new JSONArray(jsonstring);
             if (ja != null) {
@@ -39,17 +35,23 @@ public class ArtisteDataHelper {
                     tmpArtiste = new Artiste();
                     JSONObject jo = ja.getJSONObject(i);
 
-                    tmpArtiste.setId(jo.getLong("id"));
-                    tmpArtiste.setArtiste_name(jo.getString("artiste_name"));
-                    tmpArtiste.setPhone(jo.getString("phone"));
-                    tmpArtiste.setLocation_address1(jo.getString("location_address1"));
-                    tmpArtiste.setLocation_address2(jo.getString("location_address2"));
-                    tmpArtiste.setLocation_city(jo.getString("location_city"));
-                    tmpArtiste.setLocation_state(jo.getString("location_state"));
-                    tmpArtiste.setLocation_country(jo.getString("location_country"));
-                    tmpArtiste.setLoacation_pincode(jo.getString("location_pincode"));
-                    tmpArtiste.setLocation_coords(jo.getString("location_mapcoords"));
-                    tmpArtiste.setIs_published(jo.getString("is_published"));
+                    tmpArtiste.setId(jo.getLong("artiste_id"));
+                    tmpArtiste.setArtisteName(jo.getString("artiste_name"));
+                    tmpArtiste.setArtistePhone(jo.getString("artiste_phone"));
+                    tmpArtiste.setArtisteAddress1(jo.getString("artiste_address1"));
+                    tmpArtiste.setArtisteAddress2(jo.getString("artiste_address2"));
+                    tmpArtiste.setArtisteCity(jo.getString("artiste_city"));
+                    tmpArtiste.setArtisteState(jo.getString("artiste_state"));
+                    tmpArtiste.setArtisteCountry(jo.getString("artiste_country"));
+                    tmpArtiste.setArtistePincode(jo.getString("artiste_pincode"));
+                    tmpArtiste.setArtisteCoords(jo.getString("artiste_coords"));
+                    tmpArtiste.setArtisteWebsite(jo.getString("artiste_website"));
+                    tmpArtiste.setIs_published(jo.getString("artiste_is_published"));
+                    tmpArtiste.setArtisteImage(jo.getString("artiste_image"));
+                    tmpArtiste.setArtisteInstrument(jo.getString("artiste_instrument"));
+                    tmpArtiste.setArtisteAudioClip(jo.getString("audio_clip"));
+                    tmpArtiste.setArtisteArtType(jo.getString("art_type"));
+
 
                     //Add unpublished data only when the build type is NOT Release
                     if(BuildConfig.DEBUG) {
@@ -76,7 +78,7 @@ public class ArtisteDataHelper {
         for (int i = 0; i < prgList.size(); ++i) {
 
             Program pr = prgList.get(i);
-            String artiste = pr.getArtiste();
+            String artiste = pr.getArtisteName();
 
             artisteSet.add(artiste);
         }
@@ -98,7 +100,7 @@ public class ArtisteDataHelper {
             for (int j = 0; j < prgList.size(); ++j) {
 
                 Program pr = prgList.get(j);
-                art = pr.getArtiste();
+                art = pr.getArtisteName();
 
                 if (art.trim().equalsIgnoreCase(selArt)) {
                     artisteProgramList.add(pr);
@@ -120,7 +122,7 @@ public class ArtisteDataHelper {
         for (int i = 0; i < prgList.size(); ++i) {
 
             Program pr = prgList.get(i);
-            String sabha = pr.getPlace();
+            String sabha = pr.getVenueName();
 
             sabhaSet.add(sabha);
         }
@@ -143,7 +145,7 @@ public class ArtisteDataHelper {
             for (int j = 0; j < prgList.size(); ++j) {
 
                 Program pr = prgList.get(j);
-                sab = pr.getPlace();
+                sab = pr.getVenueName();
 
                 if (sab.trim().equalsIgnoreCase(selSab)) {
                     sabhaProgramList.add(pr);
@@ -165,7 +167,7 @@ public class ArtisteDataHelper {
         for (int i = 0; i < prgList.size(); ++i) {
 
             Program pr = prgList.get(i);
-            String org = pr.getOrganizer();
+            String org = pr.getOrganizerName();
 
             organizerSet.add(org);
         }
@@ -188,7 +190,7 @@ public class ArtisteDataHelper {
             for (int j = 0; j < prgList.size(); ++j) {
 
                 Program pr = prgList.get(j);
-                org = pr.getOrganizer();
+                org = pr.getOrganizerName();
 
                 if (org.trim().equalsIgnoreCase(selOrg)) {
                     organizerProgramList.add(pr);
@@ -210,7 +212,7 @@ public class ArtisteDataHelper {
         for (int i = 0; i < prgList.size(); ++i) {
 
             Program pr = prgList.get(i);
-            String eventType = pr.getEventType();
+            String eventType = pr.getArtType();
 
             eventtypeSet.add(eventType);
         }
@@ -233,7 +235,7 @@ public class ArtisteDataHelper {
             for (int j = 0; j < prgList.size(); ++j) {
 
                 Program pr = prgList.get(j);
-                eventtype = pr.getEventType();
+                eventtype = pr.getArtType();
 
                 if (eventtype.trim().equalsIgnoreCase(selEventtype)) {
                     organizerProgramList.add(pr);

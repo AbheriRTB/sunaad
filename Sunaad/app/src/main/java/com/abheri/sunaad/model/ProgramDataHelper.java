@@ -46,29 +46,28 @@ public class ProgramDataHelper {
 
                     tmpPrg.setId(jo.getLong("id"));
                     tmpPrg.setTitle(jo.getString("title"));
-                    tmpPrg.setEventType(jo.getString("event_type"));
+                    tmpPrg.setArtType(jo.getString("art_type"));
                     tmpPrg.setDetails(jo.getString("description"));
                     tmpPrg.setEntryFee(jo.getString("entry_fee"));
-                    tmpPrg.setWebsite(jo.getString("website"));
+                    tmpPrg.setOrganizerWebsite(jo.getString("organizer_website"));
                     tmpPrg.setEventDate(dateObj);
 
-
-                    tmpPrg.setPlace(jo.getString("place"));
-                    tmpPrg.setOrganizer(jo.getString("organizer"));
-                    tmpPrg.setArtiste(jo.getString("artiste"));
-                    tmpPrg.setPhone(jo.getString("phone"));
+                    tmpPrg.setVenueName(jo.getString("venue_name"));
+                    tmpPrg.setOrganizerName(jo.getString("organizer_name"));
+                    tmpPrg.setArtisteName(jo.getString("artiste_name"));
+                    tmpPrg.setOrganizerPhone(jo.getString("organizer_phone"));
                     tmpPrg.setStartTime(jo.getString("event_start"));
                     tmpPrg.setEndTime(jo.getString("event_end"));
                     tmpPrg.setDuration(jo.getDouble("duration"));
-                    tmpPrg.setLocation_address1(jo.getString("location_address1"));
-                    tmpPrg.setLocation_address2(jo.getString("location_address2"));
-                    tmpPrg.setLocation_city(jo.getString("location_city"));
-                    tmpPrg.setLocation_state(jo.getString("location_state"));
-                    tmpPrg.setLocation_country(jo.getString("location_country"));
-                    tmpPrg.setLoacation_pincode(jo.getString("location_pincode"));
-                    tmpPrg.setLocation_coords(jo.getString("location_mapcoords"));
-                    tmpPrg.setParking(jo.getString("location_parking"));
-                    tmpPrg.setLocation_eataries(jo.getString("location_eataries"));
+                    tmpPrg.setVenueAddress1(jo.getString("venue_address1"));
+                    tmpPrg.setVenueAddress2(jo.getString("venue_address2"));
+                    tmpPrg.setVenueCity(jo.getString("venue_city"));
+                    tmpPrg.setVenueState(jo.getString("venue_state"));
+                    tmpPrg.setVenueCountry(jo.getString("venue_country"));
+                    tmpPrg.setVenuePincode(jo.getString("venue_pincode"));
+                    tmpPrg.setVenueCoords(jo.getString("venue_mapcoords"));
+                    tmpPrg.setVenueParking(jo.getString("venue_parking"));
+                    tmpPrg.setVenueEataries(jo.getString("venue_eataries"));
                     tmpPrg.setArtiste_image(jo.getString("artiste_image"));
                     tmpPrg.setIs_featured(jo.getString("is_featured"));
                     tmpPrg.setSplash_url(jo.getString("splash_url"));
@@ -102,7 +101,7 @@ public class ProgramDataHelper {
         for (int i = 0; i < prgList.size(); ++i) {
 
             Program pr = prgList.get(i);
-            String artiste = pr.getArtiste();
+            String artiste = pr.getArtisteName();
 
             artisteSet.add(artiste);
         }
@@ -124,7 +123,7 @@ public class ProgramDataHelper {
             for (int j = 0; j < prgList.size(); ++j) {
 
                 Program pr = prgList.get(j);
-                art = pr.getArtiste();
+                art = pr.getArtisteName();
 
                 if (art.trim().equalsIgnoreCase(selArt)) {
                     artisteProgramList.add(pr);
@@ -146,7 +145,7 @@ public class ProgramDataHelper {
         for (int i = 0; i < prgList.size(); ++i) {
 
             Program pr = prgList.get(i);
-            String sabha = pr.getPlace();
+            String sabha = pr.getVenueName();
 
             sabhaSet.add(sabha);
         }
@@ -169,7 +168,7 @@ public class ProgramDataHelper {
             for (int j = 0; j < prgList.size(); ++j) {
 
                 Program pr = prgList.get(j);
-                sab = pr.getPlace();
+                sab = pr.getVenueName();
 
                 if (sab.trim().equalsIgnoreCase(selSab)) {
                     sabhaProgramList.add(pr);
@@ -191,7 +190,7 @@ public class ProgramDataHelper {
         for (int i = 0; i < prgList.size(); ++i) {
 
             Program pr = prgList.get(i);
-            String org = pr.getOrganizer();
+            String org = pr.getOrganizerName();
 
             organizerSet.add(org);
         }
@@ -214,7 +213,7 @@ public class ProgramDataHelper {
             for (int j = 0; j < prgList.size(); ++j) {
 
                 Program pr = prgList.get(j);
-                org = pr.getOrganizer();
+                org = pr.getOrganizerName();
 
                 if (org.trim().equalsIgnoreCase(selOrg)) {
                     organizerProgramList.add(pr);
@@ -236,7 +235,7 @@ public class ProgramDataHelper {
         for (int i = 0; i < prgList.size(); ++i) {
 
             Program pr = prgList.get(i);
-            String eventType = pr.getEventType();
+            String eventType = pr.getArtType();
 
             eventtypeSet.add(eventType);
         }
@@ -259,7 +258,7 @@ public class ProgramDataHelper {
             for (int j = 0; j < prgList.size(); ++j) {
 
                 Program pr = prgList.get(j);
-                eventtype = pr.getEventType();
+                eventtype = pr.getArtType();
 
                 if (eventtype.trim().equalsIgnoreCase(selEventtype)) {
                     organizerProgramList.add(pr);

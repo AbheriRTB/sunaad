@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.ViewAnimator;
 
 import com.abheri.sunaad.R;
+import com.abheri.sunaad.model.Artiste;
 import com.abheri.sunaad.model.ProgramDataHelper;
 import com.abheri.sunaad.model.Program;
 import com.abheri.sunaad.model.ProgramListDataCache;
@@ -97,7 +98,7 @@ public class ArtisteFragment extends Fragment implements HandleServiceResponse{
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 // ListView Clicked item value
-                Program itemValue = (Program) expListView.getExpandableListAdapter().getChild(groupPosition, childPosition);
+                Artiste itemValue = (Artiste) expListView.getExpandableListAdapter().getChild(groupPosition, childPosition);
 
                 /*Toast.makeText(
                         v.getContext(),
@@ -105,10 +106,10 @@ public class ArtisteFragment extends Fragment implements HandleServiceResponse{
                         Toast.LENGTH_SHORT).show();*/
 
                 Intent prgIntent = new Intent();
-                prgIntent.putExtra("ProgramDetails", itemValue);
+                prgIntent.putExtra("ArtisteDetails", itemValue);
                 myActivity.setIntent(prgIntent);
 
-                ProgramDetailsFragment pdf = new ProgramDetailsFragment();
+                ArtisteDetailsFragment pdf = new ArtisteDetailsFragment();
 
                 FragmentTransaction ft = fragmentManager.beginTransaction();
                 ft.replace(R.id.container, pdf);

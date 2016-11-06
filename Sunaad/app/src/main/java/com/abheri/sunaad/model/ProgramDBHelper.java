@@ -13,17 +13,17 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArtisteDBHelper {
+public class ProgramDBHelper {
 
     // Database fields
     private SQLiteDatabase database;
     private DBHelper dbHelper;
 
-    public ArtisteDBHelper(Context context) {
+    public ProgramDBHelper(Context context) {
         dbHelper = new DBHelper(context);
     }
 
-    public ArtisteDBHelper(Context context, SQLiteDatabase db) {
+    public ProgramDBHelper(Context context, SQLiteDatabase db) {
         dbHelper = new DBHelper(context);
         database = db;
     }
@@ -36,40 +36,10 @@ public class ArtisteDBHelper {
         dbHelper.close();
     }
 
-    public Artiste createArtiste(int id, String name, String art_type, String ispublished,
-                                 String instrument, String address1, String address2,
-                                 String city, String state, String country, String pincode,
-                                 String mapcoords, String artiste_image) {
+    public Artiste createArtiste(int id, String name, String ispublished) {
         ContentValues values = new ContentValues();
         values.put(SQLStrings.COLUMN_ARTISTE_ID, id);
         values.put(SQLStrings.COLUMN_ARTISTE_NAME, name);
-        values.put(SQLStrings.COLUMN_ARTISTE_ART_TYPE, art_type);
-        values.put(SQLStrings.COLUMN_ARTISTE_IS_PUBLISHED, ispublished);
-        values.put(SQLStrings.COLUMN_ARTISTE_INSTRUMENT, instrument);
-        values.put(SQLStrings.COLUMN_ARTISTE_ADDRESS1, address1);
-        values.put(SQLStrings.COLUMN_ARTISTE_ADDRESS2, address2);
-        values.put(SQLStrings.COLUMN_ARTISTE_CITY,city);
-        values.put(SQLStrings.COLUMN_ARTISTE_STATE, state);
-        values.put(SQLStrings.COLUMN_ARTISTE_COUNTRY, country);
-        values.put(SQLStrings.COLUMN_ARTISTE_PINCODE, pincode);
-        values.put(SQLStrings.COLUMN_ARTISTE_MAPCOORDS, mapcoords);
-        values.put(SQLStrings.COLUMN_ARTISTE_IMAGE, artiste_image);
-
-        long insertId = database.insert(SQLStrings.TABLE_ARTISTE, null,
-                values);
-        Cursor cursor = database.query(SQLStrings.TABLE_ARTISTE,
-                SQLStrings.artisteAllColumns, null, null, null, null, null);
-        cursor.moveToFirst();
-        Artiste newArtiste = cursorToArtiste(cursor);
-        cursor.close();
-        return newArtiste;
-    }
-
-    public Artiste createArtiste(int id, String name, String art_type, String ispublished) {
-        ContentValues values = new ContentValues();
-        values.put(SQLStrings.COLUMN_ARTISTE_ID, id);
-        values.put(SQLStrings.COLUMN_ARTISTE_NAME, name);
-        values.put(SQLStrings.COLUMN_ARTISTE_ART_TYPE, art_type);
         values.put(SQLStrings.COLUMN_ARTISTE_IS_PUBLISHED, ispublished);
         long insertId = database.insert(SQLStrings.TABLE_ARTISTE, null,
                 values);
@@ -80,8 +50,6 @@ public class ArtisteDBHelper {
         cursor.close();
         return newArtiste;
     }
-
-
 
     public void deleteArtiste(Artiste Artiste) {
         /*long id = Artiste.getMinutes();

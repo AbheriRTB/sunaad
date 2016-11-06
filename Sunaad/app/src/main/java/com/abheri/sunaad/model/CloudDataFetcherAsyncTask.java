@@ -75,7 +75,7 @@ public class CloudDataFetcherAsyncTask extends AsyncTask<String, String, Object>
                         returnObj = (Object)mergedValues;
                         break;
                     case ARTISTE_DIR:
-                        responseString = DummyData.getJSONFromRawFile(context, artiste_sample_data);
+                        //responseString = LocalFileReader.readRawResourceFile(context, artiste_sample_data);
                         ArtisteDataHelper adh = new ArtisteDataHelper();
                         List<Artiste> artistes = adh.parseArtisteListFromJsonResponse(responseString);
                         //ProgramListDataCache pldc = new ProgramListDataCache(context);

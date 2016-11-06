@@ -65,11 +65,11 @@ public class Util {
             case PROGRAM:
             case ARTISTE:
             case SABHA:
-                url = "http://abheri.pythonanywhere.com/programs/";
+                url = "https://sunaad-services-njs.herokuapp.com/getPrograms/";
                 //url="http://10.0.3.2:9999/programs/";
                 break;
             case ARTISTE_DIR:
-                url = "http://abheri.pythonanywhere.com/programs/";
+                url = "https://sunaad-services-njs.herokuapp.com/getArtiste/";
                 //url="http://10.0.3.2:9999/programs/";
                 break;
             default:

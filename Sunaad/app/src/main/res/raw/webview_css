@@ -1,0 +1,33 @@
+<style type="text/css">
+
+    body.class1
+    {
+        -webkit-box-shadow: 5px 0px 0px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 5px 0px 0px 0px rgba(0,0,0,0.75);
+        box-shadow: 5px 0px 0px 0px rgba(0,0,0,0.75);
+        font-family:Arial;
+        font-size:1.3em;
+        margin: 25px;
+
+    }
+
+    h3.underline
+    {
+        font-family:Arial;
+        font-size:1.5em;
+    }
+
+    a:link
+    {
+        font-family:Arial;
+        color:green;
+        text-decoration:underline;
+    }
+    a:visited
+    {
+        font-family:Arial;
+        color:blue;
+        text-decoration:underline;
+    }
+
+</style>

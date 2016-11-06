@@ -119,9 +119,9 @@ public class ArtisteDirectoryFragment extends Fragment implements HandleServiceR
 
     private void openArtisteDetails(Artiste artisteToOpen,
                                     android.support.v4.app.FragmentManager fragmentManager){
-        Intent prgIntent = new Intent();
-        prgIntent.putExtra("ArtisteDetails", artisteToOpen);
-        myActivity.setIntent(prgIntent);
+        Intent artIntent = new Intent();
+        artIntent.putExtra("ArtisteDetails", artisteToOpen);
+        myActivity.setIntent(artIntent);
 
         ArtisteDetailsFragment adf = new ArtisteDetailsFragment();
 

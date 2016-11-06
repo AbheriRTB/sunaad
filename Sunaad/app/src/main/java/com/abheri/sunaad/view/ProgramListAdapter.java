@@ -1,17 +1,12 @@
 package com.abheri.sunaad.view;
 
 import android.app.Activity;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.TouchDelegate;
 import android.view.View;
@@ -127,7 +122,7 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
         String title = currentProgram.getTitle();
         String details = currentProgram.getDetails();
         String eventDate = ft.format(currentProgram.getEventDate());
-        String locationAddress1 = currentProgram.getLocation_address1();
+        String locationAddress1 = currentProgram.getVenueAddress1();
         String uri = currentProgram.getArtiste_image();
         if (uri == null && uri.length() <= 0) {
             uri = "@drawable/default_artiste.jpeg";

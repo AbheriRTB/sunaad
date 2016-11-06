@@ -97,7 +97,7 @@ public class ArtisteExpandableListAdapter extends BaseExpandableListAdapter {
         DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String eventDate = sdf.format(program.getEventDate()).toString();
 
-        item.setText(program.getPlace());
+        item.setText(program.getVenueName());
         aDate.setText(eventDate);
         Picasso.with(context)
                 .load(uri)
