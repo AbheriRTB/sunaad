@@ -1,6 +1,7 @@
 package com.abheri.sunaad.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by prasanna.ramaswamy on 27/10/15.
@@ -23,7 +24,9 @@ public class Artiste implements Serializable {
     private String artiste_instrument;
     private String artiste_audio_clip;
     private String art_type;
-
+    private String artiste_email;
+    private Date artiste_DOB;
+    private String artiste_gender;
     private String is_published;
 
 
@@ -153,7 +156,29 @@ public class Artiste implements Serializable {
         this.art_type = artType;
     }
 
+    public String getArtisteEmail() {
+        return artiste_email;
+    }
 
+    public void setArtisteEmail(String email) {
+        this.artiste_email = email;
+    }
+
+    public Date getArtisteDOB() {
+        return artiste_DOB;
+    }
+
+    public void setArtisteDOB(Date dob) {
+        this.artiste_DOB = dob;
+    }
+
+    public String getArtisteGender() {
+        return artiste_gender;
+    }
+
+    public void setArtisteGender(String gender) {
+        this.artiste_gender = gender;
+    }
 
 
     public String getIs_published() {

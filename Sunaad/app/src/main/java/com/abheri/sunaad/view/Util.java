@@ -34,6 +34,9 @@ public class Util {
     public static final String SETTINGS_SCREEN = "Settings";
 
     public static final String ARTISTE_DIR_SCREEN = "Artiste Directory List";
+    public static final String ORGANIZER_DIR_SCREEN = "Organizer Directory List";
+    public static final String VENUE_DIR_SCREEN = "Venue Directory List";
+
 
 
     public static final String REFRESH_CALLED = "Refresh Called";
@@ -70,6 +73,10 @@ public class Util {
                 break;
             case ARTISTE_DIR:
                 url = "https://sunaad-services-njs.herokuapp.com/getArtiste/";
+                //url="http://10.0.3.2:9999/programs/";
+                break;
+            case ORGANIZER_DIR:
+                url = "https://sunaad-services-njs.herokuapp.com/getOrganizer/";
                 //url="http://10.0.3.2:9999/programs/";
                 break;
             default:

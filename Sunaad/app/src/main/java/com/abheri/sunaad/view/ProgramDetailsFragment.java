@@ -217,8 +217,6 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
         parkingImg.setOnClickListener(this);
         parkingImg.setTag(parkingMsg);
 
-
-
         /*
         String uri = "geo:"+ prgObj.getVenueCoords();
         //String uri = String.format(Locale.ENGLISH, "geo:%f,%f", 13.0104054,77.5488072);

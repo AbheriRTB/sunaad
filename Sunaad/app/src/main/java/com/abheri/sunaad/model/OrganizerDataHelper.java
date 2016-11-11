@@ -17,66 +17,56 @@ import java.util.List;
 /**
  * Created by prasanna.ramaswamy on 25/10/15.
  */
-public class ArtisteDataHelper {
+public class OrganizerDataHelper {
 
     JSONArray ja;
 
-    public List<Artiste> parseArtisteListFromJsonResponse(String jsonstring) {
+    public List<Organizer> parseOrganizerListFromJsonResponse(String jsonstring) {
 
+        List<Organizer> organizers = new ArrayList<Organizer>();
+        List<Organizer> cachedOrganizers = new ArrayList<Organizer>();
 
-        List<Artiste> artistes = new ArrayList<Artiste>();
-        List<Artiste> cachedArtistes = new ArrayList<Artiste>();
+        Organizer tmpOrganizer;
 
-        Artiste tmpArtiste;
-
-        String dummy_json =  "[{\"artiste_id\":1,\"artiste_name\":\"Ananthram B K\",\"artiste_phone\":\"123456789\",\"artiste_website\":\"null\",\"art_type\":\"Carnatic\",\"audio_clip\":\"aud    io_bka.wav\",\"artiste_instrument\":\"null\",\"artiste_address1\":\"9th Main\",\"artiste_address2\":\"Subramanyanagar\",\"artiste_city\":\"Bangalore\",\"artiste_state\":\"Karnataka\",\"artiste_country\":\"India\",\"artiste_pincode\":\"560079\",\"artiste_coords\":\"undefined\",\"artiste_image\":\"b_k_ananthram.jpeg\",\"artiste_is_published\":\"null\"}]";
+        //String dummy_json =  "[{\"artiste_id\":1,\"artiste_name\":\"Ananthram B K\",\"artiste_phone\":\"123456789\",\"artiste_website\":\"null\",\"art_type\":\"Carnatic\",\"audio_clip\":\"aud    io_bka.wav\",\"artiste_instrument\":\"null\",\"artiste_address1\":\"9th Main\",\"artiste_address2\":\"Subramanyanagar\",\"artiste_city\":\"Bangalore\",\"artiste_state\":\"Karnataka\",\"artiste_country\":\"India\",\"artiste_pincode\":\"560079\",\"artiste_coords\":\"undefined\",\"artiste_image\":\"b_k_ananthram.jpeg\",\"artiste_is_published\":\"null\"}]";
 
         try {
             ja = new JSONArray(jsonstring);
             if (ja != null) {
                 for (int i = 0; i < ja.length(); ++i) {
-                    tmpArtiste = new Artiste();
+                    tmpOrganizer = new Organizer();
                     JSONObject jo = ja.getJSONObject(i);
 
-                    tmpArtiste.setId(jo.getLong("artiste_id"));
-                    tmpArtiste.setArtisteName(jo.getString("artiste_name"));
-                    tmpArtiste.setArtistePhone(jo.getString("artiste_phone"));
-                    tmpArtiste.setArtisteAddress1(jo.getString("artiste_address1"));
-                    tmpArtiste.setArtisteAddress2(jo.getString("artiste_address2"));
-                    tmpArtiste.setArtisteCity(jo.getString("artiste_city"));
-                    tmpArtiste.setArtisteState(jo.getString("artiste_state"));
-                    tmpArtiste.setArtisteCountry(jo.getString("artiste_country"));
-                    tmpArtiste.setArtistePincode(jo.getString("artiste_pincode"));
-                    tmpArtiste.setArtisteCoords(jo.getString("artiste_coords"));
-                    tmpArtiste.setArtisteWebsite(jo.getString("artiste_website"));
-                    tmpArtiste.setIs_published(jo.getString("artiste_is_published"));
-                    tmpArtiste.setArtisteImage(jo.getString("artiste_image"));
-                    tmpArtiste.setArtisteInstrument(jo.getString("artiste_instrument"));
-                    tmpArtiste.setArtisteAudioClip(jo.getString("audio_clip"));
-                    tmpArtiste.setArtisteArtType(jo.getString("art_type"));
-                    tmpArtiste.setArtisteEmail(jo.getString("artiste_email"));
-                    tmpArtiste.setArtisteGender(jo.getString("artiste_gender"));
-
-                    String dt = jo.getString("artiste_dob");
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                    Date dateObj = formatter.parse(dt);
-                    tmpArtiste.setArtisteDOB(dateObj);
+                    tmpOrganizer.setOrganizerId(jo.getLong("organizer_id"));
+                    tmpOrganizer.setOrganizerName(jo.getString("organizer_name"));
+                    tmpOrganizer.setOrganizerDesc(jo.getString("organizer_desc"));
+                    tmpOrganizer.setOrganizerWebsite(jo.getString("organizer_website"));
+                    tmpOrganizer.setOrganizerLogo(jo.getString("organizer_logo"));
+                    tmpOrganizer.setOrganizerPhone(jo.getString("organizer_phone"));
+                    tmpOrganizer.setOrganizerAddress1(jo.getString("organizer_address1"));
+                    tmpOrganizer.setOrganizerAddress2(jo.getString("organizer_address2"));
+                    tmpOrganizer.setOrganizerCity(jo.getString("organizer_city"));
+                    tmpOrganizer.setOrganizerState(jo.getString("organizer_state"));
+                    tmpOrganizer.setOrganizerCountry(jo.getString("organizer_country"));
+                    tmpOrganizer.setOrganizerPincode(jo.getString("organizer_pincode"));
+                    tmpOrganizer.setOrganizerCoords(jo.getString("organizer_mapcoords"));
+                    tmpOrganizer.setIs_published(jo.getString("organizer_is_published"));
 
                     //Add unpublished data only when the build type is NOT Release
                     if(BuildConfig.DEBUG) {
-                        artistes.add(tmpArtiste);
-                    }else if(Util.isYes(tmpArtiste.getIs_published())){
-                        artistes.add(tmpArtiste);
+                        organizers.add(tmpOrganizer);
+                    }else if(Util.isYes(tmpOrganizer.getIs_published())){
+                        organizers.add(tmpOrganizer);
                     }
                 }
             }
         } catch (JSONException e) {
             e.printStackTrace();
-        } catch (ParseException e){
+        } catch (Exception e){
             e.printStackTrace();
         }
 
-        return artistes;
+        return organizers;
     }
 
 

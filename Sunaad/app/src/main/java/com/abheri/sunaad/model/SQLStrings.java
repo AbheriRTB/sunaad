@@ -75,6 +75,50 @@ public class SQLStrings {
             SQLStrings.COLUMN_ARTISTE_IMAGE,
             SQLStrings.COLUMN_ARTISTE_IS_PUBLISHED };
 
+    //Organizer table
+    protected static final String TABLE_ORGANIZER = "organizer";
+    protected static final String COLUMN_ORGANIZER_ID = "organizer_id";
+    protected static final String COLUMN_ORGANIZER_NAME = "organizer_name";
+    protected static final String COLUMN_ORGANIZER_WEBSITE = "organizer_website";
+    protected static final String COLUMN_ORGANIZER_ADDRESS1 = "address1";
+    protected static final String COLUMN_ORGANIZER_ADDRESS2 = "address2";
+    protected static final String COLUMN_ORGANIZER_CITY = "city";
+    protected static final String COLUMN_ORGANIZER_STATE = "state";
+    protected static final String COLUMN_ORGANIZER_COUNTRY = "country";
+    protected static final String COLUMN_ORGANIZER_PINCODE = "pincode";
+    protected static final String COLUMN_ORGANIZER_MAPCOORDS = "mapcoords";
+    protected static final String COLUMN_ORGANIZER_IMAGE = "organizer_image";
+    protected static final String COLUMN_ORGANIZER_IS_PUBLISHED = "is_published";
+
+    protected static final String create_organizer_table = "create table "
+            + TABLE_ORGANIZER + "("
+            + COLUMN_ORGANIZER_ID + " integer not null,"
+            + COLUMN_ORGANIZER_NAME + " text not null,"
+            + COLUMN_ORGANIZER_WEBSITE + " text,"
+            + COLUMN_ORGANIZER_ADDRESS1 + " text,"
+            + COLUMN_ORGANIZER_ADDRESS2 + " text,"
+            + COLUMN_ORGANIZER_CITY + " text,"
+            + COLUMN_ORGANIZER_STATE + " text,"
+            + COLUMN_ORGANIZER_COUNTRY + " text,"
+            + COLUMN_ORGANIZER_PINCODE + " text,"
+            + COLUMN_ORGANIZER_MAPCOORDS + " text,"
+            + COLUMN_ORGANIZER_IMAGE + " text,"
+            + COLUMN_ORGANIZER_IS_PUBLISHED + " text not null);";
+
+    protected static final String[] organzerAllColumns = {
+            SQLStrings.COLUMN_ORGANIZER_ID,
+            SQLStrings.COLUMN_ORGANIZER_NAME,
+            SQLStrings.COLUMN_ORGANIZER_WEBSITE,
+            SQLStrings.COLUMN_ORGANIZER_ADDRESS1,
+            SQLStrings.COLUMN_ORGANIZER_ADDRESS2,
+            SQLStrings.COLUMN_ORGANIZER_CITY,
+            SQLStrings.COLUMN_ORGANIZER_STATE,
+            SQLStrings.COLUMN_ORGANIZER_COUNTRY ,
+            SQLStrings.COLUMN_ORGANIZER_PINCODE,
+            SQLStrings.COLUMN_ORGANIZER_MAPCOORDS,
+            SQLStrings.COLUMN_ORGANIZER_IMAGE,
+            SQLStrings.COLUMN_ORGANIZER_IS_PUBLISHED };
+
 
     //Program table
     protected static final String TABLE_PROGRAM = "program";

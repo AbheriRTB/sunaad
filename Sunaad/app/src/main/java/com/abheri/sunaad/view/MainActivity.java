@@ -276,6 +276,11 @@ public class MainActivity extends AppCompatActivity
                     transaction.replace(R.id.container, adf);
                     transaction.addToBackStack(null);
                     transaction.commit();
+                }else if (gMenuItem.getItemId() == R.id.navigation_dir_sub_item_2) {
+                    OrganizerDirectoryFragment odf = new OrganizerDirectoryFragment();
+                    transaction.replace(R.id.container, odf);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
                 }else {
                     transaction.replace(R.id.container, PlaceholderFragment.newInstance(0 + 1));
                     transaction.addToBackStack(null);
