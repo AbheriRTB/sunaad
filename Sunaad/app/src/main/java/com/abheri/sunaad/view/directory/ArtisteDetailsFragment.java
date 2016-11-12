@@ -1,4 +1,4 @@
-package com.abheri.sunaad.view;
+package com.abheri.sunaad.view.directory;
 
 
 import android.content.Context;
@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.model.Artiste;
 import com.abheri.sunaad.model.LocalFileReader;
+import com.abheri.sunaad.view.CustomWebViewClient;
+import com.abheri.sunaad.view.Util;
 import com.squareup.picasso.Picasso;
 import org.apache.commons.validator.routines.UrlValidator;
 
@@ -35,7 +37,7 @@ public class ArtisteDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         context = getContext();
-        View rootView = inflater.inflate(R.layout.fragment_artiste_details, container, false);
+        View rootView = inflater.inflate(R.layout.dir_fragment_artiste_details, container, false);
 
         Intent i = getActivity().getIntent();
         Artiste artObj = (Artiste) i.getExtras().getSerializable("ArtisteDetails");
@@ -45,7 +47,7 @@ public class ArtisteDetailsFragment extends Fragment {
         String cssStr = LocalFileReader.readRawResourceFile(context, R.raw.webview_css);
 
         String titleStr = cssStr + "<html><body><center><h3 class=\"underline\"> " +
-                artObj.getgetArtisteName() + "</h3></center></body></html>";
+                artObj.getArtisteName() + "</h3></center></body></html>";
         titleWV.loadData(titleStr,"text/html", "utf-8");
 
         //----- Image ----
@@ -80,7 +82,7 @@ public class ArtisteDetailsFragment extends Fragment {
         UrlValidator urlValidator = new UrlValidator();
 
         htmlStr += "<html><body class=\"class1\">";
-        htmlStr += "Vid. " + artObj.getgetArtisteName() + ", is an accomplished ";
+        htmlStr += "Vid. " + artObj.getArtisteName() + ", is an accomplished ";
         htmlStr += getSpeciality(artObj.getArtisteInstrument());
         htmlStr += "<br><br>";
         htmlStr += "<u><i>Contact Details:</i></u><br>";

@@ -5,33 +5,35 @@
     android:padding="10dp" >
 
     <ImageView
-        android:id="@+id/adArtisteImage"
+        android:id="@+id/vdVenueImage"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:contentDescription="ProgramImage"
+        android:contentDescription="OrganizerImage"
         android:layout_alignParentLeft="true"
         android:layout_gravity="center_vertical"/>
 
     <TextView
-        android:id="@+id/aDate"
+        android:id="@+id/vdName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/adArtisteImage"
+        android:layout_toRightOf="@id/vdVenueImage"
         android:layout_alignParentTop="true"
-        android:text="Date"
-        android:paddingLeft="25dp" />
+        android:text="Artiste Name"
+        android:textColor="@color/black"
+        android:paddingLeft="25dp"
+        android:textSize="20dp" />
 
     <TextView
-        android:id="@+id/sprogramDetail"
+        android:id="@+id/vdDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/adArtisteImage"
-        android:layout_below="@id/aDate"
-        android:textStyle="bold"
+        android:layout_toRightOf="@id/vdVenueImage"
+        android:layout_below="@id/vdName"
         android:textColor="@color/black"
-        android:text="Details"
-        android:layout_centerVertical="true"
+        android:text="Details: "
         android:paddingLeft="25dp"
-        android:layout_alignParentBottom="false" />
+        android:layout_alignParentBottom="false"
+        android:textSize="18dp"
+        android:textStyle="italic" />
 
 </RelativeLayout>

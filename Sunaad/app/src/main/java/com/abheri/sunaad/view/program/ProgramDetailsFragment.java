@@ -1,4 +1,4 @@
-package com.abheri.sunaad.view;
+package com.abheri.sunaad.view.program;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +17,8 @@ import android.widget.Toast;
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.controller.SettingsController;
 import com.abheri.sunaad.model.Program;
+import com.abheri.sunaad.view.ProportionalImageView;
+import com.abheri.sunaad.view.Util;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
@@ -46,7 +48,7 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_program_details, container, false);
+        rootView = inflater.inflate(R.layout.prg_fragment_program_details, container, false);
         context = getContext();
 
         Intent i = getActivity().getIntent();

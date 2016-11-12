@@ -1,4 +1,4 @@
-package com.abheri.sunaad.view;
+package com.abheri.sunaad.view.program;
 
 
 import android.app.Activity;
@@ -24,6 +24,11 @@ import com.abheri.sunaad.model.ProgramDataHelper;
 import com.abheri.sunaad.model.Program;
 import com.abheri.sunaad.model.ProgramListDataCache;
 import com.abheri.sunaad.model.CloudDataFetcherAsyncTask;
+import com.abheri.sunaad.view.HandleServiceResponse;
+import com.abheri.sunaad.view.MainActivity;
+import com.abheri.sunaad.view.SunaadViews;
+import com.abheri.sunaad.view.Util;
+import com.abheri.sunaad.view.directory.ArtisteDetailsFragment;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -33,7 +38,7 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ArtisteFragment extends Fragment implements HandleServiceResponse{
+public class ArtisteFragment extends Fragment implements HandleServiceResponse {
 
     ViewAnimator viewAnimator;
     Context context;
@@ -56,7 +61,7 @@ public class ArtisteFragment extends Fragment implements HandleServiceResponse{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_artiste, container,
+        rootView = inflater.inflate(R.layout.prg_fragment_artiste, container,
                 false);
 
         if(null == context){

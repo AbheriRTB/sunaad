@@ -1,4 +1,4 @@
-package com.abheri.sunaad.view;
+package com.abheri.sunaad.view.directory;
 
 
 import android.app.Activity;
@@ -21,17 +21,20 @@ import android.widget.ViewAnimator;
 
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.model.Artiste;
-import com.abheri.sunaad.model.ArtisteListDataCache;
 import com.abheri.sunaad.model.CloudDataFetcherAsyncTask;
 import com.abheri.sunaad.model.Organizer;
 import com.abheri.sunaad.model.OrganizerListDataCache;
+import com.abheri.sunaad.view.HandleServiceResponse;
+import com.abheri.sunaad.view.MainActivity;
+import com.abheri.sunaad.view.SunaadViews;
+import com.abheri.sunaad.view.Util;
 
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class OrganizerDirectoryFragment extends Fragment implements HandleServiceResponse{
+public class OrganizerDirectoryFragment extends Fragment implements HandleServiceResponse {
 
     ViewAnimator viewAnimator;
     Context context;
@@ -55,7 +58,7 @@ public class OrganizerDirectoryFragment extends Fragment implements HandleServic
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_organizer_directory, container,
+        rootView = inflater.inflate(R.layout.dir_fragment_organizer_directory, container,
                 false);
 
         if(null == context){
@@ -183,7 +186,7 @@ public class OrganizerDirectoryFragment extends Fragment implements HandleServic
 
         if(adapter == null){
             adapter = new OrganizerListAdapter(
-                    rootView.getContext(), R.layout.organizer_dir_child_item, values);
+                    rootView.getContext(), R.layout.dir_organizer_dir_child_item, values);
             organizerList.setAdapter(adapter);
         }else{
             adapter.setNotifyOnChange(false);

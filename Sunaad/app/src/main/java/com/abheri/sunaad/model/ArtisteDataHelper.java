@@ -40,6 +40,7 @@ public class ArtisteDataHelper {
 
                     tmpArtiste.setId(jo.getLong("artiste_id"));
                     tmpArtiste.setArtisteName(jo.getString("artiste_name"));
+                    tmpArtiste.setArtiste_description(jo.getString("artiste_desc"));
                     tmpArtiste.setArtistePhone(jo.getString("artiste_phone"));
                     tmpArtiste.setArtisteAddress1(jo.getString("artiste_address1"));
                     tmpArtiste.setArtisteAddress2(jo.getString("artiste_address2"));
@@ -47,7 +48,7 @@ public class ArtisteDataHelper {
                     tmpArtiste.setArtisteState(jo.getString("artiste_state"));
                     tmpArtiste.setArtisteCountry(jo.getString("artiste_country"));
                     tmpArtiste.setArtistePincode(jo.getString("artiste_pincode"));
-                    tmpArtiste.setArtisteCoords(jo.getString("artiste_coords"));
+                    tmpArtiste.setArtisteCoords(jo.getString("artiste_mapcoords"));
                     tmpArtiste.setArtisteWebsite(jo.getString("artiste_website"));
                     tmpArtiste.setIs_published(jo.getString("artiste_is_published"));
                     tmpArtiste.setArtisteImage(jo.getString("artiste_image"));
@@ -58,9 +59,11 @@ public class ArtisteDataHelper {
                     tmpArtiste.setArtisteGender(jo.getString("artiste_gender"));
 
                     String dt = jo.getString("artiste_dob");
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                    Date dateObj = formatter.parse(dt);
-                    tmpArtiste.setArtisteDOB(dateObj);
+                    if(dt != null && dt.trim().length() > 0){
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                        Date dateObj = formatter.parse(dt);
+                        tmpArtiste.setArtisteDOB(dateObj);
+                    }
 
                     //Add unpublished data only when the build type is NOT Release
                     if(BuildConfig.DEBUG) {

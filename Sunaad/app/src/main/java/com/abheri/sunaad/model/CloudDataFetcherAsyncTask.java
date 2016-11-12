@@ -92,6 +92,15 @@ public class CloudDataFetcherAsyncTask extends AsyncTask<String, String, Object>
                         //returnObj = (Object)mergedValues;
                         returnObj = organizers;
                         break;
+                    case VENUE_DIR:
+                        //responseString = LocalFileReader.readRawResourceFile(context, artiste_sample_data);
+                        VenueDataHelper vdh = new VenueDataHelper();
+                        List<Venue> venues = vdh.parseVenueListFromJsonResponse(responseString);
+                        //ProgramListDataCache pldc = new ProgramListDataCache(context);
+                        //List<Program> mergedValues = pldc.mergeLocalDataWithServer(values);
+                        //returnObj = (Object)mergedValues;
+                        returnObj = venues;
+                        break;
                     default:
                         break;
                 }

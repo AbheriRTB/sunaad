@@ -69,15 +69,15 @@ public class Util {
             case ARTISTE:
             case SABHA:
                 url = "https://sunaad-services-njs.herokuapp.com/getPrograms/";
-                //url="http://10.0.3.2:9999/programs/";
                 break;
             case ARTISTE_DIR:
                 url = "https://sunaad-services-njs.herokuapp.com/getArtiste/";
-                //url="http://10.0.3.2:9999/programs/";
                 break;
             case ORGANIZER_DIR:
                 url = "https://sunaad-services-njs.herokuapp.com/getOrganizer/";
-                //url="http://10.0.3.2:9999/programs/";
+                break;
+            case VENUE_DIR:
+                url = "https://sunaad-services-njs.herokuapp.com/getVenue/";
                 break;
             default:
                 break;
@@ -100,6 +100,9 @@ public class Util {
             case PROGRAM:
             case ARTISTE:
             case SABHA:
+            case ARTISTE_DIR:
+            case ORGANIZER_DIR:
+            case VENUE_DIR:
                 //url="http://10.0.3.2/sunaad/";
                 url = "http://abheri.pythonanywhere.com/static/";
                 break;

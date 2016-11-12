@@ -26,6 +26,15 @@ import android.widget.Toast;
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.model.DBHelper;
 import com.abheri.sunaad.model.Program;
+import com.abheri.sunaad.view.directory.ArtisteDirectoryFragment;
+import com.abheri.sunaad.view.directory.OrganizerDirectoryFragment;
+import com.abheri.sunaad.view.directory.VenueDirectoryFragment;
+import com.abheri.sunaad.view.program.ArtisteFragment;
+import com.abheri.sunaad.view.program.EventtypeFragment;
+import com.abheri.sunaad.view.program.OrganizerFragment;
+import com.abheri.sunaad.view.program.ProgramDetailsFragment;
+import com.abheri.sunaad.view.program.ProgramFragment;
+import com.abheri.sunaad.view.program.VenueFragment;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.PicassoTools;
@@ -279,6 +288,11 @@ public class MainActivity extends AppCompatActivity
                 }else if (gMenuItem.getItemId() == R.id.navigation_dir_sub_item_2) {
                     OrganizerDirectoryFragment odf = new OrganizerDirectoryFragment();
                     transaction.replace(R.id.container, odf);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }else if (gMenuItem.getItemId() == R.id.navigation_dir_sub_item_3) {
+                    VenueDirectoryFragment vdf = new VenueDirectoryFragment();
+                    transaction.replace(R.id.container, vdf);
                     transaction.addToBackStack(null);
                     transaction.commit();
                 }else {

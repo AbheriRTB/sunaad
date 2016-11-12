@@ -33,6 +33,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
         database.execSQL(SQLStrings.create_settings_table);
         createDefaultSettingsData(database);
+        database.execSQL(SQLStrings.create_artiste_table);
+        database.execSQL(SQLStrings.create_organizer_table);
+        database.execSQL(SQLStrings.create_venue_table);
+
 
         switch(DATABASE_VERSION){
 

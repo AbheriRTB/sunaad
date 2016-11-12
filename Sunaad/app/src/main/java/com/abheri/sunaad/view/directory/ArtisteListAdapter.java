@@ -1,4 +1,4 @@
-package com.abheri.sunaad.view;
+package com.abheri.sunaad.view.directory;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.model.Artiste;
+import com.abheri.sunaad.view.Util;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -66,7 +67,7 @@ public class ArtisteListAdapter extends ArrayAdapter<Artiste> {
 
             LayoutInflater vi = (LayoutInflater) getContext().getSystemService(
                     Context.LAYOUT_INFLATER_SERVICE);
-            v = vi.inflate(R.layout.artiste_dir_child_item, null);
+            v = vi.inflate(R.layout.dir_artiste_dir_child_item, null);
 
             holder = new ProgramViewHolder();
             holder.name = (TextView) v.findViewById(R.id.adName);
@@ -90,7 +91,7 @@ public class ArtisteListAdapter extends ArrayAdapter<Artiste> {
 
         SimpleDateFormat ft = new SimpleDateFormat("E, dd-MMM-yyyy");
 
-        String name = currentArtiste.getgetArtisteName();
+        String name = currentArtiste.getArtisteName();
         String specialization = currentArtiste.getArtisteInstrument();
         if(specialization == null || specialization == ""){
             specialization = "Vocal";

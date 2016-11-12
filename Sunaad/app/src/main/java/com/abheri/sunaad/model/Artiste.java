@@ -11,6 +11,7 @@ import java.util.Date;
 public class Artiste implements Serializable {
     private long id;
     private String artiste_name;
+    private String artiste_description;
     private String artiste_phone;
     private String artiste_address1;
     private String artiste_address2;
@@ -38,12 +39,20 @@ public class Artiste implements Serializable {
         this.id = id;
     }
 
-    public String getgetArtisteName() {
+    public String getArtisteName() {
         return artiste_name;
     }
 
     public void setArtisteName(String name) {
         this.artiste_name = name;
+    }
+
+    public String getArtiste_description() {
+        return artiste_description;
+    }
+
+    public void setArtiste_description(String description) {
+        this.artiste_description = description;
     }
 
     public String getArtistePhone() {

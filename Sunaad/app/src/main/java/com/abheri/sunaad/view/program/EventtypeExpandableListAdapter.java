@@ -1,4 +1,4 @@
-package com.abheri.sunaad.view;
+package com.abheri.sunaad.view.program;
 
 /**
  * Created by Maha on 27/12/15.
@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.model.Program;
+import com.abheri.sunaad.view.Util;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
@@ -23,21 +24,21 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
-public class VenueExpandableListAdapter extends BaseExpandableListAdapter {
+public class EventtypeExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Activity context;
-    private Map<String, List<String>> sabhaCollections;
+    private Map<String, List<String>> eventtypeCollections;
     private List<String> sabhas;
 
-    public VenueExpandableListAdapter(Activity context, List<String> sabhaList,
-                                      Map<String, List<String>> sabhaCollections) {
+    public EventtypeExpandableListAdapter(Activity context, List<String> sabhaList,
+                                          Map<String, List<String>> sabhaCollections) {
         this.context = context;
-        this.sabhaCollections = sabhaCollections;
+        this.eventtypeCollections = sabhaCollections;
         this.sabhas = sabhaList;
     }
 
     public Object getChild(int groupPosition, int childPosition) {
-        return sabhaCollections.get(sabhas.get(groupPosition)).get(childPosition);
+        return eventtypeCollections.get(sabhas.get(groupPosition)).get(childPosition);
     }
 
     public long getChildId(int groupPosition, int childPosition) {
@@ -51,7 +52,7 @@ public class VenueExpandableListAdapter extends BaseExpandableListAdapter {
         LayoutInflater inflater = context.getLayoutInflater();
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.venue_child_item, null);
+            convertView = inflater.inflate(R.layout.prg_venue_child_item, null);
         }
 
         TextView item = (TextView) convertView.findViewById(R.id.sprogramDetail);
@@ -124,7 +125,7 @@ public class VenueExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     public int getChildrenCount(int groupPosition) {
-        return sabhaCollections.get(sabhas.get(groupPosition)).size();
+        return eventtypeCollections.get(sabhas.get(groupPosition)).size();
     }
 
     public Object getGroup(int groupPosition) {
@@ -145,7 +146,7 @@ public class VenueExpandableListAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.venue_group_item,
+            convertView = infalInflater.inflate(R.layout.prg_venue_group_item,
                     null);
         }
         TextView item = (TextView) convertView.findViewById(R.id.sabhaName);
@@ -158,6 +159,7 @@ public class VenueExpandableListAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
+    //Test
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
     }

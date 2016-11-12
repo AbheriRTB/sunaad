@@ -13,6 +13,7 @@ public class Organizer implements Serializable {
     private String organizer_name;
     private String organizer_desc;
     private String organizer_website;
+    private String organizer_email;
     private String organizer_logo;
     private String organizer_phone;
     private String organizer_address1;
@@ -54,6 +55,14 @@ public class Organizer implements Serializable {
 
     public void setOrganizerWebsite(String website) {
         this.organizer_website = website;
+    }
+
+    public String getOrganizerEmail() {
+        return organizer_email;
+    }
+
+    public void setOrganizerEmail(String email) {
+        this.organizer_email = email;
     }
 
     public String getOrganizerLogo() {

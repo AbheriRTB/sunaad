@@ -1,4 +1,4 @@
-package com.abheri.sunaad.view;
+package com.abheri.sunaad.view.program;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -17,6 +17,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.abheri.sunaad.controller.ProgramController;
+import com.abheri.sunaad.view.Util;
 import com.squareup.picasso.Picasso;
 
 import com.abheri.sunaad.R;
@@ -72,7 +73,7 @@ public class ProgramListAdapter extends ArrayAdapter<Program> {
 
             LayoutInflater vi = (LayoutInflater) getContext().getSystemService(
                     Context.LAYOUT_INFLATER_SERVICE);
-            v = vi.inflate(R.layout.program_list_item, null);
+            v = vi.inflate(R.layout.prg_program_list_item, null);
 
             holder = new ProgramViewHolder();
             holder.title = (TextView) v.findViewById(R.id.title);

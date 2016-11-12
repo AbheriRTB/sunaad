@@ -1,4 +1,4 @@
-package com.abheri.sunaad.view;
+package com.abheri.sunaad.view.directory;
 
 
 import android.content.Context;
@@ -12,9 +12,10 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 
 import com.abheri.sunaad.R;
-import com.abheri.sunaad.model.Artiste;
 import com.abheri.sunaad.model.LocalFileReader;
 import com.abheri.sunaad.model.Organizer;
+import com.abheri.sunaad.view.CustomWebViewClient;
+import com.abheri.sunaad.view.Util;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.validator.routines.UrlValidator;
@@ -37,7 +38,7 @@ public class OrganizerDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         context = getContext();
-        View rootView = inflater.inflate(R.layout.fragment_organizer_details, container, false);
+        View rootView = inflater.inflate(R.layout.dir_fragment_organizer_details, container, false);
 
         Intent i = getActivity().getIntent();
         Organizer orgObj = (Organizer) i.getExtras().getSerializable("OrganizerDetails");
@@ -93,16 +94,16 @@ public class OrganizerDetailsFragment extends Fragment {
         htmlStr += orgObj.getOrganizerState() + "<br>";
         htmlStr += orgObj.getOrganizerCountry() + "<br>";
 
-        String artPhone = orgObj.getOrganizerPhone();
-        if(artPhone != null) {
-            htmlStr += "Ph: <a href=\"tel:" + artPhone + "\">" + artPhone + "</a>";
+        String orgPhone = orgObj.getOrganizerPhone();
+        if(orgPhone != null) {
+            htmlStr += "Ph: <a href=\"tel:" + orgPhone + "\">" + orgPhone + "</a>";
         }
         htmlStr += "<br><br>";
 
-        /*String artWebSite = orgObj.getOrganizerWebsite();
-        if(artWebSite != null && urlValidator.isValid(artWebSite)) {
-            htmlStr += "Visit <a href=\"" + orgObj.getArtisteWebsite() + "\" target=\"_top\">Website</a><br>";
-        }*/
+        String organizerWebsite = orgObj.getOrganizerWebsite();
+        if(organizerWebsite != null && urlValidator.isValid(organizerWebsite)) {
+            htmlStr += "Visit <a href=\"" + organizerWebsite + "\" target=\"_top\">Website</a><br>";
+        }
 
         htmlStr += "</body>";
 

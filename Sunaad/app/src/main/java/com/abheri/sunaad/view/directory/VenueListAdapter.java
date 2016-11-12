@@ -1,13 +1,11 @@
-package com.abheri.sunaad.view;
+package com.abheri.sunaad.view.directory;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Rect;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -16,32 +14,31 @@ import android.widget.TextView;
 
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.model.Artiste;
-import com.abheri.sunaad.model.Organizer;
+import com.abheri.sunaad.model.Venue;
+import com.abheri.sunaad.view.Util;
 import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by prasanna.ramaswamy on 25/10/15.
  */
-public class OrganizerListAdapter extends ArrayAdapter<Organizer> {
+public class VenueListAdapter extends ArrayAdapter<Venue> {
 
-    List<Organizer> Organizers;
+    List<Venue> Venues;
     private View oldSelection = null;
     Context myContext;
 
-    public OrganizerListAdapter(Context context, int resource,
-                                List<Organizer> OrganizerList) {
-        super(context, resource, OrganizerList);
-        this.Organizers = OrganizerList;
+    public VenueListAdapter(Context context, int resource,
+                            List<Venue> VenueList) {
+        super(context, resource, VenueList);
+        this.Venues = VenueList;
         myContext = context;
         // TODO Auto-generated constructor stub
     }
 
     Activity currentActivity;
-    final OrganizerListAdapter self = this;
+    final VenueListAdapter self = this;
 
     public void update() {
         currentActivity.runOnUiThread(new Runnable() {
@@ -60,27 +57,27 @@ public class OrganizerListAdapter extends ArrayAdapter<Organizer> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = convertView;
-        ProgramViewHolder holder = null;
+        VenueViewHolder holder = null;
 
         if (v == null) {
 
             LayoutInflater vi = (LayoutInflater) getContext().getSystemService(
                     Context.LAYOUT_INFLATER_SERVICE);
-            v = vi.inflate(R.layout.organizer_dir_child_item, null);
+            v = vi.inflate(R.layout.dir_venue_dir_child_item, null);
 
-            holder = new ProgramViewHolder();
-            holder.name = (TextView) v.findViewById(R.id.odName);
-            holder.detail = (TextView) v.findViewById(R.id.odDetail);
+            holder = new VenueViewHolder();
+            holder.name = (TextView) v.findViewById(R.id.vdName);
+            holder.detail = (TextView) v.findViewById(R.id.vdDetail);
 
-            holder.iv = (ImageView) v.findViewById(R.id.odOrganizerImage);
+            holder.iv = (ImageView) v.findViewById(R.id.vdVenueImage);
 
             v.setTag(holder);
         } else {
-            holder = (ProgramViewHolder) v.getTag();
+            holder = (VenueViewHolder) v.getTag();
         }
 
 
-        Organizer currentOrganizer = this.Organizers.get(position);
+        Venue currentVenue = this.Venues.get(position);
 
         //Pass ProgramFragment to ProgramController so that it can update the
         //Data to persist the alarmSwitch state
@@ -88,14 +85,13 @@ public class OrganizerListAdapter extends ArrayAdapter<Organizer> {
         FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
         Fragment f = fragmentManager.findFragmentById(R.id.container);
 
-        String name = currentOrganizer.getOrganizerName();
-        String description = currentOrganizer.getOrganizerDesc();
+        String name = currentVenue.getVenue_name();
+        String description = currentVenue.getVenue_description();
         if(description == null || description == ""){
             description = "Vocal";
         }
 
-
-        String uri = currentOrganizer.getOrganizerLogo();
+        String uri = currentVenue.getImage();
         if (uri == null || uri.length() <= 0) {
             uri = "@drawable/default_artiste.jpeg";
         }
@@ -111,7 +107,7 @@ public class OrganizerListAdapter extends ArrayAdapter<Organizer> {
             v.setBackgroundColor(v.getResources().getColor(android.R.color.white));
 
         //TODO put correct event time and current time for compariosn
-        if (!Util.isYes(currentOrganizer.getIs_published())) {
+        if (!Util.isYes(currentVenue.getIs_published())) {
             v.setBackgroundColor(v.getResources().getColor(R.color.orange));
         }
 
@@ -128,7 +124,7 @@ public class OrganizerListAdapter extends ArrayAdapter<Organizer> {
         return v;
     }
 
-    private static class ProgramViewHolder {
+    private static class VenueViewHolder {
         TextView name, detail;
         ImageView iv;
     }

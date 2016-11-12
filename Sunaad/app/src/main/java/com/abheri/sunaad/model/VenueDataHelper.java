@@ -17,16 +17,17 @@ import java.util.List;
 /**
  * Created by prasanna.ramaswamy on 25/10/15.
  */
-public class OrganizerDataHelper {
+public class VenueDataHelper {
 
     JSONArray ja;
 
-    public List<Organizer> parseOrganizerListFromJsonResponse(String jsonstring) {
+    public List<Venue> parseVenueListFromJsonResponse(String jsonstring) {
 
-        List<Organizer> organizers = new ArrayList<Organizer>();
-        List<Organizer> cachedOrganizers = new ArrayList<Organizer>();
 
-        Organizer tmpOrganizer;
+        List<Venue> artistes = new ArrayList<Venue>();
+        List<Venue> cachedVenues = new ArrayList<Venue>();
+
+        Venue tmpVenue;
 
         //String dummy_json =  "[{\"artiste_id\":1,\"artiste_name\":\"Ananthram B K\",\"artiste_phone\":\"123456789\",\"artiste_website\":\"null\",\"art_type\":\"Carnatic\",\"audio_clip\":\"aud    io_bka.wav\",\"artiste_instrument\":\"null\",\"artiste_address1\":\"9th Main\",\"artiste_address2\":\"Subramanyanagar\",\"artiste_city\":\"Bangalore\",\"artiste_state\":\"Karnataka\",\"artiste_country\":\"India\",\"artiste_pincode\":\"560079\",\"artiste_coords\":\"undefined\",\"artiste_image\":\"b_k_ananthram.jpeg\",\"artiste_is_published\":\"null\"}]";
 
@@ -34,30 +35,32 @@ public class OrganizerDataHelper {
             ja = new JSONArray(jsonstring);
             if (ja != null) {
                 for (int i = 0; i < ja.length(); ++i) {
-                    tmpOrganizer = new Organizer();
+                    tmpVenue = new Venue();
                     JSONObject jo = ja.getJSONObject(i);
 
-                    tmpOrganizer.setOrganizerId(jo.getLong("organizer_id"));
-                    tmpOrganizer.setOrganizerName(jo.getString("organizer_name"));
-                    tmpOrganizer.setOrganizerDesc(jo.getString("organizer_desc"));
-                    tmpOrganizer.setOrganizerWebsite(jo.getString("organizer_website"));
-                    tmpOrganizer.setOrganizerWebsite(jo.getString("organizer_email"));
-                    tmpOrganizer.setOrganizerLogo(jo.getString("organizer_logo"));
-                    tmpOrganizer.setOrganizerPhone(jo.getString("organizer_phone"));
-                    tmpOrganizer.setOrganizerAddress1(jo.getString("organizer_address1"));
-                    tmpOrganizer.setOrganizerAddress2(jo.getString("organizer_address2"));
-                    tmpOrganizer.setOrganizerCity(jo.getString("organizer_city"));
-                    tmpOrganizer.setOrganizerState(jo.getString("organizer_state"));
-                    tmpOrganizer.setOrganizerCountry(jo.getString("organizer_country"));
-                    tmpOrganizer.setOrganizerPincode(jo.getString("organizer_pincode"));
-                    tmpOrganizer.setOrganizerCoords(jo.getString("organizer_mapcoords"));
-                    tmpOrganizer.setIs_published(jo.getString("organizer_is_published"));
+                    tmpVenue.setId(jo.getLong("venue_id"));
+                    tmpVenue.setVenue_name(jo.getString("venue_name"));
+                    tmpVenue.setVenue_description(jo.getString("venue_desc"));
+                    tmpVenue.setPhone(jo.getString("venue_phone"));
+                    tmpVenue.setAddress1(jo.getString("venue_address1"));
+                    tmpVenue.setAddress2(jo.getString("venue_address2"));
+                    tmpVenue.setCity(jo.getString("venue_city"));
+                    tmpVenue.setState(jo.getString("venue_state"));
+                    tmpVenue.setCountry(jo.getString("venue_country"));
+                    tmpVenue.setPincode(jo.getString("venue_pincode"));
+                    tmpVenue.setMapcoords(jo.getString("venue_mapcoords"));
+                    tmpVenue.setWebsite(jo.getString("venue_website"));
+                    tmpVenue.setEmail(jo.getString("venue_email"));
+                    tmpVenue.setIs_published(jo.getString("venue_is_published"));
+                    tmpVenue.setImage(jo.getString("venue_image"));
+                    tmpVenue.setParking(jo.getString("venue_parking"));
+                    tmpVenue.setEataries(jo.getString("venue_eateries"));
 
                     //Add unpublished data only when the build type is NOT Release
                     if(BuildConfig.DEBUG) {
-                        organizers.add(tmpOrganizer);
-                    }else if(Util.isYes(tmpOrganizer.getIs_published())){
-                        organizers.add(tmpOrganizer);
+                        artistes.add(tmpVenue);
+                    }else if(Util.isYes(tmpVenue.getIs_published())){
+                        artistes.add(tmpVenue);
                     }
                 }
             }
@@ -67,7 +70,7 @@ public class OrganizerDataHelper {
             e.printStackTrace();
         }
 
-        return organizers;
+        return artistes;
     }
 
 

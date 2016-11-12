@@ -17,7 +17,7 @@ import com.abheri.sunaad.model.ProgramListDataCache;
 import com.abheri.sunaad.model.Settings;
 import com.abheri.sunaad.model.SettingsDBHelper;
 import com.abheri.sunaad.view.AlarmBroadcastReceiver;
-import com.abheri.sunaad.view.ProgramFragment;
+import com.abheri.sunaad.view.program.ProgramFragment;
 import com.abheri.sunaad.view.Util;
 import com.google.android.gms.analytics.GoogleAnalytics;
 

@@ -1,4 +1,4 @@
-package com.abheri.sunaad.view;
+package com.abheri.sunaad.view.program;
 
 
 import android.app.Activity;
@@ -19,10 +19,14 @@ import android.widget.TextView;
 import android.widget.ViewAnimator;
 
 import com.abheri.sunaad.R;
-import com.abheri.sunaad.model.Program;
 import com.abheri.sunaad.model.ProgramDataHelper;
+import com.abheri.sunaad.model.Program;
 import com.abheri.sunaad.model.ProgramListDataCache;
 import com.abheri.sunaad.model.CloudDataFetcherAsyncTask;
+import com.abheri.sunaad.view.HandleServiceResponse;
+import com.abheri.sunaad.view.MainActivity;
+import com.abheri.sunaad.view.SunaadViews;
+import com.abheri.sunaad.view.Util;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -32,13 +36,13 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EventtypeFragment extends Fragment implements HandleServiceResponse{
+public class VenueFragment extends Fragment implements HandleServiceResponse {
 
     ViewAnimator viewAnimator;
     Context context;
     View rootView;
-    List<String> eList = new ArrayList<String>();
-    LinkedHashMap<String, List<Program>> eventtypeProgramCollection = new LinkedHashMap<String, List<Program>>();
+    List<String> sList = new ArrayList<String>();
+    LinkedHashMap<String, List<Program>> sabhaProgramCollection = new LinkedHashMap<String, List<Program>>();
 
     ExpandableListView expListView;
     ProgressBar progressBar;
@@ -46,7 +50,7 @@ public class EventtypeFragment extends Fragment implements HandleServiceResponse
     Activity myActivity;
     List<Program> cachedProgramList;
 
-    public EventtypeFragment() {
+    public VenueFragment() {
 
     }
 
@@ -54,7 +58,7 @@ public class EventtypeFragment extends Fragment implements HandleServiceResponse
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_eventtype, container,
+        rootView = inflater.inflate(R.layout.prg_fragment_sabha, container,
                 false);
 
         if(null == context){
@@ -69,17 +73,17 @@ public class EventtypeFragment extends Fragment implements HandleServiceResponse
         System.out.println(jsonstring);*/
 
         // Get ListView object from xml
-        expListView = (ExpandableListView) rootView.findViewById(R.id.eventtypeExpList);
+        expListView = (ExpandableListView) rootView.findViewById(R.id.sabhaExpList);
 
 
         expListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         expListView.setSelector(android.R.color.holo_blue_light);
         expListView.setVisibility(View.GONE);
 
-        progressBar = (ProgressBar)rootView.findViewById(R.id.eventtypeProgressBar);
+        progressBar = (ProgressBar)rootView.findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
 
-        errTextView = (TextView)rootView.findViewById(R.id.eventtypeServiceErrorText);
+        errTextView = (TextView)rootView.findViewById(R.id.serviceErrorText);
         errTextView.setVisibility(View.GONE);
 
         final android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
@@ -119,13 +123,13 @@ public class EventtypeFragment extends Fragment implements HandleServiceResponse
 
         });
 
-        ((MainActivity)getActivity()).setActionBarTitle(getString(R.string.title_section6));
+        ((MainActivity)getActivity()).setActionBarTitle(getString(R.string.title_section4));
         Util.logToGA(Util.SABHA_SCREEN);
 
         return rootView;
     }
 
-    public void getData(EventtypeFragment fragmentThis, boolean doRefresh) {
+    public void getData(VenueFragment fragmentThis, boolean doRefresh) {
 
         ProgramListDataCache plc = new ProgramListDataCache(context);
         Util ut = new Util();
@@ -148,11 +152,13 @@ public class EventtypeFragment extends Fragment implements HandleServiceResponse
     }
 
 
-    void updateEventtypeList(View rootView, ListView sabhaList, List<String> aList, LinkedHashMap<String, List<Program>> sabhaProgramCollection) {
+    void updateSabhaList(View rootView, ListView sabhaList, List<String> aList, LinkedHashMap<String, List<Program>> sabhaProgramCollection) {
+
+
         // use the SimpleCursorAdapter to show the
         // elements in a ListView
-        final EventtypeExpandableListAdapter expListAdapter = new EventtypeExpandableListAdapter(
-                                    myActivity, aList, (Map)eventtypeProgramCollection);
+        final VenueExpandableListAdapter expListAdapter = new VenueExpandableListAdapter(
+                                    myActivity, aList, (Map)sabhaProgramCollection);
         expListView.setAdapter(expListAdapter);
     }
 
@@ -172,12 +178,12 @@ public class EventtypeFragment extends Fragment implements HandleServiceResponse
         List<Program> fValues = ProgramDataHelper.filterOldPrograms(values, Util.HOW_OLD);
 
         ProgramDataHelper pdh = new ProgramDataHelper();
-        eList = pdh.getEventtypeListFromPrograms(fValues);
-        eventtypeProgramCollection = pdh.createEventtypeProgramCollection(fValues, eList);
+        sList = pdh.getSabhaListFromPrograms(fValues);
+        sabhaProgramCollection = pdh.createSabhaProgramCollection(fValues, sList);
 
         progressBar.setVisibility(View.GONE);
         expListView.setVisibility(View.VISIBLE);
-        updateEventtypeList(rootView, expListView, eList, eventtypeProgramCollection);
+        updateSabhaList(rootView, expListView, sList, sabhaProgramCollection);
 
     }
 

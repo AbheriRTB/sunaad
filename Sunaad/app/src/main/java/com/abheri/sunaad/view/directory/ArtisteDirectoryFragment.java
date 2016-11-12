@@ -1,4 +1,4 @@
-package com.abheri.sunaad.view;
+package com.abheri.sunaad.view.directory;
 
 
 import android.app.Activity;
@@ -23,13 +23,17 @@ import com.abheri.sunaad.R;
 import com.abheri.sunaad.model.Artiste;
 import com.abheri.sunaad.model.ArtisteListDataCache;
 import com.abheri.sunaad.model.CloudDataFetcherAsyncTask;
+import com.abheri.sunaad.view.HandleServiceResponse;
+import com.abheri.sunaad.view.MainActivity;
+import com.abheri.sunaad.view.SunaadViews;
+import com.abheri.sunaad.view.Util;
 
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ArtisteDirectoryFragment extends Fragment implements HandleServiceResponse{
+public class ArtisteDirectoryFragment extends Fragment implements HandleServiceResponse {
 
     ViewAnimator viewAnimator;
     Context context;
@@ -53,7 +57,7 @@ public class ArtisteDirectoryFragment extends Fragment implements HandleServiceR
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_artiste_directory, container,
+        rootView = inflater.inflate(R.layout.dir_fragment_artiste_directory, container,
                 false);
 
         if(null == context){
@@ -181,7 +185,7 @@ public class ArtisteDirectoryFragment extends Fragment implements HandleServiceR
 
         if(adapter == null){
             adapter = new ArtisteListAdapter(
-                    rootView.getContext(), R.layout.artiste_dir_child_item, values);
+                    rootView.getContext(), R.layout.dir_artiste_dir_child_item, values);
             artisteList.setAdapter(adapter);
         }else{
             adapter.setNotifyOnChange(false);
