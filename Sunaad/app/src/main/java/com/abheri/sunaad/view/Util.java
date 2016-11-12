@@ -11,6 +11,7 @@ import com.abheri.sunaad.model.Program;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -199,6 +200,15 @@ public class Util {
         }
 
         return retVal;
+    }
+
+    public static String getFormattedDate(Date dt){
+
+        DateFormat tf = new SimpleDateFormat("dd-MMM-yyyy");
+        String returnStr = tf.format(dt.getTime()).toString();
+
+        return returnStr;
+
     }
 
     public static long startTimeInMillis(Program prg) {

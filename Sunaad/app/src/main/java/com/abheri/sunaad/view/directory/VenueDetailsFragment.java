@@ -81,6 +81,8 @@ public class VenueDetailsFragment extends Fragment implements View.OnClickListen
 
         //------- ICONS ------
         ImageView mapIcon = (ImageView) rootView.findViewById(R.id.vdMapImage);
+        mapIcon.setOnClickListener(this);
+
         ImageView parkingIcon = (ImageView) rootView.findViewById(R.id.vdParkingImage);
         ImageView eatariesIcon = (ImageView) rootView.findViewById(R.id.vdEatariesImage);
 
@@ -95,7 +97,7 @@ public class VenueDetailsFragment extends Fragment implements View.OnClickListen
         if(eataries != null && eataries.equalsIgnoreCase("yes")){
             eatariesIcon.setImageResource(R.drawable.eataries_yes);
         }else{
-            eatariesIcon.setImageResource(R.drawable.eataries_yes);
+            eatariesIcon.setImageResource(R.drawable.eataries_no);
         }
 
         return rootView;
@@ -133,7 +135,6 @@ public class VenueDetailsFragment extends Fragment implements View.OnClickListen
         return htmlStr;
 
     }
-
 
     @Override
     public void onClick(View v) {

@@ -16,10 +16,14 @@ import android.widget.Toast;
 
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.controller.SettingsController;
+import com.abheri.sunaad.model.Artiste;
+import com.abheri.sunaad.model.LocalFileReader;
 import com.abheri.sunaad.model.Program;
 import com.abheri.sunaad.view.ProportionalImageView;
 import com.abheri.sunaad.view.Util;
 import com.squareup.picasso.Picasso;
+
+import org.apache.commons.validator.routines.UrlValidator;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -63,6 +67,7 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
 
         WebView prgDetailWV = (WebView)rootView.findViewById(R.id.programDetailsWV);
 
+        /*
         TextView date = (TextView)rootView.findViewById(R.id.date);
         TextView onText = (TextView)rootView.findViewById(R.id.onText);
         TextView atText = (TextView)rootView.findViewById(R.id.atText);
@@ -72,7 +77,7 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
         TextView city = (TextView)rootView.findViewById(R.id.city);
         TextView state = (TextView)rootView.findViewById(R.id.state);
         TextView phNo = (TextView)rootView.findViewById(R.id.Phone);
-        TextView time = (TextView)rootView.findViewById(R.id.time);
+        TextView time = (TextView)rootView.findViewById(R.id.time);*/
 
         ImageView mapimg = (ImageView)rootView.findViewById(R.id.mapImage);
         ImageView alarmimg = (ImageView)rootView.findViewById(R.id.alarmImage);
@@ -111,6 +116,11 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
 
         }
 
+
+        String cssStr = LocalFileReader.readRawResourceFile(context, R.raw.webview_css);
+        String htmlStr = cssStr + createArtisteHTML(prgObj);
+        //prgDetailWV.loadData(cssStr,"text/html", "utf-8");
+
         if(!Util.isYes(prgObj.getIs_published())){
             rootView.setBackgroundColor(rootView.getResources().getColor(R.color.orange));
         }
@@ -118,6 +128,7 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
         if(Util.isEventToday(prgObj, true) == 1) {
 
 
+            /*
             date.setTextColor(rootView.getResources().getColor(R.color.darkblue));
             onText.setTextColor(rootView.getResources().getColor(R.color.darkblue));
             atText.setTextColor(rootView.getResources().getColor(R.color.darkblue));
@@ -127,25 +138,22 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
             city.setTextColor(rootView.getResources().getColor(R.color.darkblue));
             state.setTextColor(rootView.getResources().getColor(R.color.darkblue));
             phNo.setTextColor(rootView.getResources().getColor(R.color.darkblue));
-            time.setTextColor(rootView.getResources().getColor(R.color.darkblue));
+            time.setTextColor(rootView.getResources().getColor(R.color.darkblue));*/
 
             //String colorStr="<font color='" +
             //                    Color.parseColor("#"+Integer.toHexString(context.getResources().getColor(R.color.darkblue))) +
              //                   "'>";
 
-            String colorStr="<font color='" +
-                                "#0099FF" +
-                               "'>";
 
-            prgDetailWV.loadData("<html><body><center><h4>" + colorStr + prgObj.getDetails() + "</h4></center></body></html>",
-                    "text/html", "utf-8");
+            String colorStr="<font color='" + "#0099FF" + "'>";
+
+            prgDetailWV.loadData(htmlStr,"text/html", "utf-8");
 
             titleWV.loadData("<html><body><center><h3><u>" + colorStr + prgObj.getTitle() + "</u></h3></center></body></html>",
                     "text/html", "utf-8");
         }
         else {
-            prgDetailWV.loadData("<html><body><center><h4><font color='#000000'>" + prgObj.getDetails() + "</h4></center></body></html>",
-                    "text/html", "utf-8");
+            prgDetailWV.loadData(htmlStr, "text/html", "utf-8");
 
             titleWV.loadData("<html><body><center><h3><u><font color='#000000'> " + prgObj.getTitle() + "</u></h3></center></body></html>",
                     "text/html", "utf-8");
@@ -158,7 +166,7 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
         final WebSettings webSettings = prgDetailWV.getSettings();
         Resources res = getResources();
         float fontSize = res.getDimension(R.dimen.prg_detail_text);
-        webSettings.setDefaultFontSize((int)fontSize); */
+        webSettings.setDefaultFontSize((int)fontSize);
 
 
         date.setText(eventDate);
@@ -181,6 +189,7 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
             System.out.print("Time Error");
             e.printStackTrace();
         }
+        */
 
         mapimg.setImageDrawable(rootView.getResources().getDrawable(R.drawable.mapicon));
         mapimg.setOnClickListener(this);
@@ -279,6 +288,45 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
 
         super.onDestroy();
     }
+
+    String createArtisteHTML(Program pObj) {
+
+        String htmlStr = "";
+        UrlValidator urlValidator = new UrlValidator();
+
+        htmlStr += "<html><body class=\"class1\">";
+        htmlStr += "<center><div class=\"programtitle\">" + pObj.getDetails() + "</div></center>";
+        htmlStr += "<br><br>";
+
+        try {
+            htmlStr += "On <b><u>" + Util.getFormattedDate(pObj.getEventDate()) + "</u></b> at <b><u>";
+            htmlStr += SettingsController.getFormattedTime(pObj.getStartTime());
+        }
+        catch (Exception e) {
+            System.out.print("Error Formatting Time");
+            e.printStackTrace();
+        }
+
+        htmlStr += "</u></b><br><br>";
+        htmlStr += "<u><i>Entry:</i></u>:";
+        htmlStr += pObj.getEntryFee() + "<br><br>";
+        htmlStr += "<u><i>Venue Details:</i></u><br>";
+        htmlStr += pObj.getVenueAddress1() + "<br>";
+        htmlStr += pObj.getVenueAddress2() + "<br>";
+        htmlStr += pObj.getVenueCity() + " - " + pObj.getVenuePincode() + "<br>";
+        htmlStr += pObj.getVenueState() + "<br>";
+        htmlStr += pObj.getVenueCountry() + "<br>";
+
+        String venuePhone = pObj.getVenuePincode();
+        if(venuePhone != null) {
+            htmlStr += "Ph: <a href=\"tel:" + venuePhone + "\">" + venuePhone + "</a>";
+        }
+        htmlStr += "</body>";
+
+        return htmlStr;
+
+    }
+
 
 }
 
