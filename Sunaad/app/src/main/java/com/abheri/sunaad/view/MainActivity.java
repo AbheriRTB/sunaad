@@ -487,6 +487,15 @@ public class MainActivity extends AppCompatActivity
                 }else if(f instanceof OrganizerFragment) {
                     fragname = "OrganizerFragment";
                     ((OrganizerFragment) f).getData((OrganizerFragment)f, true);
+                }else if(f instanceof ArtisteDirectoryFragment) {
+                    fragname = "OrganizerFragment";
+                    ((ArtisteDirectoryFragment) f).getData((ArtisteDirectoryFragment)f, true);
+                }else if(f instanceof OrganizerDirectoryFragment) {
+                    fragname = "OrganizerFragment";
+                    ((OrganizerDirectoryFragment) f).getData((OrganizerDirectoryFragment)f, true);
+                }else if(f instanceof VenueDirectoryFragment) {
+                    fragname = "OrganizerFragment";
+                    ((VenueDirectoryFragment) f).getData((VenueDirectoryFragment)f, true);
                 }
                     //Toast.makeText(this, "Refresh selected:"+fragname, Toast.LENGTH_SHORT).show();
                 break;

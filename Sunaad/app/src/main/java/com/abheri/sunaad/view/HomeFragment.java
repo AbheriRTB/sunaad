@@ -27,6 +27,7 @@ import android.util.Log;
 import com.abheri.sunaad.BuildConfig;
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.model.Program;
+import com.abheri.sunaad.model.ProgramDataHelper;
 import com.abheri.sunaad.model.ProgramListDataCache;
 import com.abheri.sunaad.model.CloudDataFetcherAsyncTask;
 
@@ -152,16 +153,20 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
         updateViewFromData(values);
     }
 
-    public void updateViewFromData(List<Program> values) {
+    public void updateViewFromData(List<Program> invalues) {
         ArrayList<String> pagesList = new ArrayList<>();
 
         progressBar.setVisibility(View.GONE);
+        List<Program>values = ProgramDataHelper.filterOldPrograms(invalues, Util.HOW_OLD);
         for (int i = 0; i < values.size(); ++i) {
             Program tmp = values.get(i);
-            String surl = tmp.getSplash_url();
-            if (null != surl && surl.trim().length() > 0) {
-                pagesList.add(surl);
-                surl = "";
+            String isFeatured = tmp.getIs_featured();
+            if(isFeatured != null && isFeatured.equalsIgnoreCase("yes")) {
+                String surl = tmp.getSplash_url();
+                if (null != surl && surl.trim().length() > 0) {
+                    pagesList.add(surl);
+                    surl = "";
+                }
             }
         }
 

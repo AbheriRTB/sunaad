@@ -9,7 +9,7 @@ import android.util.Log;
 public class DBHelper extends SQLiteOpenHelper {
 
     protected static final String DATABASE_NAME = "sunaad.db";
-    protected static final int DATABASE_VERSION = 4;
+    protected static final int DATABASE_VERSION = 5; //Previous version 4
 
     protected Context dbContext;
     private static DBHelper instance;
@@ -43,6 +43,7 @@ public class DBHelper extends SQLiteOpenHelper {
             case 1://First DB version without tables. Just to trigger upgrade
             case 2://First DB version without tables. Just to trigger upgrade
             case 3:
+            case 4:
                 ProgramListDataCache pldc = new ProgramListDataCache(dbContext);
                 pldc.removeCache();
                 break;
@@ -62,16 +63,21 @@ public class DBHelper extends SQLiteOpenHelper {
 
         ProgramListDataCache pldc = new ProgramListDataCache(dbContext);
         //Clear the cache from SharedPreferences while upgrading
+        pldc.removeCache();
         switch(oldVersion){
 
             case 1://First DB version without tables. Just to trigger upgrade
             case 2://First DB version without tables. Just to trigger upgrade
-                pldc.removeCache();
                 database.execSQL(SQLStrings.create_settings_table);
                 createDefaultSettingsData(database);
                 break;
             case 3://Has Settings table already
-                pldc.removeCache();
+                createDefaultSettingsData(database);
+                break;
+            case 4:
+                database.execSQL(SQLStrings.create_artiste_table);
+                database.execSQL(SQLStrings.create_organizer_table);
+                database.execSQL(SQLStrings.create_venue_table);
                 createDefaultSettingsData(database);
                 break;
             default:

@@ -14,7 +14,6 @@ import android.widget.ImageView;
 
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.model.LocalFileReader;
-import com.abheri.sunaad.model.Organizer;
 import com.abheri.sunaad.model.Venue;
 import com.abheri.sunaad.view.CustomWebViewClient;
 import com.abheri.sunaad.view.Util;
@@ -73,7 +72,7 @@ public class VenueDetailsFragment extends Fragment implements View.OnClickListen
         //----- Details ----
         WebView detailWV = (WebView) rootView.findViewById(R.id.venueDetailsWV);
 
-        String htmlStr = cssStr + createArtisteHTML(venueObj);
+        String htmlStr = cssStr + createVenueHTML(venueObj);
         detailWV.loadData(htmlStr, "text/html", "utf-8");
 
         //Set WebViewClient such that the link opens in a browser
@@ -104,7 +103,7 @@ public class VenueDetailsFragment extends Fragment implements View.OnClickListen
     }
 
 
-    String createArtisteHTML(Venue venueObj) {
+    String createVenueHTML(Venue venueObj) {
 
         String htmlStr = "";
         UrlValidator urlValidator = new UrlValidator();
@@ -113,14 +112,24 @@ public class VenueDetailsFragment extends Fragment implements View.OnClickListen
         htmlStr +=  venueObj.getVenue_name() + ", is an great venue for music ";
         htmlStr += "<br><br>";
         htmlStr += "<u><i>Contact Details:</i></u><br>";
-        htmlStr += venueObj.getAddress1() + "<br>";
-        htmlStr += venueObj.getAddress2() + "<br>";
-        htmlStr += venueObj.getCity() + " - " + venueObj.getPincode() + "<br>";
+        String ad = venueObj.getAddress1();
+        if(ad != null & ad.length() > 0) {
+            htmlStr += ad + "<br>";
+        }
+        ad = venueObj.getAddress2();
+        if(ad != null & ad.length() > 0) {
+            htmlStr += ad + "<br>";
+        }
+        htmlStr += venueObj.getCity();
+        String pc = venueObj.getPincode();
+        if(pc != null && pc.length() > 0) {
+            htmlStr += " - " + pc + "<br>";
+        }
         htmlStr += venueObj.getState() + "<br>";
         htmlStr += venueObj.getCountry() + "<br>";
 
         String venuePhone = venueObj.getPhone();
-        if(venuePhone != null) {
+        if(venuePhone != null && !venuePhone.toLowerCase().startsWith("ph")) {
             htmlStr += "Ph: <a href=\"tel:" + venuePhone + "\">" + venuePhone + "</a>";
         }
         htmlStr += "<br><br>";

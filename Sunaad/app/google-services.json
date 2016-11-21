@@ -1,32 +1,38 @@
 {
   "project_info": {
-    "project_number": "519381428417",
-    "project_id": "sunaad-debug-cf4c7"
+    "project_id": "sunaad-34efd",
+    "project_number": "199995670930",
+    "name": "Sunaad"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:519381428417:android:55c2c86f143318ba",
+        "mobilesdk_app_id": "1:199995670930:android:c2f27d89f646307e",
+        "client_id": "android:com.abheri.sunaad",
+        "client_type": 1,
         "android_client_info": {
-          "package_name": "com.abheri.sunaad.debug"
+          "package_name": "com.abheri.sunaad"
         }
       },
       "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBZgcTNGOxq5Ju1PVs8LATrMF4o8IzEGww"
-        }
-      ],
+      "api_key": [],
       "services": {
         "analytics_service": {
           "status": 2,
           "analytics_property": {
-            "tracking_id": "UA-74401723-2"
+            "tracking_id": "UA-74401723-1"
           }
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
         },
         "appinvite_service": {
           "status": 1,
           "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 1
         },
         "ads_service": {
           "status": 1
@@ -34,5 +40,6 @@
       }
     }
   ],
-  "configuration_version": "1"
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
 }

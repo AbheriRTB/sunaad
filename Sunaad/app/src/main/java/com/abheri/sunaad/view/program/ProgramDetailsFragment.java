@@ -313,7 +313,12 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
         htmlStr += "<u><i>Venue Details:</i></u><br>";
         htmlStr += pObj.getVenueAddress1() + "<br>";
         htmlStr += pObj.getVenueAddress2() + "<br>";
-        htmlStr += pObj.getVenueCity() + " - " + pObj.getVenuePincode() + "<br>";
+        htmlStr += pObj.getVenueCity();
+
+        String pc = pObj.getVenuePincode();
+        if(pc != null && pc.length() > 0) {
+            htmlStr += " - " + pObj.getVenuePincode() + "<br>";
+        }
         htmlStr += pObj.getVenueState() + "<br>";
         htmlStr += pObj.getVenueCountry() + "<br>";
 

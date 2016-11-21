@@ -86,14 +86,25 @@ public class ArtisteDetailsFragment extends Fragment {
         htmlStr += getSpeciality(artObj.getArtisteInstrument());
         htmlStr += "<br><br>";
         htmlStr += "<u><i>Contact Details:</i></u><br>";
-        htmlStr += artObj.getArtisteAddress1() + "<br>";
-        htmlStr += artObj.getArtisteAddress2() + "<br>";
-        htmlStr += artObj.getArtisteCity() + " - " + artObj.getArtistePincode() + "<br>";
+        String ad = artObj.getArtisteAddress1();
+        if(ad != null & ad.length() > 0) {
+            htmlStr += ad + "<br>";
+        }
+        ad = artObj.getArtisteAddress2();
+        if(ad != null & ad.length() > 0) {
+            htmlStr += ad + "<br>";
+        }
+        htmlStr += artObj.getArtisteCity();
+
+        String pc = artObj.getArtistePincode();
+        if(pc != null && pc.length() > 0) {
+            htmlStr += " - " + artObj.getArtistePincode() + "<br>";
+        }
         htmlStr += artObj.getArtisteState() + "<br>";
         htmlStr += artObj.getArtisteCountry() + "<br>";
 
         String artPhone = artObj.getArtistePhone();
-        if(artPhone != null) {
+        if(artPhone != null && !artPhone.toLowerCase().startsWith("ph")) {
             htmlStr += "Ph: <a href=\"tel:" + artPhone + "\">" + artPhone + "</a>";
         }
         htmlStr += "<br><br>";
@@ -104,7 +115,7 @@ public class ArtisteDetailsFragment extends Fragment {
         }
 
         String artAudio = artObj.getArtisteAudioClip();
-        if(artAudio != null) {
+        if(artAudio != null && false) {
             htmlStr += "Listen to <a href=\"" + artObj.getArtisteAudioClip() + "\" target=\"_top\">Audio Clip</a>";
         }
         htmlStr += "</body>";
@@ -127,6 +138,18 @@ public class ArtisteDetailsFragment extends Fragment {
                 break;
             case "violin":
                 spl = "Violinist";
+                break;
+            case "bharatanatyam":
+                spl = "Bharatanatyam Dancer";
+                break;
+            case "kuchipudi":
+                spl = "Kuchipudi Dancer";
+                break;
+            case "kathak":
+                spl = "Kathak Dancer";
+                break;
+            case "dance":
+                spl = "Dancer";
                 break;
             default:
                 spl = "Musician";

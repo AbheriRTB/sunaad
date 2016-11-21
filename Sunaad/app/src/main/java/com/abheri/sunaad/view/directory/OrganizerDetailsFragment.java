@@ -88,14 +88,24 @@ public class OrganizerDetailsFragment extends Fragment {
         htmlStr +=  orgObj.getOrganizerName() + ", is an great organizer ";
         htmlStr += "<br><br>";
         htmlStr += "<u><i>Contact Details:</i></u><br>";
-        htmlStr += orgObj.getOrganizerAddress1() + "<br>";
-        htmlStr += orgObj.getOrganizerAddress2() + "<br>";
-        htmlStr += orgObj.getOrganizerCity() + " - " + orgObj.getOrganizerPincode() + "<br>";
+        String ad = orgObj.getOrganizerAddress1();
+        if(ad != null & ad.length() > 0) {
+            htmlStr += ad + "<br>";
+        }
+        ad = orgObj.getOrganizerAddress2();
+        if(ad != null & ad.length() > 0) {
+            htmlStr += ad + "<br>";
+        }
+        htmlStr += orgObj.getOrganizerCity();
+        String pc = orgObj.getOrganizerPincode();
+        if(pc != null && pc.length() > 0) {
+            htmlStr += " - " + pc + "<br>";
+        }
         htmlStr += orgObj.getOrganizerState() + "<br>";
         htmlStr += orgObj.getOrganizerCountry() + "<br>";
 
         String orgPhone = orgObj.getOrganizerPhone();
-        if(orgPhone != null) {
+        if(orgPhone != null && !orgPhone.toLowerCase().startsWith("ph")) {
             htmlStr += "Ph: <a href=\"tel:" + orgPhone + "\">" + orgPhone + "</a>";
         }
         htmlStr += "<br><br>";
