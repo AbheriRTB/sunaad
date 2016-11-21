@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true"
+    android:layout_gravity="center"
+    android:id="@+id/programDetailsScrollView"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="top"
+    android:orientation="vertical"
+    android:nestedScrollingEnabled="false">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp"
+        android:layout_row="10"
+        android:layout_column="0"
+        android:visibility="gone">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/adMapImage"
+            android:src="@drawable/mapicon" />
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/adEatariesImage"
+            android:src="@drawable/eataries_no" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/adParkingImage"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/parking_no" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/adAlarmImage"
+            android:src="@drawable/alarm" />
+    </LinearLayout>
+
+
+    <WebView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/adTitleWV"
+        android:elevation="2dp"
+        android:outlineProvider="bounds"
+        android:focusable="true" />
+
+    <com.abheri.sunaad.view.ProportionalImageView
+        android:id="@+id/adArtisteImage"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:layout_gravity="center"
+        android:elevation="2dp"
+        android:outlineProvider="bounds"/>
+
+
+    <WebView
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="10dp"
+        android:elevation="55dp"
+        android:outlineProvider="bounds"
+        android:id="@+id/artisteDetailsWV"
+        android:layout_gravity="center"/>
+
+</LinearLayout>
+</ScrollView>

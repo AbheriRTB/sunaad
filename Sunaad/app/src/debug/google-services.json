@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "519381428417",
+    "project_id": "sunaad-debug-cf4c7"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:519381428417:android:55c2c86f143318ba",
+        "android_client_info": {
+          "package_name": "com.abheri.sunaad.debug"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZgcTNGOxq5Ju1PVs8LATrMF4o8IzEGww"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-74401723-2"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

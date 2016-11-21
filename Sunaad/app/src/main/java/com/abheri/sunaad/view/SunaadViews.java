@@ -8,7 +8,10 @@ public enum SunaadViews {
     PROGRAM,
     ARTISTE,
     SABHA,
-    LOCATION
+    LOCATION,
+    ARTISTE_DIR,
+    ORGANIZER_DIR,
+    VENUE_DIR
 }
 
 

@@ -11,6 +11,7 @@ import com.abheri.sunaad.model.Program;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -32,6 +33,12 @@ public class Util {
     public static final String SABHA_SCREEN = "Venue";
     public static final String ARTISTE_SCREEN = "Artiste";
     public static final String SETTINGS_SCREEN = "Settings";
+
+    public static final String ARTISTE_DIR_SCREEN = "Artiste Directory List";
+    public static final String ORGANIZER_DIR_SCREEN = "Organizer Directory List";
+    public static final String VENUE_DIR_SCREEN = "Venue Directory List";
+
+
 
     public static final String REFRESH_CALLED = "Refresh Called";
     public static final String SET_ALARM_CALLED = "Set Alarm Called";
@@ -62,8 +69,16 @@ public class Util {
             case PROGRAM:
             case ARTISTE:
             case SABHA:
-                url = "http://abheri.pythonanywhere.com/programs/";
-                //url="http://10.0.3.2:9999/programs/";
+                url = "https://sunaad-services-njs.herokuapp.com/getPrograms/";
+                break;
+            case ARTISTE_DIR:
+                url = "https://sunaad-services-njs.herokuapp.com/getArtiste/";
+                break;
+            case ORGANIZER_DIR:
+                url = "https://sunaad-services-njs.herokuapp.com/getOrganizer/";
+                break;
+            case VENUE_DIR:
+                url = "https://sunaad-services-njs.herokuapp.com/getVenue/";
                 break;
             default:
                 break;
@@ -86,6 +101,9 @@ public class Util {
             case PROGRAM:
             case ARTISTE:
             case SABHA:
+            case ARTISTE_DIR:
+            case ORGANIZER_DIR:
+            case VENUE_DIR:
                 //url="http://10.0.3.2/sunaad/";
                 url = "http://abheri.pythonanywhere.com/static/";
                 break;
@@ -182,6 +200,15 @@ public class Util {
         }
 
         return retVal;
+    }
+
+    public static String getFormattedDate(Date dt){
+
+        DateFormat tf = new SimpleDateFormat("dd-MMM-yyyy");
+        String returnStr = tf.format(dt.getTime()).toString();
+
+        return returnStr;
+
     }
 
     public static long startTimeInMillis(Program prg) {

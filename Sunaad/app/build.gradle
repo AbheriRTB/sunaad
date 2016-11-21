@@ -1,11 +1,13 @@
 buildscript {
     repositories {
-        maven { url 'https://maven.fabric.io/public' }
+        maven { url 'https://maven.fabric.io/public'}
+        maven {url 'https://mvnrepository.com/artifact/commons-validator/commons-validator'}
     }
     dependencies {
         classpath 'io.fabric.tools:gradle:1.21.6'
     }
 }
+
 apply plugin: 'com.android.application'
 
 repositories {
@@ -21,22 +23,33 @@ android {
         applicationId "com.abheri.sunaad"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 8
-        versionName "2.2"
+        versionCode 9
+        versionName "3.0"
     }
     buildTypes {
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
+            applicationIdSuffix ".debug"
+            debuggable true
+            testCoverageEnabled = false
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    output.outputFile = new File(output.outputFile.parent, output.outputFile.name.replace("app-debug.apk", "Sunaad-" + "Debug" + ".apk"))
+                }
+            }
+            manifestPlaceholders = [appLabel: "SunaadDebug"]
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [appLabel: "Sunaad"]
         }
     }
     productFlavors {
     }
+
 }
 
 dependencies {
@@ -49,6 +62,27 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.5.6@aar') {
         transitive = true
     }
+    compile 'commons-validator:commons-validator:1.5.1'
 }
 
+
+
+task switchToDebug(type: Copy) {
+    description = 'Switches to DEBUG google-services.json'
+    from "src/debug"
+    include "google-services.json"
+    into "."
+}
+
+task switchToRelease(type: Copy) {
+    description = 'Switches to RELEASE google-services.json'
+    from "src/release"
+    include "google-services.json"
+    into "."
+}
+
+afterEvaluate {
+    processDebugGoogleServices.dependsOn switchToDebug
+    processReleaseGoogleServices.dependsOn switchToRelease
+}
 

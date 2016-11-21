@@ -7,32 +7,31 @@ import java.util.Date;
  * Created by prasanna.ramaswamy on 27/10/15.
  */
 
-
 public class Program implements Serializable{
     private long id;
     private String title;
-    private String event_type;
+    private String art_type;
     private String details;
     private String entry_fee;
-    private String website;
-    private String artiste;
+    private String organizer_website;
+    private String artiste_name;
     private String accompanists;
     private double  duration;
     private Date   eventDate;
     private String startTime;
     private String endTime;
-    private String place;
-    private String organizer;
-    private String phone;
-    private String location_address1;
-    private String location_address2;
-    private String location_city;
-    private String location_state;
-    private String location_country;
-    private String loacation_pincode;
-    private String location_coords;
-    private String location_eataries;
-    private String parking;
+    private String venue_name;
+    private String organizer_name;
+    private String organizer_phone;
+    private String venue_address1;
+    private String venue_address2;
+    private String venue_city;
+    private String venue_state;
+    private String venue_country;
+    private String venue_pincode;
+    private String venue_coords;
+    private String venue_eataries;
+    private String venue_parking;
     private String artiste_image;
     private String is_featured;
     private String splash_url;
@@ -55,10 +54,10 @@ public class Program implements Serializable{
     }
 
 
-    public String getEventType() { return event_type;
+    public String getArtType() { return art_type;
     }
-    public void setEventType(String event_type) {
-        this.event_type = event_type;
+    public void setArtType(String art_type) {
+        this.art_type = art_type;
     }
 
 
@@ -78,19 +77,19 @@ public class Program implements Serializable{
     }
 
 
-    public String getWebsite() {
-        return website;
+    public String getOrganizerWebsite() {
+        return organizer_website;
     }
 
-    public void setWebsite(String website) {
-        this.website = website;
+    public void setOrganizerWebsite(String organizer_website) {
+        this.organizer_website = organizer_website;
     }
 
 
-    public String getArtiste() {
-        return artiste;
+    public String getArtisteName() {
+        return artiste_name;
     }
-    public void setArtiste(String artiste) {this.artiste = artiste;
+    public void setArtisteName(String artiste) {this.artiste_name = artiste;
     }
 
     public String getAccompanists() {
@@ -134,99 +133,99 @@ public class Program implements Serializable{
     }
 
 
-    public String getOrganizer() {
-        return organizer;
+    public String getOrganizerName() {
+        return organizer_name;
     }
 
-    public void setOrganizer(String organizer) {
-        this.organizer = organizer;
+    public void setOrganizerName(String organizer_name) {
+        this.organizer_name = organizer_name;
     }
 
-    public String getPlace() {
-        return place;
+    public String getVenueName() {
+        return venue_name;
     }
 
-    public void setPlace(String place) {
-        this.place = place;
+    public void setVenueName(String venue_name) {
+        this.venue_name = venue_name;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getOrganizerPhone() {
+        return organizer_phone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-
-    public String getLocation_address1() {
-        return location_address1;
-    }
-
-    public void setLocation_address1(String location_address1) {
-        this.location_address1 = location_address1;
-    }
-
-    public String getLocation_address2() {
-        return location_address2;
-    }
-
-    public void setLocation_address2(String location_address2) {
-        this.location_address2 = location_address2;
+    public void setOrganizerPhone(String phone) {
+        this.organizer_phone = phone;
     }
 
 
-    public String getLocation_city() {
-        return location_city;
+    public String getVenueAddress1() {
+        return venue_address1;
     }
 
-    public void setLocation_city(String location_city) {
-        this.location_city = location_city;
+    public void setVenueAddress1(String location_address1) {
+        this.venue_address1 = location_address1;
     }
 
-
-    public String getLocation_state() {   return location_state;
-    }
-    public void setLocation_state(String location_state) {
-        this.location_state = location_state;
+    public String getVenueAddress2() {
+        return venue_address2;
     }
 
-
-    public String getLocation_country() {   return location_country;
-    }
-    public void setLocation_country(String location_country) {
-        this.location_country = location_country;
+    public void setVenueAddress2(String location_address2) {
+        this.venue_address2 = location_address2;
     }
 
 
-    public String getLoacation_pincode() {   return loacation_pincode;
+    public String getVenueCity() {
+        return venue_city;
     }
-    public void setLoacation_pincode(String loacation_pincode) {
-        this.loacation_pincode = loacation_pincode;
+
+    public void setVenueCity(String location_city) {
+        this.venue_city = location_city;
     }
 
 
-    public String getLocation_coords() {
-        return location_coords;
+    public String getVenueState() {   return venue_state;
     }
-    public void setLocation_coords(String location_coords) {
-        this.location_coords = location_coords;
-    }
-
-
-    public String getLocation_eataries() {
-        return location_eataries;
-    }
-    public void setLocation_eataries(String location_eataries) {
-        this.location_eataries = location_eataries;
+    public void setVenueState(String location_state) {
+        this.venue_state = location_state;
     }
 
 
-    public String getParking() {
-        return parking;
+    public String getVenueCountry() {   return venue_country;
     }
-    public void setParking(String parking) {
-        this.parking = parking;
+    public void setVenueCountry(String location_country) {
+        this.venue_country = location_country;
+    }
+
+
+    public String getVenuePincode() {   return venue_pincode;
+    }
+    public void setVenuePincode(String loacation_pincode) {
+        this.venue_pincode = loacation_pincode;
+    }
+
+
+    public String getVenueCoords() {
+        return venue_coords;
+    }
+    public void setVenueCoords(String location_coords) {
+        this.venue_coords = location_coords;
+    }
+
+
+    public String getVenueEataries() {
+        return venue_eataries;
+    }
+    public void setVenueEataries(String location_eataries) {
+        this.venue_eataries = location_eataries;
+    }
+
+
+    public String getVenueParking() {
+        return venue_parking;
+    }
+    public void setVenueParking(String parking) {
+        this.venue_parking = parking;
     }
 
     public String getArtiste_image() {

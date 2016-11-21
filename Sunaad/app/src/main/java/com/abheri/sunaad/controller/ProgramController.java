@@ -3,7 +3,6 @@ package com.abheri.sunaad.controller;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -16,9 +15,9 @@ import com.abheri.sunaad.R;
 import com.abheri.sunaad.model.Program;
 import com.abheri.sunaad.model.ProgramListDataCache;
 import com.abheri.sunaad.model.Settings;
-import com.abheri.sunaad.model.SettingsDataHelper;
+import com.abheri.sunaad.model.SettingsDBHelper;
 import com.abheri.sunaad.view.AlarmBroadcastReceiver;
-import com.abheri.sunaad.view.ProgramFragment;
+import com.abheri.sunaad.view.program.ProgramFragment;
 import com.abheri.sunaad.view.Util;
 import com.google.android.gms.analytics.GoogleAnalytics;
 
@@ -62,7 +61,7 @@ public class  ProgramController implements CompoundButton.OnCheckedChangeListene
         Util.logToGA(Util.SET_ALARM_CALLED);
 
 
-        SettingsDataHelper sdh = new SettingsDataHelper(context);
+        SettingsDBHelper sdh = new SettingsDBHelper(context);
         sdh.open();
         ArrayList<Settings> set = (ArrayList<Settings>)sdh.getAllSettings();
         sdh.close();

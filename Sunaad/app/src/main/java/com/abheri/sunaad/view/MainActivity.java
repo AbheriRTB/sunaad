@@ -7,14 +7,12 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.appcompat.BuildConfig;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -28,6 +26,15 @@ import android.widget.Toast;
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.model.DBHelper;
 import com.abheri.sunaad.model.Program;
+import com.abheri.sunaad.view.directory.ArtisteDirectoryFragment;
+import com.abheri.sunaad.view.directory.OrganizerDirectoryFragment;
+import com.abheri.sunaad.view.directory.VenueDirectoryFragment;
+import com.abheri.sunaad.view.program.ArtisteFragment;
+import com.abheri.sunaad.view.program.EventtypeFragment;
+import com.abheri.sunaad.view.program.OrganizerFragment;
+import com.abheri.sunaad.view.program.ProgramDetailsFragment;
+import com.abheri.sunaad.view.program.ProgramFragment;
+import com.abheri.sunaad.view.program.VenueFragment;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.PicassoTools;
@@ -36,11 +43,8 @@ import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 
 
-
-import java.io.Serializable;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Handler;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -276,7 +280,22 @@ public class MainActivity extends AppCompatActivity
                     transaction.replace(R.id.container, ef);
                     transaction.addToBackStack(null);
                     transaction.commit();
-                } else {
+                } else if (gMenuItem.getItemId() == R.id.navigation_dir_sub_item_1) {
+                    ArtisteDirectoryFragment adf = new ArtisteDirectoryFragment();
+                    transaction.replace(R.id.container, adf);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }else if (gMenuItem.getItemId() == R.id.navigation_dir_sub_item_2) {
+                    OrganizerDirectoryFragment odf = new OrganizerDirectoryFragment();
+                    transaction.replace(R.id.container, odf);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }else if (gMenuItem.getItemId() == R.id.navigation_dir_sub_item_3) {
+                    VenueDirectoryFragment vdf = new VenueDirectoryFragment();
+                    transaction.replace(R.id.container, vdf);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }else {
                     transaction.replace(R.id.container, PlaceholderFragment.newInstance(0 + 1));
                     transaction.addToBackStack(null);
                     transaction.commit();
@@ -368,6 +387,9 @@ public class MainActivity extends AppCompatActivity
                 break;
             case 6:
                 mTitle = getString(R.string.title_submenu5);
+                break;
+            case 7:
+                mTitle = getString(R.string.title_dir_submenu1);
                 break;
         }
     }
@@ -465,6 +487,15 @@ public class MainActivity extends AppCompatActivity
                 }else if(f instanceof OrganizerFragment) {
                     fragname = "OrganizerFragment";
                     ((OrganizerFragment) f).getData((OrganizerFragment)f, true);
+                }else if(f instanceof ArtisteDirectoryFragment) {
+                    fragname = "OrganizerFragment";
+                    ((ArtisteDirectoryFragment) f).getData((ArtisteDirectoryFragment)f, true);
+                }else if(f instanceof OrganizerDirectoryFragment) {
+                    fragname = "OrganizerFragment";
+                    ((OrganizerDirectoryFragment) f).getData((OrganizerDirectoryFragment)f, true);
+                }else if(f instanceof VenueDirectoryFragment) {
+                    fragname = "OrganizerFragment";
+                    ((VenueDirectoryFragment) f).getData((VenueDirectoryFragment)f, true);
                 }
                     //Toast.makeText(this, "Refresh selected:"+fragname, Toast.LENGTH_SHORT).show();
                 break;

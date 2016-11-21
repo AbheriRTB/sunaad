@@ -10,11 +10,17 @@
 
     <string name="title_menu1">Home</string>
     <string name="title_menu2">View Concerts</string>
+    <string name="title_menu3">View Directory</string>
+
     <string name="title_submenu1">By Date</string>
     <string name="title_submenu2">By Artiste</string>
     <string name="title_submenu3">By Venue</string>
     <string name="title_submenu4">By Organizer</string>
     <string name="title_submenu5">By Event Type</string>
+
+    <string name="title_dir_submenu1">Artiste Dir</string>
+    <string name="title_dir_submenu2">Organizer Dir</string>
+    <string name="title_dir_submenu3">Venue Dir</string>
 
     <string name="lbl_artistName">Artist : </string>
     <string name="lbl_date">Date : </string>
