@@ -11,12 +11,10 @@ import android.view.ViewGroup;
 
 import android.webkit.WebView;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.controller.SettingsController;
-import com.abheri.sunaad.model.Artiste;
 import com.abheri.sunaad.model.LocalFileReader;
 import com.abheri.sunaad.model.Program;
 import com.abheri.sunaad.view.ProportionalImageView;
@@ -118,7 +116,7 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
 
 
         String cssStr = LocalFileReader.readRawResourceFile(context, R.raw.webview_css);
-        String htmlStr = cssStr + createArtisteHTML(prgObj);
+        String htmlStr = cssStr + createDetailsHTML(prgObj);
         //prgDetailWV.loadData(cssStr,"text/html", "utf-8");
 
         if(!Util.isYes(prgObj.getIs_published())){
@@ -289,7 +287,7 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
         super.onDestroy();
     }
 
-    String createArtisteHTML(Program pObj) {
+    String createDetailsHTML(Program pObj) {
 
         String htmlStr = "";
         UrlValidator urlValidator = new UrlValidator();
@@ -311,6 +309,7 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
         htmlStr += "<u><i>Entry:</i></u>:";
         htmlStr += pObj.getEntryFee() + "<br><br>";
         htmlStr += "<u><i>Venue Details:</i></u><br>";
+        htmlStr += pObj.getVenueName() + "<br>";
         htmlStr += pObj.getVenueAddress1() + "<br>";
         htmlStr += pObj.getVenueAddress2() + "<br>";
         htmlStr += pObj.getVenueCity();
@@ -322,7 +321,7 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
         htmlStr += pObj.getVenueState() + "<br>";
         htmlStr += pObj.getVenueCountry() + "<br>";
 
-        String venuePhone = pObj.getVenuePincode();
+        String venuePhone = pObj.getOrganizerPhone();
         if(venuePhone != null) {
             htmlStr += "Ph: <a href=\"tel:" + venuePhone + "\">" + venuePhone + "</a>";
         }
