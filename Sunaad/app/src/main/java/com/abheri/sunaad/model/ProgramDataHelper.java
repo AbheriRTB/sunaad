@@ -47,6 +47,7 @@ public class ProgramDataHelper {
                     tmpPrg.setId(jo.getLong("id"));
                     tmpPrg.setTitle(jo.getString("title"));
                     tmpPrg.setArtType(jo.getString("art_type"));
+                    tmpPrg.setEventType(jo.getString("event_type"));
                     tmpPrg.setDetails(jo.getString("description"));
                     tmpPrg.setEntryFee(jo.getString("entry_fee"));
                     tmpPrg.setOrganizerWebsite(jo.getString("organizer_website"));
@@ -235,7 +236,7 @@ public class ProgramDataHelper {
         for (int i = 0; i < prgList.size(); ++i) {
 
             Program pr = prgList.get(i);
-            String eventType = pr.getArtType();
+            String eventType = pr.getEventType();
 
             eventtypeSet.add(eventType);
         }
@@ -258,7 +259,7 @@ public class ProgramDataHelper {
             for (int j = 0; j < prgList.size(); ++j) {
 
                 Program pr = prgList.get(j);
-                eventtype = pr.getArtType();
+                eventtype = pr.getEventType();
 
                 if (eventtype.trim().equalsIgnoreCase(selEventtype)) {
                     organizerProgramList.add(pr);

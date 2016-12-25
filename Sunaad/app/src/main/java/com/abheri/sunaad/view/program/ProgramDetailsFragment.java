@@ -140,7 +140,7 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
 
             //String colorStr="<font color='" +
             //                    Color.parseColor("#"+Integer.toHexString(context.getResources().getColor(R.color.darkblue))) +
-             //                   "'>";
+            //                   "'>";
 
 
             String colorStr="<font color='" + "#0099FF" + "'>";
@@ -256,12 +256,21 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
 
             Toast.makeText(v.getContext(), msg, Toast.LENGTH_LONG).show();
         }else if(id == R.id.mapImage) {
-            String uri = "geo:" + prgObj.getVenueCoords() + "?q=" + prgObj.getVenueCoords() +
-                    "(Program Location)";
-            //String uri = String.format(Locale.ENGLISH, "geo:%f,%f", 13.0104054,77.5488072);
-            Intent mapIntent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
-            Context ct = rootView.getContext();
-            ct.startActivity(mapIntent);
+            String coord = prgObj.getVenueCoords();
+            if(coord != null){
+                if(coord.trim().length() <= 0){
+                    Toast.makeText(v.getContext(), R.string.no_location_map, Toast.LENGTH_SHORT).show();
+                }else {
+                    String uri = "geo:" + prgObj.getVenueCoords() + "?q=" + prgObj.getVenueCoords() +
+                            "(Program Location)";
+                    //String uri = String.format(Locale.ENGLISH, "geo:%f,%f", 13.0104054,77.5488072);
+                    Intent mapIntent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
+                    Context ct = rootView.getContext();
+                    ct.startActivity(mapIntent);
+                }
+            }else{
+                Toast.makeText(v.getContext(), R.string.no_location_map, Toast.LENGTH_SHORT).show();
+            }
         }
         else if(id == R.id.eatariesImage) {
             Toast.makeText(v.getContext(), (String)v.getTag(), Toast.LENGTH_SHORT).show();
@@ -306,25 +315,61 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
         }
 
         htmlStr += "</u></b><br><br>";
-        htmlStr += "<u><i>Entry:</i></u>:";
-        htmlStr += pObj.getEntryFee() + "<br><br>";
+        htmlStr += "<u><i>Entry: </i></u>:";
+        String ed = pObj.getEntryFee();
+        if(ed != null && !ed.trim().isEmpty()){
+            htmlStr += pObj.getEntryFee() + "<br><br>";
+        }else{
+            htmlStr += "- Info Not Available -" + "<br><br>";
+        }
+
         htmlStr += "<u><i>Venue Details:</i></u><br>";
         htmlStr += pObj.getVenueName() + "<br>";
-        htmlStr += pObj.getVenueAddress1() + "<br>";
-        htmlStr += pObj.getVenueAddress2() + "<br>";
-        htmlStr += pObj.getVenueCity();
 
+        String ad = pObj.getVenueAddress1();
+        if(ad != null & ad.length() > 0) {
+            htmlStr += ad + "<br>";
+        }
+        ad = pObj.getVenueAddress2();
+        if(ad != null & ad.length() > 0) {
+            htmlStr += ad + "<br>";
+        }
+        ad = pObj.getVenueCity();
+        if(ad != null & ad.length() > 0) {
+            htmlStr += ad ;
+        }
         String pc = pObj.getVenuePincode();
         if(pc != null && pc.length() > 0) {
-            htmlStr += " - " + pObj.getVenuePincode() + "<br>";
+            htmlStr += " - " + pc + "<br>";
         }
-        htmlStr += pObj.getVenueState() + "<br>";
-        htmlStr += pObj.getVenueCountry() + "<br>";
+
+        ad = pObj.getVenueState();
+        if(ad != null & ad.length() > 0) {
+            htmlStr += ad + "<br>";
+        }
+        ad = pObj.getVenueCountry();
+        if(ad != null & ad.length() > 0) {
+            htmlStr += ad + "<br>";
+        }
 
         String venuePhone = pObj.getOrganizerPhone();
-        if(venuePhone != null) {
+        if(venuePhone != null && !venuePhone.toLowerCase().startsWith("ph")) {
             htmlStr += "Ph: <a href=\"tel:" + venuePhone + "\">" + venuePhone + "</a>";
         }
+
+
+        htmlStr += "<br><br><u><i>Organizer Details:</i></u><br>";
+        htmlStr += pObj.getOrganizerName() + "<br>";
+        String orgPhone = pObj.getOrganizerPhone();
+        if(orgPhone != null && !orgPhone.toLowerCase().startsWith("ph")) {
+            htmlStr += "Ph: <a href=\"tel:" + orgPhone + "\">" + orgPhone + "</a>";
+        }
+
+        String orgWebSite = pObj.getOrganizerWebsite();
+        if(orgWebSite != null && urlValidator.isValid(orgWebSite)) {
+            htmlStr += "Visit <a href=\"" + orgWebSite + "\" target=\"_top\">Website</a><br>";
+        }
+
         htmlStr += "</body>";
 
         return htmlStr;
