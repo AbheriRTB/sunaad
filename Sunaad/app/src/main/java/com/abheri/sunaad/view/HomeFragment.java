@@ -256,7 +256,7 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
         //Load flyers only for release builds
         //if(!BuildConfig.DEBUG)
         {
-            float cycletime = (float) 4; //Initialize to 15 sec delay
+            float cycletime = (float) 3; //Initialize to 15 sec delay
             Util ut = new Util();
 
             //String newpages[] = {Util.FEATURED_CONCERT_TICKER} ;
@@ -277,7 +277,7 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
                 if (pages.length >= 1) {
                     //If there are web urls available,
                     //reduce the cycle time to 5 sec
-                    cycletime = (float) 4;
+                    cycletime = (float) 2;
                 }
             }
 

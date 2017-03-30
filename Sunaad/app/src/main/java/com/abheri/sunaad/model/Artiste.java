@@ -191,7 +191,7 @@ public class Artiste implements Serializable {
 
 
     public String getIs_published() {
-        return is_published;
+        return is_published == null ? "" : is_published;
     }
 
     public void setIs_published(String published) {

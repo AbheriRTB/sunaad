@@ -11,7 +11,6 @@ public class Program implements Serializable{
     private long id;
     private String title;
     private String art_type;
-    private String event_type;
     private String details;
     private String entry_fee;
     private String organizer_website;
@@ -60,13 +59,6 @@ public class Program implements Serializable{
     public void setArtType(String art_type) {
         this.art_type = art_type;
     }
-
-    public String getEventType() { return event_type;
-    }
-    public void setEventType(String event_type) {
-        this.event_type = event_type;
-    }
-
 
 
     public String getDetails() {

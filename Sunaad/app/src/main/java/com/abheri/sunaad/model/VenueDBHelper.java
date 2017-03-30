@@ -36,6 +36,38 @@ public class VenueDBHelper {
         dbHelper.close();
     }
 
+    public void createVenueList(List<Venue> venues) {
+
+        open();
+
+        for(int i = 0 ; i<venues.size();i++){
+            ContentValues values = new ContentValues();
+            Venue venue = venues.get(i);
+            values.put(SQLStrings.COLUMN_VENUE_ID, venue.getId());
+            values.put(SQLStrings.COLUMN_VENUE_NAME, venue.getVenue_name());
+            values.put(SQLStrings.COLUMN_VENUE_DESCRIPTION, venue.getVenue_description());
+            values.put(SQLStrings.COLUMN_VENUE_IMAGE, venue.getImage());
+            values.put(SQLStrings.COLUMN_VENUE_WEBSITE, venue.getWebsite());
+            values.put(SQLStrings.COLUMN_VENUE_PHONE, String.valueOf(venue.getPhone()));
+            values.put(SQLStrings.COLUMN_VENUE_EMAIL, venue.getEmail());
+            values.put(SQLStrings.COLUMN_VENUE_ADDRESS1, venue.getAddress1());
+            values.put(SQLStrings.COLUMN_VENUE_ADDRESS2, venue.getAddress2());
+            values.put(SQLStrings.COLUMN_VENUE_CITY, venue.getCity());
+            values.put(SQLStrings.COLUMN_VENUE_STATE, venue.getState());
+            values.put(SQLStrings.COLUMN_VENUE_COUNTRY, venue.getCountry());
+            values.put(SQLStrings.COLUMN_VENUE_PINCODE, venue.getPincode());
+            values.put(SQLStrings.COLUMN_VENUE_MAPCOORDS, venue.getMapcoords());
+            values.put(SQLStrings.COLUMN_VENUE_PARKING, venue.getParking());
+            values.put(SQLStrings.COLUMN_VENUE_EATARIES, venue.getEataries());
+            values.put(SQLStrings.COLUMN_VENUE_IS_PUBLISHED, venue.getIs_published());
+            long insertId = database.insert(SQLStrings.TABLE_VENUE, null,
+                    values);
+        }
+
+        close();
+
+    }
+
     public Venue createVenue(int id, String name, String desc, String ispublished,
                                  String address1, String address2,
                                  String city, String state, String country, String pincode,
@@ -98,7 +130,7 @@ public class VenueDBHelper {
 
     public List<Venue> getAllVenue() {
         List<Venue> venue = new ArrayList<Venue>();
-
+        open();
         Cursor cursor = database.query(SQLStrings.TABLE_VENUE,
                 SQLStrings.venueAllColumns, null, null, null, null, null);
 
@@ -117,8 +149,24 @@ public class VenueDBHelper {
         Venue Venue = new Venue();
         Venue.setId(cursor.getInt(0));
         Venue.setVenue_name(cursor.getString(1));
-        Venue.setIs_published(cursor.getString(2));
+        Venue.setVenue_description(cursor.getString(2));
+        Venue.setImage(cursor.getString(3));
+        Venue.setWebsite(cursor.getString(4));
+        Venue.setPhone(cursor.getString(5));
+        Venue.setEmail(cursor.getString(6));
+        Venue.setAddress1(cursor.getString(7));
+        Venue.setAddress2(cursor.getString(8));
+        Venue.setCity(cursor.getString(9));
+        Venue.setState(cursor.getString(10));
+        Venue.setCountry(cursor.getString(11));
+        Venue.setPincode(cursor.getString(12));
+        Venue.setMapcoords(cursor.getString(13));
+        Venue.setParking(cursor.getString(14));
+        Venue.setEataries(cursor.getString(15));
+        Venue.setIs_published(cursor.getString(16));
 
         return Venue;
     }
+
+
 }

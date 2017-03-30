@@ -21,8 +21,10 @@ import android.widget.ViewAnimator;
 
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.model.Artiste;
+import com.abheri.sunaad.model.ArtisteDBHelper;
 import com.abheri.sunaad.model.CloudDataFetcherAsyncTask;
 import com.abheri.sunaad.model.Organizer;
+import com.abheri.sunaad.model.OrganizerDBHelper;
 import com.abheri.sunaad.model.OrganizerListDataCache;
 import com.abheri.sunaad.view.HandleServiceResponse;
 import com.abheri.sunaad.view.MainActivity;
@@ -49,6 +51,7 @@ public class OrganizerDirectoryFragment extends Fragment implements HandleServic
     Artiste noticePrgObj=null;
     public boolean doScroll=true;
     boolean refreshRunning=false;
+    private boolean isDataStoredinDb = false;
 
     public OrganizerDirectoryFragment() {
 
@@ -123,7 +126,7 @@ public class OrganizerDirectoryFragment extends Fragment implements HandleServic
     }
 
     private void openOrganizerDetails(Organizer organizerToOpen,
-                                    android.support.v4.app.FragmentManager fragmentManager){
+                                      android.support.v4.app.FragmentManager fragmentManager){
         Intent artIntent = new Intent();
         artIntent.putExtra("OrganizerDetails", organizerToOpen);
         myActivity.setIntent(artIntent);
@@ -155,17 +158,21 @@ public class OrganizerDirectoryFragment extends Fragment implements HandleServic
 
     public void getData(OrganizerDirectoryFragment fragmentThis, boolean doRefresh) {
 
-        OrganizerListDataCache olc = new OrganizerListDataCache(context);
         Util ut = new Util();
-        if ((olc.isOrganizerDataCacheOld() || doRefresh) && ut.isNetworkAvailable(context)) {
+        if (ut.isNetworkAvailable(context)) {
             progressBar.setVisibility(View.VISIBLE);
             CloudDataFetcherAsyncTask rt = new CloudDataFetcherAsyncTask(fragmentThis, SunaadViews.ORGANIZER_DIR, context);
             rt.execute(Util.getServiceUrl(SunaadViews.ORGANIZER_DIR));
             refreshRunning=true;
-        } else {
-            cachedOrganizerList = olc.RetrieveOrganizerDataFromCache();
+        } else{
             //If network is available the cached list will be non-null
             //Else it will be null. If null, show error text
+
+            //SahanaEDIT
+            OrganizerDBHelper organizerDBHelper = new OrganizerDBHelper(context);
+            cachedOrganizerList = organizerDBHelper.getAllOrganizer();
+            //END
+
             if(cachedOrganizerList != null) {
                 updateViewFromData(cachedOrganizerList);
             }
@@ -206,8 +213,9 @@ public class OrganizerDirectoryFragment extends Fragment implements HandleServic
 
         List<Organizer> values = (List<Organizer>) result;
 
-        OrganizerListDataCache alc = new OrganizerListDataCache(context);
-        alc.SaveOrganizerInCache((List<Organizer>) result);
+        OrganizerDBHelper organizerDBHelper = new OrganizerDBHelper(context);
+        organizerDBHelper.deleteAllOrganizer();
+        organizerDBHelper.createOrganizer(values);
 
         updateViewFromData(values);
     }

@@ -47,7 +47,6 @@
     <string name="webview2_text"><html><body bgcolor="#ff0000"><h1>Concert2</h1></body></html></string>
     <string name="webview3_text"><html><body bgcolor="#00ff00"><h1>Concert3</h1></body></html></string>
 
-    <string name="no_location_map">Location Map Not Available</string>
 
 
 

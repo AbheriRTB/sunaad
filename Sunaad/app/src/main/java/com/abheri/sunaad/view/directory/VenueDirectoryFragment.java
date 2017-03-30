@@ -23,8 +23,10 @@ import com.abheri.sunaad.R;
 import com.abheri.sunaad.model.Artiste;
 import com.abheri.sunaad.model.CloudDataFetcherAsyncTask;
 import com.abheri.sunaad.model.Organizer;
+import com.abheri.sunaad.model.OrganizerDBHelper;
 import com.abheri.sunaad.model.OrganizerListDataCache;
 import com.abheri.sunaad.model.Venue;
+import com.abheri.sunaad.model.VenueDBHelper;
 import com.abheri.sunaad.model.VenueListDataCache;
 import com.abheri.sunaad.view.HandleServiceResponse;
 import com.abheri.sunaad.view.MainActivity;
@@ -153,18 +155,21 @@ public class VenueDirectoryFragment extends Fragment implements HandleServiceRes
 
 
     public void getData(VenueDirectoryFragment fragmentThis, boolean doRefresh) {
-
-        VenueListDataCache vlc = new VenueListDataCache(context);
         Util ut = new Util();
-        if ((vlc.isVenueDataCacheOld() || doRefresh) && ut.isNetworkAvailable(context)) {
+        if (ut.isNetworkAvailable(context)) {
             progressBar.setVisibility(View.VISIBLE);
             CloudDataFetcherAsyncTask rt = new CloudDataFetcherAsyncTask(fragmentThis, SunaadViews.VENUE_DIR, context);
             rt.execute(Util.getServiceUrl(SunaadViews.VENUE_DIR));
             refreshRunning=true;
-        } else {
-            cachedVenueList = vlc.RetrieveVenueDataFromCache();
+        } else if(!ut.isNetworkAvailable(context)) {
             //If network is available the cached list will be non-null
             //Else it will be null. If null, show error text
+
+            //SahanaEDIT
+            VenueDBHelper venueDBHelper = new VenueDBHelper(context);
+            cachedVenueList = venueDBHelper.getAllVenue();
+            //END
+
             if(cachedVenueList != null) {
                 updateViewFromData(cachedVenueList);
             }
@@ -207,6 +212,10 @@ public class VenueDirectoryFragment extends Fragment implements HandleServiceRes
 
         VenueListDataCache alc = new VenueListDataCache(context);
         alc.SaveVenueDataInCache((List<Venue>) result);
+
+        VenueDBHelper venueDBHelper = new VenueDBHelper(context);
+        venueDBHelper.deleteAllVenue();
+        venueDBHelper.createVenueList(values);
 
         updateViewFromData(values);
     }

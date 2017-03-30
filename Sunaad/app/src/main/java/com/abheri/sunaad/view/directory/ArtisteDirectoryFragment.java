@@ -21,6 +21,7 @@ import android.widget.ViewAnimator;
 
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.model.Artiste;
+import com.abheri.sunaad.model.ArtisteDBHelper;
 import com.abheri.sunaad.model.ArtisteListDataCache;
 import com.abheri.sunaad.model.CloudDataFetcherAsyncTask;
 import com.abheri.sunaad.view.HandleServiceResponse;
@@ -84,7 +85,6 @@ public class ArtisteDirectoryFragment extends Fragment implements HandleServiceR
         myActivity = getActivity();
 
         getData(this, false);
-
 
         //Onclick listener not required for initial implementation
         //Implemented here just for reference
@@ -153,18 +153,18 @@ public class ArtisteDirectoryFragment extends Fragment implements HandleServiceR
 
 
     public void getData(ArtisteDirectoryFragment fragmentThis, boolean doRefresh) {
-
-        ArtisteListDataCache alc = new ArtisteListDataCache(context);
         Util ut = new Util();
-        if ((alc.isArtisteDataCacheOld() || doRefresh) && ut.isNetworkAvailable(context)) {
+
+        if(ut.isNetworkAvailable(context)){
             progressBar.setVisibility(View.VISIBLE);
             CloudDataFetcherAsyncTask rt = new CloudDataFetcherAsyncTask(fragmentThis, SunaadViews.ARTISTE_DIR, context);
             rt.execute(Util.getServiceUrl(SunaadViews.ARTISTE_DIR));
             refreshRunning=true;
-        } else {
-            cachedArtisteList = alc.RetrieveArtisteDataFromCache();
-            //If network is available the cached list will be non-null
-            //Else it will be null. If null, show error text
+        }else{
+            //SahanaEDIT
+            ArtisteDBHelper artisteDBHelper = new ArtisteDBHelper(context);
+            cachedArtisteList = artisteDBHelper.getAllArtiste();
+            //END
             if(cachedArtisteList != null) {
                 updateViewFromData(cachedArtisteList);
             }
@@ -173,6 +173,7 @@ public class ArtisteDirectoryFragment extends Fragment implements HandleServiceR
                 errTextView.setVisibility(View.VISIBLE);
             }
         }
+
     }
 
 
@@ -205,8 +206,9 @@ public class ArtisteDirectoryFragment extends Fragment implements HandleServiceR
 
         List<Artiste> values = (List<Artiste>) result;
 
-        ArtisteListDataCache alc = new ArtisteListDataCache(context);
-        alc.SaveArtisteDataInCache((List<Artiste>) result);
+        ArtisteDBHelper artisteDBHelper = new ArtisteDBHelper(context);
+        artisteDBHelper.deleteAllArtiste();
+        artisteDBHelper.createArtiste(values);
 
         updateViewFromData(values);
     }
@@ -214,6 +216,29 @@ public class ArtisteDirectoryFragment extends Fragment implements HandleServiceR
     public void updateViewFromData(List<Artiste> values){
         progressBar.setVisibility(View.GONE);
         listView.setVisibility(View.VISIBLE);
+
+        /*for(int i = 0 ; i < values.size() ; i++) {
+            Log.d("ArtistDirectoryFrag::", "id ::" + values.get(i).getId());
+            Log.d("ArtistDirectoryFrag::", "ArName ::" + values.get(i).getArtisteName());
+            Log.d("ArtistDirectoryFrag::", "ArType ::" + values.get(i).getArtisteArtType());
+            Log.d("ArtistDirectoryFrag::", "ArPub ::" + values.get(i).getIs_published());
+            Log.d("ArtistDirectoryFrag::", "ArGender ::" + values.get(i).getArtisteGender());
+            Log.d("ArtistDirectoryFrag::", "ArDesc ::" + values.get(i).getArtiste_description());
+            Log.d("ArtistDirectoryFrag::", "ArAddr1 ::" + values.get(i).getArtisteAddress1());
+            Log.d("ArtistDirectoryFrag::", "ArAddr2 ::" + values.get(i).getArtisteAddress2());
+            Log.d("ArtistDirectoryFrag::", "ArAudio ::" + values.get(i).getArtisteAudioClip());
+            Log.d("ArtistDirectoryFrag::", "ArCity ::" + values.get(i).getArtisteCity());
+            Log.d("ArtistDirectoryFrag::", "ArState ::" + values.get(i).getArtisteState());
+            Log.d("ArtistDirectoryFrag::", "ArCountry ::" + values.get(i).getArtisteCountry());
+            Log.d("ArtistDirectoryFrag::", "ArCoorder ::" + values.get(i).getArtisteCoords());
+            Log.d("ArtistDirectoryFrag::", "ArEMail ::" + values.get(i).getArtisteEmail());
+            Log.d("ArtistDirectoryFrag::", "ArInstr ::" + values.get(i).getArtisteInstrument());
+            Log.d("ArtistDirectoryFrag::", "ArImage ::" + values.get(i).getArtisteImage());
+            Log.d("ArtistDirectoryFrag::", "ArPhone ::" + values.get(i).getArtistePhone());
+            Log.d("ArtistDirectoryFrag::", "ArPin ::" + values.get(i).getArtistePincode());
+            Log.d("ArtistDirectoryFrag::", "ArWebsite ::" + values.get(i).getArtisteWebsite());
+            Log.d("ArtistDirectoryFrag::", "ArDOB ::" + values.get(i).getArtisteDOB());
+        }*/
 
         //Filter old programs from the list
         //List<Program> fValues = ArtisteDataHelper.filterOldPrograms(values, Util.HOW_OLD);
