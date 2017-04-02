@@ -3,8 +3,10 @@ package com.abheri.sunaad.model;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.abheri.sunaad.view.Util;
 import com.google.gson.Gson;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,7 +22,7 @@ public class OrganizerListDataCache {
         context = c;
     }
 
-    public boolean SaveOrganizerInCache(List<?> dataList){
+    public boolean SaveOrganizerInCache(List<Organizer> organizerList){
         //Creating a shared preference
         /*
         SharedPreferences settings = context.getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
@@ -34,6 +36,13 @@ public class OrganizerListDataCache {
 
         prefsEditor.commit();
         */
+        OrganizerDBHelper organizerDBHelper = new OrganizerDBHelper(context);
+        organizerDBHelper.deleteAllOrganizer();
+        organizerDBHelper.createOrganizer(organizerList);
+
+        SettingsDBHelper settingsDBHelper = new SettingsDBHelper(context);
+        settingsDBHelper.setLastModifiedDateTime(Util.getFormattedDateTime(new Date()),
+                                                        SQLStrings.COLUMN_ORGANIZER_LAST_REFRESH);
 
         return true;
     }

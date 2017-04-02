@@ -157,23 +157,28 @@ public class OrganizerDirectoryFragment extends Fragment implements HandleServic
 
         OrganizerListDataCache olc = new OrganizerListDataCache(context);
         Util ut = new Util();
-        if ((olc.isOrganizerDataCacheOld() || doRefresh) && ut.isNetworkAvailable(context)) {
+
+        cachedOrganizerList = olc.RetrieveOrganizerDataFromCache();
+
+        //First render the screen with cached data
+        if(cachedOrganizerList != null) {
+            updateViewFromData(cachedOrganizerList);
+        }
+
+        //If network is available refresh the cache and the view
+        if (ut.isNetworkAvailable(context)) {
             progressBar.setVisibility(View.VISIBLE);
             CloudDataFetcherAsyncTask rt = new CloudDataFetcherAsyncTask(fragmentThis, SunaadViews.ORGANIZER_DIR, context);
             rt.execute(Util.getServiceUrl(SunaadViews.ORGANIZER_DIR));
             refreshRunning=true;
-        } else {
-            cachedOrganizerList = olc.RetrieveOrganizerDataFromCache();
-            //If network is available the cached list will be non-null
-            //Else it will be null. If null, show error text
-            if(cachedOrganizerList != null) {
-                updateViewFromData(cachedOrganizerList);
-            }
-            else {
-                errTextView.setText("Connect to network to get Sunaad Data");
-                errTextView.setVisibility(View.VISIBLE);
-            }
         }
+
+        //If cache is null & network is not available, show error
+        else if(cachedOrganizerList == null) {
+            errTextView.setText("Connect to network to get Sunaad Data");
+            errTextView.setVisibility(View.VISIBLE);
+        }
+
     }
 
 

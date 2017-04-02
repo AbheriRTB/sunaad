@@ -20,7 +20,9 @@ public class VenueDBHelper {
     private DBHelper dbHelper;
 
     public VenueDBHelper(Context context) {
+
         dbHelper = new DBHelper(context);
+        database = dbHelper.getWritableDatabase();
     }
 
     public VenueDBHelper(Context context, SQLiteDatabase db) {
@@ -34,6 +36,38 @@ public class VenueDBHelper {
 
     public void close() {
         dbHelper.close();
+    }
+
+    public void createVenue(List<Venue> venues) {
+
+        open();
+
+        for(int i = 0 ; i<venues.size();i++){
+            ContentValues values = new ContentValues();
+            Venue venue = venues.get(i);
+            values.put(SQLStrings.COLUMN_VENUE_ID, venue.getId());
+            values.put(SQLStrings.COLUMN_VENUE_NAME, venue.getVenue_name());
+            values.put(SQLStrings.COLUMN_VENUE_DESCRIPTION, venue.getVenue_description());
+            values.put(SQLStrings.COLUMN_VENUE_IMAGE, venue.getImage());
+            values.put(SQLStrings.COLUMN_VENUE_WEBSITE, venue.getWebsite());
+            values.put(SQLStrings.COLUMN_VENUE_PHONE, String.valueOf(venue.getPhone()));
+            values.put(SQLStrings.COLUMN_VENUE_EMAIL, venue.getEmail());
+            values.put(SQLStrings.COLUMN_VENUE_ADDRESS1, venue.getAddress1());
+            values.put(SQLStrings.COLUMN_VENUE_ADDRESS2, venue.getAddress2());
+            values.put(SQLStrings.COLUMN_VENUE_CITY, venue.getCity());
+            values.put(SQLStrings.COLUMN_VENUE_STATE, venue.getState());
+            values.put(SQLStrings.COLUMN_VENUE_COUNTRY, venue.getCountry());
+            values.put(SQLStrings.COLUMN_VENUE_PINCODE, venue.getPincode());
+            values.put(SQLStrings.COLUMN_VENUE_MAPCOORDS, venue.getMapcoords());
+            values.put(SQLStrings.COLUMN_VENUE_PARKING, venue.getParking());
+            values.put(SQLStrings.COLUMN_VENUE_EATARIES, venue.getEataries());
+            values.put(SQLStrings.COLUMN_VENUE_IS_PUBLISHED, venue.getIs_published());
+            long insertId = database.insert(SQLStrings.TABLE_VENUE, null,
+                    values);
+        }
+
+        close();
+
     }
 
     public Venue createVenue(int id, String name, String desc, String ispublished,

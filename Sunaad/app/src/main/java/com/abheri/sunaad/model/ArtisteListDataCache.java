@@ -2,13 +2,10 @@ package com.abheri.sunaad.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.abheri.sunaad.view.Util;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -39,6 +36,15 @@ public class ArtisteListDataCache {
 
         prefsEditor.commit();
         */
+
+        ArtisteDBHelper artisteDBHelper = new ArtisteDBHelper(context);
+        artisteDBHelper.deleteAllArtiste();
+        artisteDBHelper.createArtiste(artisteList);
+
+        SettingsDBHelper settingsDBHelper = new SettingsDBHelper(context);
+        settingsDBHelper.setLastModifiedDateTime(Util.getFormattedDateTime(new Date()),
+                                                        SQLStrings.COLUMN_ARTISTE_LAST_REFRESH);
+
 
         return true;
     }

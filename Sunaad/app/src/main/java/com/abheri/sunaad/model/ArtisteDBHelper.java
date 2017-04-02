@@ -20,7 +20,9 @@ public class ArtisteDBHelper {
     private DBHelper dbHelper;
 
     public ArtisteDBHelper(Context context) {
+
         dbHelper = new DBHelper(context);
+        database = dbHelper.getWritableDatabase();
     }
 
     public ArtisteDBHelper(Context context, SQLiteDatabase db) {
@@ -34,6 +36,39 @@ public class ArtisteDBHelper {
 
     public void close() {
         dbHelper.close();
+    }
+
+    public void createArtiste(List<Artiste> artistes){
+        open();
+
+        for(int i = 0 ; i<artistes.size();i++){
+            ContentValues values = new ContentValues();
+            Artiste artiste = artistes.get(i);
+            values.put(SQLStrings.COLUMN_ARTISTE_ID, artiste.getId());
+            values.put(SQLStrings.COLUMN_ARTISTE_NAME, artiste.getArtisteName());
+            values.put(SQLStrings.COLUMN_ARTISTE_GENDER, artiste.getArtisteGender());
+            values.put(SQLStrings.COLUMN_ARTISTE_DESC, artiste.getArtiste_description());
+            values.put(SQLStrings.COLUMN_ARTISTE_DOB, String.valueOf(artiste.getArtisteDOB()));
+            values.put(SQLStrings.COLUMN_ARTISTE_EMAIL, artiste.getArtisteEmail());
+            values.put(SQLStrings.COLUMN_ARTISTE_PHONE, artiste.getArtistePhone());
+            values.put(SQLStrings.COLUMN_ARTISTE_WEBSITE, artiste.getArtistePhone());
+            values.put(SQLStrings.COLUMN_ARTISTE_ART_TYPE, artiste.getArtisteArtType());
+            values.put(SQLStrings.COLUMN_ARTISTE_INSTRUMENT, artiste.getArtisteInstrument());
+            values.put(SQLStrings.COLUMN_ARTISTE_ADDRESS1, artiste.getArtisteAddress1());
+            values.put(SQLStrings.COLUMN_ARTISTE_ADDRESS2, artiste.getArtisteAddress2());
+            values.put(SQLStrings.COLUMN_ARTISTE_CITY, artiste.getArtisteCity());
+            values.put(SQLStrings.COLUMN_ARTISTE_STATE, artiste.getArtisteState());
+            values.put(SQLStrings.COLUMN_ARTISTE_COUNTRY, artiste.getArtisteCountry());
+            values.put(SQLStrings.COLUMN_ARTISTE_PINCODE, artiste.getArtistePincode());
+            values.put(SQLStrings.COLUMN_ARTISTE_MAPCOORDS, artiste.getArtisteCoords());
+            values.put(SQLStrings.COLUMN_ARTISTE_IMAGE, artiste.getArtisteImage());
+            values.put(SQLStrings.COLUMN_ARTISTE_AUDIOCLIP, artiste.getArtisteAudioClip());
+            values.put(SQLStrings.COLUMN_ARTISTE_IS_PUBLISHED, artiste.getIs_published());
+            long insertId = database.insert(SQLStrings.TABLE_ARTISTE, null,
+                    values);
+        }
+
+        close();
     }
 
     public Artiste createArtiste(int id, String name, String art_type, String ispublished,
@@ -105,6 +140,9 @@ public class ArtisteDBHelper {
         Cursor cursor = database.query(SQLStrings.TABLE_ARTISTE,
                 SQLStrings.artisteAllColumns, null, null, null, null, null);
 
+        if(cursor == null){
+            return null;
+        }
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Artiste artiste1 = cursorToArtiste(cursor);

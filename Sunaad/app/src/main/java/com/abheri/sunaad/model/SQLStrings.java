@@ -8,10 +8,15 @@ import java.util.Date;
 public class SQLStrings {
 
     //Settings table
+    //Settings table
     protected static final String TABLE_SETTINGS = "settings";
     protected static final String COLUMN_ALARM_DAYS_BEFORE = "alarm_days_before";
     protected static final String COLUMN_ALARM_AT_TIME = "alarm_at_time";
     protected static final String COLUMN_SOUND_ALARM = "sound_alarm";
+    protected static final String COLUMN_ARTISTE_LAST_REFRESH = "artiste_last_refresh";
+    protected static final String COLUMN_ORGANIZER_LAST_REFRESH = "organizer_last_refresh";
+    protected static final String COLUMN_VENUE_LAST_REFRESH = "venue_last_refresh";
+    protected static final String COLUMN_PROGRAM_LAST_REFRESH = "program_last_refresh";
 
     protected static final String create_settings_table = "create table "
             + TABLE_SETTINGS + "("
@@ -20,12 +25,25 @@ public class SQLStrings {
             + COLUMN_ALARM_AT_TIME
             + " text not null,"
             + COLUMN_SOUND_ALARM
-            + " integer not null);";
+            + " integer not null,"
+            + COLUMN_ARTISTE_LAST_REFRESH
+            + " datetime,"
+            + COLUMN_ORGANIZER_LAST_REFRESH
+            + " datetime,"
+            + COLUMN_VENUE_LAST_REFRESH
+            + " datetime"
+            + COLUMN_PROGRAM_LAST_REFRESH
+            + " datetime"
+            + ");";
 
     protected static final String[] settingsAllColumns = {
             SQLStrings.COLUMN_ALARM_DAYS_BEFORE,
             SQLStrings.COLUMN_ALARM_AT_TIME,
-            SQLStrings.COLUMN_SOUND_ALARM };
+            SQLStrings.COLUMN_SOUND_ALARM,
+            SQLStrings.COLUMN_ARTISTE_LAST_REFRESH,
+            SQLStrings.COLUMN_ORGANIZER_LAST_REFRESH,
+            SQLStrings.COLUMN_VENUE_LAST_REFRESH,
+            SQLStrings.COLUMN_ORGANIZER_LAST_REFRESH};
 
     //Artiste table
     protected static final String TABLE_ARTISTE = "artiste";

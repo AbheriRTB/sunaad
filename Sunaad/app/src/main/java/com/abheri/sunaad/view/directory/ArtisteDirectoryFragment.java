@@ -156,23 +156,29 @@ public class ArtisteDirectoryFragment extends Fragment implements HandleServiceR
 
         ArtisteListDataCache alc = new ArtisteListDataCache(context);
         Util ut = new Util();
-        if ((alc.isArtisteDataCacheOld() || doRefresh) && ut.isNetworkAvailable(context)) {
+
+        cachedArtisteList = alc.RetrieveArtisteDataFromCache();
+
+        //First render the screen with cached data
+        if(cachedArtisteList != null) {
+            updateViewFromData(cachedArtisteList);
+        }
+
+        //If network is available refresh the cache and the view
+        if (ut.isNetworkAvailable(context)) {
             progressBar.setVisibility(View.VISIBLE);
+            progressBar.bringToFront();
             CloudDataFetcherAsyncTask rt = new CloudDataFetcherAsyncTask(fragmentThis, SunaadViews.ARTISTE_DIR, context);
             rt.execute(Util.getServiceUrl(SunaadViews.ARTISTE_DIR));
             refreshRunning=true;
-        } else {
-            cachedArtisteList = alc.RetrieveArtisteDataFromCache();
-            //If network is available the cached list will be non-null
-            //Else it will be null. If null, show error text
-            if(cachedArtisteList != null) {
-                updateViewFromData(cachedArtisteList);
-            }
-            else {
-                errTextView.setText("Connect to network to get Sunaad Data");
-                errTextView.setVisibility(View.VISIBLE);
-            }
         }
+
+        //If cache is null & network is not available, show error
+        else if(cachedArtisteList == null) {
+            errTextView.setText("Connect to network to get Sunaad Data");
+            errTextView.setVisibility(View.VISIBLE);
+        }
+
     }
 
 

@@ -156,23 +156,28 @@ public class VenueDirectoryFragment extends Fragment implements HandleServiceRes
 
         VenueListDataCache vlc = new VenueListDataCache(context);
         Util ut = new Util();
-        if ((vlc.isVenueDataCacheOld() || doRefresh) && ut.isNetworkAvailable(context)) {
+
+        cachedVenueList = vlc.RetrieveVenueDataFromCache();
+
+        //First render the screen with cached data
+        if(cachedVenueList != null) {
+            updateViewFromData(cachedVenueList);
+        }
+
+        //If network is available refresh the cache and the view
+        if (ut.isNetworkAvailable(context)) {
             progressBar.setVisibility(View.VISIBLE);
             CloudDataFetcherAsyncTask rt = new CloudDataFetcherAsyncTask(fragmentThis, SunaadViews.VENUE_DIR, context);
             rt.execute(Util.getServiceUrl(SunaadViews.VENUE_DIR));
             refreshRunning=true;
-        } else {
-            cachedVenueList = vlc.RetrieveVenueDataFromCache();
-            //If network is available the cached list will be non-null
-            //Else it will be null. If null, show error text
-            if(cachedVenueList != null) {
-                updateViewFromData(cachedVenueList);
-            }
-            else {
-                errTextView.setText("Connect to network to get Sunaad Data");
-                errTextView.setVisibility(View.VISIBLE);
-            }
         }
+
+        //If cache is null & network is not available, show error
+        else if(cachedVenueList == null) {
+            errTextView.setText("Connect to network to get Sunaad Data");
+            errTextView.setVisibility(View.VISIBLE);
+        }
+
     }
 
 

@@ -22,8 +22,12 @@
 
     <ProgressBar
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_height="23dp"
         android:id="@+id/progressBar"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:maxHeight="24dp"
+        android:maxWidth="24dp"
+        android:minHeight="24dp"
+        android:minWidth="24dp"/>
 
 </LinearLayout>

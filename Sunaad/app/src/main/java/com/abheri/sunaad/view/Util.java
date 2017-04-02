@@ -211,6 +211,15 @@ public class Util {
 
     }
 
+    public static String getFormattedDateTime(Date dt){
+
+        DateFormat tf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String returnStr = tf.format(dt.getTime()).toString();
+
+        return returnStr;
+
+    }
+
     public static long startTimeInMillis(Program prg) {
 
         long retVal = 0;
