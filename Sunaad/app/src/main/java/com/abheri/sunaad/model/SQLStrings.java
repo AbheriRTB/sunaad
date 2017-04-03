@@ -9,16 +9,16 @@ public class SQLStrings {
 
     //Settings table
     //Settings table
-    protected static final String TABLE_SETTINGS = "settings";
-    protected static final String COLUMN_ALARM_DAYS_BEFORE = "alarm_days_before";
-    protected static final String COLUMN_ALARM_AT_TIME = "alarm_at_time";
-    protected static final String COLUMN_SOUND_ALARM = "sound_alarm";
-    protected static final String COLUMN_ARTISTE_LAST_REFRESH = "artiste_last_refresh";
-    protected static final String COLUMN_ORGANIZER_LAST_REFRESH = "organizer_last_refresh";
-    protected static final String COLUMN_VENUE_LAST_REFRESH = "venue_last_refresh";
-    protected static final String COLUMN_PROGRAM_LAST_REFRESH = "program_last_refresh";
+    public static final String TABLE_SETTINGS = "settings";
+    public static final String COLUMN_ALARM_DAYS_BEFORE = "alarm_days_before";
+    public static final String COLUMN_ALARM_AT_TIME = "alarm_at_time";
+    public static final String COLUMN_SOUND_ALARM = "sound_alarm";
+    public static final String COLUMN_ARTISTE_LAST_REFRESH = "artiste_last_refresh";
+    public static final String COLUMN_ORGANIZER_LAST_REFRESH = "organizer_last_refresh";
+    public static final String COLUMN_VENUE_LAST_REFRESH = "venue_last_refresh";
+    public static final String COLUMN_PROGRAM_LAST_REFRESH = "program_last_refresh";
 
-    protected static final String create_settings_table = "create table "
+    public static final String create_settings_table = "create table "
             + TABLE_SETTINGS + "("
             + COLUMN_ALARM_DAYS_BEFORE
             + " integer not null,"
@@ -36,7 +36,7 @@ public class SQLStrings {
             + " datetime"
             + ");";
 
-    protected static final String[] settingsAllColumns = {
+    public static final String[] settingsAllColumns = {
             SQLStrings.COLUMN_ALARM_DAYS_BEFORE,
             SQLStrings.COLUMN_ALARM_AT_TIME,
             SQLStrings.COLUMN_SOUND_ALARM,
@@ -46,29 +46,29 @@ public class SQLStrings {
             SQLStrings.COLUMN_ORGANIZER_LAST_REFRESH};
 
     //Artiste table
-    protected static final String TABLE_ARTISTE = "artiste";
-    protected static final String COLUMN_ARTISTE_ID = "artiste_id";
-    protected static final String COLUMN_ARTISTE_NAME = "artiste_name";
-    protected static final String COLUMN_ARTISTE_DOB = "artiste_dob";
-    protected static final String COLUMN_ARTISTE_GENDER = "artiste_gender";
-    protected static final String COLUMN_ARTISTE_DESC = "artiste_desc";
-    protected static final String COLUMN_ARTISTE_WEBSITE = "artiste_website";
-    protected static final String COLUMN_ARTISTE_EMAIL = "artiste_email";
-    protected static final String COLUMN_ARTISTE_PHONE = "artiste_phone";
-    protected static final String COLUMN_ARTISTE_ART_TYPE = "artiste_art_type";
-    protected static final String COLUMN_ARTISTE_INSTRUMENT = "artiste_instrument";
-    protected static final String COLUMN_ARTISTE_ADDRESS1 = "address1";
-    protected static final String COLUMN_ARTISTE_ADDRESS2 = "address2";
-    protected static final String COLUMN_ARTISTE_CITY = "city";
-    protected static final String COLUMN_ARTISTE_STATE = "state";
-    protected static final String COLUMN_ARTISTE_COUNTRY = "country";
-    protected static final String COLUMN_ARTISTE_PINCODE = "pincode";
-    protected static final String COLUMN_ARTISTE_MAPCOORDS = "mapcoords";
-    protected static final String COLUMN_ARTISTE_IMAGE = "artiste_image";
-    protected static final String COLUMN_ARTISTE_AUDIOCLIP = "artiste_audioclip";
-    protected static final String COLUMN_ARTISTE_IS_PUBLISHED = "is_published";
+    public static final String TABLE_ARTISTE = "artiste";
+    public static final String COLUMN_ARTISTE_ID = "artiste_id";
+    public static final String COLUMN_ARTISTE_NAME = "artiste_name";
+    public static final String COLUMN_ARTISTE_DOB = "artiste_dob";
+    public static final String COLUMN_ARTISTE_GENDER = "artiste_gender";
+    public static final String COLUMN_ARTISTE_DESC = "artiste_desc";
+    public static final String COLUMN_ARTISTE_WEBSITE = "artiste_website";
+    public static final String COLUMN_ARTISTE_EMAIL = "artiste_email";
+    public static final String COLUMN_ARTISTE_PHONE = "artiste_phone";
+    public static final String COLUMN_ARTISTE_ART_TYPE = "artiste_art_type";
+    public static final String COLUMN_ARTISTE_INSTRUMENT = "artiste_instrument";
+    public static final String COLUMN_ARTISTE_ADDRESS1 = "address1";
+    public static final String COLUMN_ARTISTE_ADDRESS2 = "address2";
+    public static final String COLUMN_ARTISTE_CITY = "city";
+    public static final String COLUMN_ARTISTE_STATE = "state";
+    public static final String COLUMN_ARTISTE_COUNTRY = "country";
+    public static final String COLUMN_ARTISTE_PINCODE = "pincode";
+    public static final String COLUMN_ARTISTE_MAPCOORDS = "mapcoords";
+    public static final String COLUMN_ARTISTE_IMAGE = "artiste_image";
+    public static final String COLUMN_ARTISTE_AUDIOCLIP = "artiste_audioclip";
+    public static final String COLUMN_ARTISTE_IS_PUBLISHED = "is_published";
 
-    protected static final String create_artiste_table = "create table "
+    public static final String create_artiste_table = "create table "
             + TABLE_ARTISTE + "("
             + COLUMN_ARTISTE_ID + " integer not null,"
             + COLUMN_ARTISTE_NAME + " text not null,"
@@ -91,7 +91,7 @@ public class SQLStrings {
             + COLUMN_ARTISTE_AUDIOCLIP + " text,"
             + COLUMN_ARTISTE_IS_PUBLISHED + " text not null);";
 
-    protected static final String[] artisteAllColumns = {
+    public static final String[] artisteAllColumns = {
             SQLStrings.COLUMN_ARTISTE_ID,
             SQLStrings.COLUMN_ARTISTE_NAME,
             SQLStrings.COLUMN_ARTISTE_DESC,
@@ -114,24 +114,24 @@ public class SQLStrings {
             SQLStrings.COLUMN_ARTISTE_IS_PUBLISHED };
 
     //Organizer table
-    protected static final String TABLE_ORGANIZER = "organizer";
-    protected static final String COLUMN_ORGANIZER_ID = "organizer_id";
-    protected static final String COLUMN_ORGANIZER_NAME = "organizer_name";
-    protected static final String COLUMN_ORGANIZER_DESC = "organizer_description";
-    protected static final String COLUMN_ORGANIZER_WEBSITE = "organizer_website";
-    protected static final String COLUMN_ORGANIZER_PHONE = "organizer_phone";
-    protected static final String COLUMN_ORGANIZER_EMAIL = "organizer_email";
-    protected static final String COLUMN_ORGANIZER_ADDRESS1 = "address1";
-    protected static final String COLUMN_ORGANIZER_ADDRESS2 = "address2";
-    protected static final String COLUMN_ORGANIZER_CITY = "city";
-    protected static final String COLUMN_ORGANIZER_STATE = "state";
-    protected static final String COLUMN_ORGANIZER_COUNTRY = "country";
-    protected static final String COLUMN_ORGANIZER_PINCODE = "pincode";
-    protected static final String COLUMN_ORGANIZER_MAPCOORDS = "mapcoords";
-    protected static final String COLUMN_ORGANIZER_LOGO = "organizer_logo";
-    protected static final String COLUMN_ORGANIZER_IS_PUBLISHED = "is_published";
+    public static final String TABLE_ORGANIZER = "organizer";
+    public static final String COLUMN_ORGANIZER_ID = "organizer_id";
+    public static final String COLUMN_ORGANIZER_NAME = "organizer_name";
+    public static final String COLUMN_ORGANIZER_DESC = "organizer_description";
+    public static final String COLUMN_ORGANIZER_WEBSITE = "organizer_website";
+    public static final String COLUMN_ORGANIZER_PHONE = "organizer_phone";
+    public static final String COLUMN_ORGANIZER_EMAIL = "organizer_email";
+    public static final String COLUMN_ORGANIZER_ADDRESS1 = "address1";
+    public static final String COLUMN_ORGANIZER_ADDRESS2 = "address2";
+    public static final String COLUMN_ORGANIZER_CITY = "city";
+    public static final String COLUMN_ORGANIZER_STATE = "state";
+    public static final String COLUMN_ORGANIZER_COUNTRY = "country";
+    public static final String COLUMN_ORGANIZER_PINCODE = "pincode";
+    public static final String COLUMN_ORGANIZER_MAPCOORDS = "mapcoords";
+    public static final String COLUMN_ORGANIZER_LOGO = "organizer_logo";
+    public static final String COLUMN_ORGANIZER_IS_PUBLISHED = "is_published";
 
-    protected static final String create_organizer_table = "create table "
+    public static final String create_organizer_table = "create table "
             + TABLE_ORGANIZER + "("
             + COLUMN_ORGANIZER_ID + " integer not null,"
             + COLUMN_ORGANIZER_NAME + " text not null,"
@@ -149,7 +149,7 @@ public class SQLStrings {
             + COLUMN_ORGANIZER_LOGO + " text,"
             + COLUMN_ORGANIZER_IS_PUBLISHED + " text not null);";
 
-    protected static final String[] organzerAllColumns = {
+    public static final String[] organzerAllColumns = {
             SQLStrings.COLUMN_ORGANIZER_ID,
             SQLStrings.COLUMN_ORGANIZER_NAME,
             SQLStrings.COLUMN_ORGANIZER_DESC,
@@ -167,26 +167,26 @@ public class SQLStrings {
             SQLStrings.COLUMN_ORGANIZER_IS_PUBLISHED };
 
     //Venue table
-    protected static final String TABLE_VENUE = "venue";
-    protected static final String COLUMN_VENUE_ID = "venue_id";
-    protected static final String COLUMN_VENUE_NAME = "venue_name";
-    protected static final String COLUMN_VENUE_DESCRIPTION = "venue_desc";
-    protected static final String COLUMN_VENUE_IMAGE = "image";
-    protected static final String COLUMN_VENUE_WEBSITE = "website";
-    protected static final String COLUMN_VENUE_PHONE = "phone";
-    protected static final String COLUMN_VENUE_EMAIL = "email";
-    protected static final String COLUMN_VENUE_ADDRESS1 = "address1";
-    protected static final String COLUMN_VENUE_ADDRESS2 = "address2";
-    protected static final String COLUMN_VENUE_CITY = "city";
-    protected static final String COLUMN_VENUE_STATE = "state";
-    protected static final String COLUMN_VENUE_COUNTRY = "country";
-    protected static final String COLUMN_VENUE_PINCODE = "pincode";
-    protected static final String COLUMN_VENUE_MAPCOORDS = "mapcoords";
-    protected static final String COLUMN_VENUE_PARKING = "parking";
-    protected static final String COLUMN_VENUE_EATARIES = "eataries";
-    protected static final String COLUMN_VENUE_IS_PUBLISHED = "is_published";
+    public static final String TABLE_VENUE = "venue";
+    public static final String COLUMN_VENUE_ID = "venue_id";
+    public static final String COLUMN_VENUE_NAME = "venue_name";
+    public static final String COLUMN_VENUE_DESCRIPTION = "venue_desc";
+    public static final String COLUMN_VENUE_IMAGE = "image";
+    public static final String COLUMN_VENUE_WEBSITE = "website";
+    public static final String COLUMN_VENUE_PHONE = "phone";
+    public static final String COLUMN_VENUE_EMAIL = "email";
+    public static final String COLUMN_VENUE_ADDRESS1 = "address1";
+    public static final String COLUMN_VENUE_ADDRESS2 = "address2";
+    public static final String COLUMN_VENUE_CITY = "city";
+    public static final String COLUMN_VENUE_STATE = "state";
+    public static final String COLUMN_VENUE_COUNTRY = "country";
+    public static final String COLUMN_VENUE_PINCODE = "pincode";
+    public static final String COLUMN_VENUE_MAPCOORDS = "mapcoords";
+    public static final String COLUMN_VENUE_PARKING = "parking";
+    public static final String COLUMN_VENUE_EATARIES = "eataries";
+    public static final String COLUMN_VENUE_IS_PUBLISHED = "is_published";
 
-    protected static final String create_venue_table = "create table "
+    public static final String create_venue_table = "create table "
             + TABLE_VENUE + "("
             + COLUMN_VENUE_ID + " integer not null,"
             + COLUMN_VENUE_NAME + " text not null,"
@@ -206,7 +206,7 @@ public class SQLStrings {
             + COLUMN_VENUE_EATARIES + " text,"
             + COLUMN_VENUE_IS_PUBLISHED + " text not null);";
 
-    protected static final String[] venueAllColumns = {
+    public static final String[] venueAllColumns = {
             SQLStrings.COLUMN_VENUE_ID,
             SQLStrings.COLUMN_VENUE_NAME,
             SQLStrings.COLUMN_VENUE_DESCRIPTION,
@@ -227,37 +227,37 @@ public class SQLStrings {
 
 
     //Program table --------- NOT USED RIGHT NOW ------------------
-    protected static final String TABLE_PROGRAM = "program";
-    protected static final String COLUMN_PROGRAM_ID = "program_id";
-    protected static final String COLUMN_PROGRAM_TITLE = "title";
-    protected static final String COLUMN_PROGRAM_ART_TYPE = "art_type";
-    protected static final String COLUMN_PROGRAM_DESCRIPTION = "description";
-    protected static final String COLUMN_PROGRAM_ENTRY_FEE = "entry_fee";
-    protected static final String COLUMN_PROGRAM_ORGANIZER_WEBSITE = "organizer_website";
-    protected static final String COLUMN_PROGRAM_EVENT_DATE = "event_date";
-    protected static final String COLUMN_PROGRAM_VENUE_NAME = "venue_name";
-    protected static final String COLUMN_PROGRAM_ORGANIZER_NAME = "organizer_name";
-    protected static final String COLUMN_PROGRAM_ARTISTE_NAME = "artiste_name";
-    protected static final String COLUMN_PROGRAM_ACCOMPANISTS = "accompanists";
-    protected static final String COLUMN_PROGRAM_ORGANIZER_PHONE = "organizer_phone";
-    protected static final String COLUMN_PROGRAM_EVENT_START = "event_start";
-    protected static final String COLUMN_PROGRAM_EVENT_END = "event_end";
-    protected static final String COLUMN_PROGRAM_DURATION = "duration";
-    protected static final String COLUMN_PROGRAM_VENUE_ADDRESS1 = "venue_address1";
-    protected static final String COLUMN_PROGRAM_VENUE_ADDRESS2 = "venue_address2";
-    protected static final String COLUMN_PROGRAM_VENUE_CITY = "venue_city";
-    protected static final String COLUMN_PROGRAM_VENUE_STATE = "venue_state";
-    protected static final String COLUMN_PROGRAM_VENUE_COUNTRY = "venue_country";
-    protected static final String COLUMN_PROGRAM_VENUE_PINCODE = "venue_pincode";
-    protected static final String COLUMN_PROGRAM_VENUE_MAPCOORDS = "venue_mapcoords";
-    protected static final String COLUMN_PROGRAM_VENUE_PARKING = "venue_parking";
-    protected static final String COLUMN_PROGRAM_VENUE_EATARIES = "venue_eataries";
-    protected static final String COLUMN_PROGRAM_ARTISTE_IMAGE = "artiste_image";
-    protected static final String COLUMN_PROGRAM_IS_FEATURED = "is_featured";
-    protected static final String COLUMN_PROGRAM_SPLASH_URL = "splash_url";
-    protected static final String COLUMN_PROGRAM_IS_PUBLISHED = "is_published";
+    public static final String TABLE_PROGRAM = "program";
+    public static final String COLUMN_PROGRAM_ID = "program_id";
+    public static final String COLUMN_PROGRAM_TITLE = "title";
+    public static final String COLUMN_PROGRAM_ART_TYPE = "art_type";
+    public static final String COLUMN_PROGRAM_DESCRIPTION = "description";
+    public static final String COLUMN_PROGRAM_ENTRY_FEE = "entry_fee";
+    public static final String COLUMN_PROGRAM_ORGANIZER_WEBSITE = "organizer_website";
+    public static final String COLUMN_PROGRAM_EVENT_DATE = "event_date";
+    public static final String COLUMN_PROGRAM_VENUE_NAME = "venue_name";
+    public static final String COLUMN_PROGRAM_ORGANIZER_NAME = "organizer_name";
+    public static final String COLUMN_PROGRAM_ARTISTE_NAME = "artiste_name";
+    public static final String COLUMN_PROGRAM_ACCOMPANISTS = "accompanists";
+    public static final String COLUMN_PROGRAM_ORGANIZER_PHONE = "organizer_phone";
+    public static final String COLUMN_PROGRAM_EVENT_START = "event_start";
+    public static final String COLUMN_PROGRAM_EVENT_END = "event_end";
+    public static final String COLUMN_PROGRAM_DURATION = "duration";
+    public static final String COLUMN_PROGRAM_VENUE_ADDRESS1 = "venue_address1";
+    public static final String COLUMN_PROGRAM_VENUE_ADDRESS2 = "venue_address2";
+    public static final String COLUMN_PROGRAM_VENUE_CITY = "venue_city";
+    public static final String COLUMN_PROGRAM_VENUE_STATE = "venue_state";
+    public static final String COLUMN_PROGRAM_VENUE_COUNTRY = "venue_country";
+    public static final String COLUMN_PROGRAM_VENUE_PINCODE = "venue_pincode";
+    public static final String COLUMN_PROGRAM_VENUE_MAPCOORDS = "venue_mapcoords";
+    public static final String COLUMN_PROGRAM_VENUE_PARKING = "venue_parking";
+    public static final String COLUMN_PROGRAM_VENUE_EATARIES = "venue_eataries";
+    public static final String COLUMN_PROGRAM_ARTISTE_IMAGE = "artiste_image";
+    public static final String COLUMN_PROGRAM_IS_FEATURED = "is_featured";
+    public static final String COLUMN_PROGRAM_SPLASH_URL = "splash_url";
+    public static final String COLUMN_PROGRAM_IS_PUBLISHED = "is_published";
 
-    protected static final String create_program_table = "create table "
+    public static final String create_program_table = "create table "
             + TABLE_PROGRAM + "("
             + COLUMN_PROGRAM_ID + "integer not null,"
             + COLUMN_PROGRAM_TITLE + " text,"
@@ -288,7 +288,7 @@ public class SQLStrings {
             + COLUMN_PROGRAM_SPLASH_URL + " text,"
             + COLUMN_PROGRAM_IS_PUBLISHED + " text)";
 
-    protected static final String[] programAllColumns = {
+    public static final String[] programAllColumns = {
             COLUMN_PROGRAM_ID ,
             COLUMN_PROGRAM_TITLE,
             COLUMN_PROGRAM_ART_TYPE ,

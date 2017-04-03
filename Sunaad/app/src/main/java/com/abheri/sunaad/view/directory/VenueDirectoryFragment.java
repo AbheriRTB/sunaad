@@ -22,10 +22,13 @@ import android.widget.ViewAnimator;
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.model.Artiste;
 import com.abheri.sunaad.model.CloudDataFetcherAsyncTask;
+import com.abheri.sunaad.model.ModifiedFlagFetcherAsyncTask;
 import com.abheri.sunaad.model.Organizer;
 import com.abheri.sunaad.model.OrganizerListDataCache;
+import com.abheri.sunaad.model.SQLStrings;
 import com.abheri.sunaad.model.Venue;
 import com.abheri.sunaad.model.VenueListDataCache;
+import com.abheri.sunaad.view.HandleModifiedFlagServiceResponse;
 import com.abheri.sunaad.view.HandleServiceResponse;
 import com.abheri.sunaad.view.MainActivity;
 import com.abheri.sunaad.view.SunaadViews;
@@ -36,7 +39,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class VenueDirectoryFragment extends Fragment implements HandleServiceResponse {
+public class VenueDirectoryFragment extends Fragment implements HandleServiceResponse, HandleModifiedFlagServiceResponse {
 
     Context context;
     View rootView;
@@ -166,10 +169,9 @@ public class VenueDirectoryFragment extends Fragment implements HandleServiceRes
 
         //If network is available refresh the cache and the view
         if (ut.isNetworkAvailable(context)) {
-            progressBar.setVisibility(View.VISIBLE);
-            CloudDataFetcherAsyncTask rt = new CloudDataFetcherAsyncTask(fragmentThis, SunaadViews.VENUE_DIR, context);
-            rt.execute(Util.getServiceUrl(SunaadViews.VENUE_DIR));
-            refreshRunning=true;
+            ModifiedFlagFetcherAsyncTask ft = new ModifiedFlagFetcherAsyncTask(fragmentThis,
+                                                        SQLStrings.COLUMN_VENUE_LAST_REFRESH, context);
+            ft.execute(Util.getServiceUrl(SunaadViews.SETTINGS));
         }
 
         //If cache is null & network is not available, show error
@@ -178,6 +180,28 @@ public class VenueDirectoryFragment extends Fragment implements HandleServiceRes
             errTextView.setVisibility(View.VISIBLE);
         }
 
+    }
+
+    //Succes & Failure handlers of the isModifiedFlagFetch Async Task
+    @Override
+    public void onModifiedFlagFetchSuccess(Object result) {
+
+        if(((String)result).contains("true")){
+            getListData(this);
+        }
+    }
+
+    @Override
+    public void onModifiedFlagFetchError(Object result) {
+            //If couldn't get the flag for some reason, assume it is true
+            getListData(this);
+    }
+
+    void getListData(VenueDirectoryFragment fragmentThis){
+        progressBar.setVisibility(View.VISIBLE);
+        CloudDataFetcherAsyncTask rt = new CloudDataFetcherAsyncTask(fragmentThis, SunaadViews.VENUE_DIR, context);
+        rt.execute(Util.getServiceUrl(SunaadViews.VENUE_DIR));
+        refreshRunning = true;
     }
 
 
@@ -240,6 +264,8 @@ public class VenueDirectoryFragment extends Fragment implements HandleServiceRes
         errTextView.setVisibility(View.VISIBLE);
 
     }
+
+
 
     /*
     @Override

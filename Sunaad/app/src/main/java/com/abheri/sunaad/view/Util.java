@@ -8,14 +8,36 @@ import android.widget.Toast;
 
 import com.abheri.sunaad.BuildConfig;
 import com.abheri.sunaad.model.Program;
+import com.abheri.sunaad.model.SQLStrings;
+
+import com.abheri.sunaad.model.Settings;
+import com.abheri.sunaad.model.SettingsDBHelper;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.net.URLEncoder;
+
+
+import static com.abheri.sunaad.view.SunaadViews.ARTISTE;
+import static com.abheri.sunaad.view.SunaadViews.ARTISTE_DIR;
+import static com.abheri.sunaad.view.SunaadViews.HOME;
+import static com.abheri.sunaad.view.SunaadViews.ORGANIZER_DIR;
+import static com.abheri.sunaad.view.SunaadViews.PROGRAM;
+import static com.abheri.sunaad.view.SunaadViews.SABHA;
+import static com.abheri.sunaad.view.SunaadViews.SETTINGS;
+import static com.abheri.sunaad.view.SunaadViews.VENUE_DIR;
 
 /**
  * Created by prasanna.ramaswamy on 25/11/15.
@@ -80,6 +102,9 @@ public class Util {
             case VENUE_DIR:
                 url = "https://sunaad-services-njs.herokuapp.com/getVenue/";
                 break;
+            case SETTINGS:
+                url = "https://sunaad-services-njs.herokuapp.com/getIsArtisteModified?artiste_timestamp=";
+                break;
             default:
                 break;
         }
@@ -142,6 +167,79 @@ public class Util {
 
         return networkAvailable;
 
+    }
+
+    public static boolean isModifiedSince(Context context, String field){
+
+        HttpURLConnection urlConnection;
+        BufferedInputStream inputStream;
+        String responseString = null;
+        Boolean isModified = true;
+        String queryStringParam ="";
+
+        SettingsDBHelper sdh = new SettingsDBHelper(context);
+        List<Settings> settings = sdh.getAllSettings();
+
+        if(settings.size() <= 0)
+            return isModified;
+
+        switch (field){
+
+            case SQLStrings.COLUMN_ARTISTE_LAST_REFRESH:
+                queryStringParam = settings.get(0).getArtiste_last_modified();
+                break;
+
+            case SQLStrings.COLUMN_ORGANIZER_LAST_REFRESH:
+                queryStringParam = settings.get(0).getOrganizer_last_modified();
+                break;
+
+            case SQLStrings.COLUMN_VENUE_LAST_REFRESH:
+                queryStringParam = settings.get(0).getVenue_last_modified();
+                break;
+
+            case SQLStrings.COLUMN_PROGRAM_LAST_REFRESH:
+                queryStringParam = settings.get(0).getProgram_last_modified();
+                break;
+        }
+
+        try {
+
+            if(queryStringParam == null || queryStringParam.length() <= 0){
+                return isModified;
+            }
+             /* forming th java.net.URL object */
+            String urlpath = getServiceUrl(SunaadViews.SETTINGS);
+            urlpath += URLEncoder.encode(queryStringParam, "UTF-8");
+            Log.d("PRAS", "URLPath:" + urlpath);
+            URL url = new URL(urlpath);
+            urlConnection = (HttpURLConnection) url.openConnection();
+
+            /* optional request header */
+            urlConnection.setRequestProperty("Content-Type", "application/json");
+
+            /* optional request header */
+            urlConnection.setRequestProperty("Accept", "application/json");
+
+            /* for Get request */
+            urlConnection.setRequestMethod("GET");
+            int statusCode = urlConnection.getResponseCode();
+            System.out.println(statusCode);
+                            /* 200 represents HTTP OK */
+            if (statusCode ==  200) {
+                inputStream = new BufferedInputStream(urlConnection.getInputStream());
+                responseString = convertInputStreamToString(inputStream);
+
+                //parseResult(responseString);
+                if(!responseString.contains("true")){
+                    isModified = false;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return isModified;
     }
 
     public static boolean isYes(String inStr) {
@@ -299,6 +397,22 @@ public class Util {
 
         return retVal;
 
+    }
+
+    private static String convertInputStreamToString(InputStream inputStream) throws IOException {
+
+        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
+        String line = "";
+        String result = "";
+        while((line = bufferedReader.readLine()) != null){
+            result += line;
+        }
+
+        /* Close Stream */
+        if(null!=inputStream){
+            inputStream.close();
+        }
+        return result;
     }
 }
 

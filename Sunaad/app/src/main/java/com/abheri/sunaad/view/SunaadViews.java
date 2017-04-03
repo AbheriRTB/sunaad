@@ -11,7 +11,8 @@ public enum SunaadViews {
     LOCATION,
     ARTISTE_DIR,
     ORGANIZER_DIR,
-    VENUE_DIR
+    VENUE_DIR,
+    SETTINGS
 }
 
 

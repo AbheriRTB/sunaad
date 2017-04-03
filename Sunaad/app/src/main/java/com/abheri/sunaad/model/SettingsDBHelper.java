@@ -99,6 +99,12 @@ public class SettingsDBHelper {
         settings.setDaysBefore(cursor.getInt(0));
         settings.setAtTime(cursor.getString(1));
         settings.setSound_alarm(cursor.getInt(2));
+        settings.setArtiste_last_modified(cursor.getString(3));
+        settings.setOrganizer_last_modified(cursor.getString(4));
+        settings.setVenue_last_modified(cursor.getString(5));
+        settings.setProgram_last_modified(cursor.getString(6));
+
+
         return settings;
     }
 }

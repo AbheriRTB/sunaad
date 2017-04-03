@@ -23,6 +23,9 @@ import com.abheri.sunaad.R;
 import com.abheri.sunaad.model.Artiste;
 import com.abheri.sunaad.model.ArtisteListDataCache;
 import com.abheri.sunaad.model.CloudDataFetcherAsyncTask;
+import com.abheri.sunaad.model.ModifiedFlagFetcherAsyncTask;
+import com.abheri.sunaad.model.SQLStrings;
+import com.abheri.sunaad.view.HandleModifiedFlagServiceResponse;
 import com.abheri.sunaad.view.HandleServiceResponse;
 import com.abheri.sunaad.view.MainActivity;
 import com.abheri.sunaad.view.SunaadViews;
@@ -33,7 +36,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ArtisteDirectoryFragment extends Fragment implements HandleServiceResponse {
+public class ArtisteDirectoryFragment extends Fragment implements HandleServiceResponse, HandleModifiedFlagServiceResponse {
 
     ViewAnimator viewAnimator;
     Context context;
@@ -166,11 +169,9 @@ public class ArtisteDirectoryFragment extends Fragment implements HandleServiceR
 
         //If network is available refresh the cache and the view
         if (ut.isNetworkAvailable(context)) {
-            progressBar.setVisibility(View.VISIBLE);
-            progressBar.bringToFront();
-            CloudDataFetcherAsyncTask rt = new CloudDataFetcherAsyncTask(fragmentThis, SunaadViews.ARTISTE_DIR, context);
-            rt.execute(Util.getServiceUrl(SunaadViews.ARTISTE_DIR));
-            refreshRunning=true;
+            ModifiedFlagFetcherAsyncTask ft = new ModifiedFlagFetcherAsyncTask(fragmentThis,
+                    SQLStrings.COLUMN_ARTISTE_LAST_REFRESH, context);
+            ft.execute(Util.getServiceUrl(SunaadViews.SETTINGS));
         }
 
         //If cache is null & network is not available, show error
@@ -180,6 +181,31 @@ public class ArtisteDirectoryFragment extends Fragment implements HandleServiceR
         }
 
     }
+
+
+    //Succes & Failure handlers of the isModifiedFlagFetch Async Task
+    @Override
+    public void onModifiedFlagFetchSuccess(Object result) {
+
+        if(((String)result).contains("true")){
+            getListData(this);
+        }
+    }
+
+    @Override
+    public void onModifiedFlagFetchError(Object result) {
+        //If couldn't get the flag for some reason, assume it is true
+        getListData(this);
+    }
+
+    void getListData(ArtisteDirectoryFragment fragmentThis){
+        progressBar.setVisibility(View.VISIBLE);
+        CloudDataFetcherAsyncTask rt = new CloudDataFetcherAsyncTask(fragmentThis, SunaadViews.ARTISTE_DIR, context);
+        rt.execute(Util.getServiceUrl(SunaadViews.ARTISTE_DIR));
+        refreshRunning = true;
+    }
+
+
 
 
     void updateArtisteList(View rootView, ListView artisteList, List<Artiste> values) {
