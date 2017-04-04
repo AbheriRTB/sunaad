@@ -48,6 +48,7 @@ public class ModifiedFlagFetcherAsyncTask extends AsyncTask<String, String, Obje
         HttpURLConnection urlConnection;
         BufferedInputStream inputStream;
         String responseString = null;
+        String urlpath="";
         String queryStringParam = "";
 
         Object returnObj = null;
@@ -56,24 +57,29 @@ public class ModifiedFlagFetcherAsyncTask extends AsyncTask<String, String, Obje
         SettingsDBHelper sdh = new SettingsDBHelper(context);
         List<Settings> settings = sdh.getAllSettings();
 
+
         if (settings.size() > 0) {
 
             switch (field) {
 
                 case SQLStrings.COLUMN_ARTISTE_LAST_REFRESH:
                     queryStringParam = settings.get(0).getArtiste_last_modified();
+                    urlpath = getServiceUrl(SunaadViews.ARTISTE_MODIFIED);
                     break;
 
                 case SQLStrings.COLUMN_ORGANIZER_LAST_REFRESH:
                     queryStringParam = settings.get(0).getOrganizer_last_modified();
+                    urlpath = getServiceUrl(SunaadViews.ORGANIZER_MODIFIED);
                     break;
 
                 case SQLStrings.COLUMN_VENUE_LAST_REFRESH:
                     queryStringParam = settings.get(0).getVenue_last_modified();
+                    urlpath = getServiceUrl(SunaadViews.VENUE_MODIFIED);
                     break;
 
                 case SQLStrings.COLUMN_PROGRAM_LAST_REFRESH:
                     queryStringParam = settings.get(0).getProgram_last_modified();
+                    urlpath = getServiceUrl(SunaadViews.PROGRAM_MODIFIED);
                     break;
             }
 
@@ -81,10 +87,10 @@ public class ModifiedFlagFetcherAsyncTask extends AsyncTask<String, String, Obje
 
                 try {
                     /* forming th java.net.URL object */
-                    String urlpath = getServiceUrl(SunaadViews.SETTINGS);
-                    urlpath += URLEncoder.encode(queryStringParam, "UTF-8");
+                    urlpath = urlpath + URLEncoder.encode(queryStringParam, "UTF-8");
                     Log.d("PRAS", "URLPath:" + urlpath);
                     URL url = new URL(urlpath);
+                    Log.d("PRAS", url.toString());
                     urlConnection = (HttpURLConnection) url.openConnection();
 
 

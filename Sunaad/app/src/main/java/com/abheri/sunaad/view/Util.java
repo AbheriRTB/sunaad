@@ -28,6 +28,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.net.URLEncoder;
+import java.util.TimeZone;
 
 
 import static com.abheri.sunaad.view.SunaadViews.ARTISTE;
@@ -102,8 +103,17 @@ public class Util {
             case VENUE_DIR:
                 url = "https://sunaad-services-njs.herokuapp.com/getVenue/";
                 break;
-            case SETTINGS:
-                url = "https://sunaad-services-njs.herokuapp.com/getIsArtisteModified?artiste_timestamp=";
+            case ARTISTE_MODIFIED:
+                url = "https://sunaad-services-njs.herokuapp.com/getIsArtisteModified?timestamp=";
+                break;
+            case ORGANIZER_MODIFIED:
+                url = "https://sunaad-services-njs.herokuapp.com/getIsOrganizerModified?timestamp=";
+                break;
+            case VENUE_MODIFIED:
+                url = "https://sunaad-services-njs.herokuapp.com/getIsVenueModified?timestamp=";
+                break;
+            case PROGRAM_MODIFIED:
+                url = "https://sunaad-services-njs.herokuapp.com/getIsProgramModified?timestamp=";
                 break;
             default:
                 break;
@@ -312,6 +322,8 @@ public class Util {
     public static String getFormattedDateTime(Date dt){
 
         DateFormat tf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        tf.setTimeZone(TimeZone.getTimeZone("GMT"));
+
         String returnStr = tf.format(dt.getTime()).toString();
 
         return returnStr;
