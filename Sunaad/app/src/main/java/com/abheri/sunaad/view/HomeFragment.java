@@ -59,6 +59,9 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
     TextView errTextView;
     List<Program> cachedProgramList;
     ImageView splashImage;
+    Animation inAnim, outAnim;
+    boolean pauseAnimation = false;
+
     //NavigationDrawerFragment mDrawerFragmet;
     private DrawerLayout mDrawerLayout;
 
@@ -200,7 +203,6 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
 
     void updateWebViews_new() {
 
-        Animation inAnim, outAnim;
         progressBar.setVisibility(View.GONE);
 
 
@@ -311,7 +313,9 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                viewAnimator.showNext();
+                if(!pauseAnimation) {
+                    viewAnimator.showNext();
+                }
             }
             rc = new CycleView(cycletime);
         }
@@ -368,7 +372,9 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
                             Random rand = new Random();
                             //int index = rand.nextInt(image_rundow.length);
                             //mapimg.setBackgroundResource(image_rundow[index]);
-                            viewAnimator.showNext();
+                            if(!pauseAnimation) {
+                                viewAnimator.showNext();
+                            }
                         }
                     });
                 }
@@ -414,8 +420,13 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
                             //Uncomment the following line to bring back the functionality
                             //mDrawerLayout.openDrawer(GravityCompat.START);
 
-                            Toast.makeText(context, "Please open the menu for more options",
-                                                                    Toast.LENGTH_LONG).show();
+                            if(pauseAnimation){
+                                pauseAnimation=false;
+                            }else{
+                                pauseAnimation=true;
+                                Toast.makeText(context, "Tap to resume...",
+                                        Toast.LENGTH_SHORT).show();
+                            }
 
 
                         }
