@@ -9,7 +9,7 @@ import android.util.Log;
 public class DBHelper extends SQLiteOpenHelper {
 
     protected static final String DATABASE_NAME = "sunaad.db";
-    protected static final int DATABASE_VERSION = 6; //Previous version 5
+    protected static final int DATABASE_VERSION = 7; //Previous version 6 (06 Apr 2017)
 
     protected Context dbContext;
     private static DBHelper instance;
@@ -45,6 +45,7 @@ public class DBHelper extends SQLiteOpenHelper {
             case 3:
             case 4:
             case 5:
+            case 6:
                 ProgramListDataCache pldc = new ProgramListDataCache(dbContext);
                 pldc.removeCache();
                 break;
@@ -79,11 +80,25 @@ public class DBHelper extends SQLiteOpenHelper {
                 database.execSQL(SQLStrings.create_artiste_table);
                 database.execSQL(SQLStrings.create_organizer_table);
                 database.execSQL(SQLStrings.create_venue_table);
+
                 createDefaultSettingsData(database);
                 break;
             case 5:
                 //No changes here. Bumped up db version jus to call onUpgrade to removeCache.
+                //06-Apr-2017
+                database.execSQL(SQLStrings.drop_settings_table);
+                database.execSQL(SQLStrings.create_settings_table);
+                //----
+                createDefaultSettingsData(database);
                 break;
+            case 6:
+                //06-Apr-2017
+                database.execSQL(SQLStrings.drop_settings_table);
+                database.execSQL(SQLStrings.create_settings_table);
+                //----
+                createDefaultSettingsData(database);
+                break;
+
             default:
                 break;
         }

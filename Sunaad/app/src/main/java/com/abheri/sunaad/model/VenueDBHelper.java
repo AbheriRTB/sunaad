@@ -151,7 +151,21 @@ public class VenueDBHelper {
         Venue Venue = new Venue();
         Venue.setId(cursor.getInt(0));
         Venue.setVenue_name(cursor.getString(1));
-        Venue.setIs_published(cursor.getString(2));
+        Venue.setVenue_description(cursor.getString(2));
+        Venue.setImage(cursor.getString(3));
+        Venue.setWebsite(cursor.getString(4));
+        Venue.setPhone(cursor.getString(5));
+        Venue.setEmail(cursor.getString(6));
+        Venue.setAddress1(cursor.getString(7));
+        Venue.setAddress2(cursor.getString(8));
+        Venue.setCity(cursor.getString(9));
+        Venue.setState(cursor.getString(10));
+        Venue.setCountry(cursor.getString(11));
+        Venue.setPincode(cursor.getString(12));
+        Venue.setMapcoords(cursor.getString(13));
+        Venue.setParking(cursor.getString(14));
+        Venue.setEataries(cursor.getString(15));
+        Venue.setIs_published(cursor.getString(16));
 
         return Venue;
     }

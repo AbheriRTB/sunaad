@@ -146,7 +146,19 @@ public class OrganizerDBHelper {
         Organizer organizer = new Organizer();
         organizer.setOrganizerId(cursor.getInt(0));
         organizer.setOrganizerName(cursor.getString(1));
-        organizer.setIs_published(cursor.getString(2));
+        organizer.setOrganizerDesc(cursor.getString(2));
+        organizer.setOrganizerWebsite(cursor.getString(3));
+        organizer.setOrganizerPhone(cursor.getString(4));
+        organizer.setOrganizerEmail(cursor.getString(5));
+        organizer.setOrganizerAddress1(cursor.getString(6));
+        organizer.setOrganizerAddress2(cursor.getString(7));
+        organizer.setOrganizerCity(cursor.getString(8));
+        organizer.setOrganizerState(cursor.getString(9));
+        organizer.setOrganizerCountry(cursor.getString(10));
+        organizer.setOrganizerPincode(cursor.getString(11));
+        organizer.setOrganizerCoords(cursor.getString(12));
+        organizer.setOrganizerLogo(cursor.getString(13));
+        organizer.setIs_published(cursor.getString(14));
 
         return organizer;
     }

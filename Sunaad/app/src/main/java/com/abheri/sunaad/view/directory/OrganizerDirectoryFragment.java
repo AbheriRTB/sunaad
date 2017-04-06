@@ -21,15 +21,11 @@ import android.widget.ViewAnimator;
 
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.model.Artiste;
-import com.abheri.sunaad.model.CloudDataFetcherAsyncTask;
-import com.abheri.sunaad.model.ModifiedFlagFetcherAsyncTask;
 import com.abheri.sunaad.model.Organizer;
 import com.abheri.sunaad.model.OrganizerListDataCache;
-import com.abheri.sunaad.model.SQLStrings;
-import com.abheri.sunaad.view.HandleModifiedFlagServiceResponse;
-import com.abheri.sunaad.view.HandleServiceResponse;
+import com.abheri.sunaad.view.DataRefreshHandler;
 import com.abheri.sunaad.view.MainActivity;
-import com.abheri.sunaad.view.SunaadViews;
+import com.abheri.sunaad.view.SunaadFragmentSuperClass;
 import com.abheri.sunaad.view.Util;
 
 import java.util.List;
@@ -37,7 +33,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class OrganizerDirectoryFragment extends Fragment implements HandleServiceResponse, HandleModifiedFlagServiceResponse {
+public class OrganizerDirectoryFragment extends SunaadFragmentSuperClass {
 
     ViewAnimator viewAnimator;
     Context context;
@@ -78,8 +74,7 @@ public class OrganizerDirectoryFragment extends Fragment implements HandleServic
         listView.setSelector(android.R.color.holo_blue_light);
         listView.setVisibility(View.GONE);
 
-        progressBar = (ProgressBar)rootView.findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.VISIBLE);
+        progressBar = (ProgressBar)rootView.findViewById(R.id.organizerDirProgressBar);
 
         errTextView = (TextView)rootView.findViewById(R.id.serviceErrorText);
         errTextView.setVisibility(View.GONE);
@@ -160,52 +155,29 @@ public class OrganizerDirectoryFragment extends Fragment implements HandleServic
 
         OrganizerListDataCache olc = new OrganizerListDataCache(context);
         Util ut = new Util();
+        DataRefreshHandler drh = new DataRefreshHandler(fragmentThis, doRefresh, context);
 
         cachedOrganizerList = olc.RetrieveOrganizerDataFromCache();
 
         //First render the screen with cached data
         if(cachedOrganizerList != null) {
-            updateViewFromData(cachedOrganizerList);
+            progressBar.setVisibility(View.GONE);
+            updateOrganizerViewFromData(cachedOrganizerList);
         }
 
         //If network is available refresh the cache and the view
         if (ut.isNetworkAvailable(context)) {
-            ModifiedFlagFetcherAsyncTask ft = new ModifiedFlagFetcherAsyncTask(fragmentThis,
-                    SQLStrings.COLUMN_ORGANIZER_LAST_REFRESH, context);
-            ft.execute(Util.getServiceUrl(SunaadViews.SETTINGS));
+            progressBar.setVisibility(View.VISIBLE);
+            drh.updateData();
+        }else{
+            //If cache is null & network is not available, show error
+            if(cachedOrganizerList == null) {
+                errTextView.setText("Connect to network to get Sunaad Data");
+                errTextView.setVisibility(View.VISIBLE);
+            }
         }
 
-        //If cache is null & network is not available, show error
-        else if(cachedOrganizerList == null) {
-            errTextView.setText("Connect to network to get Sunaad Data");
-            errTextView.setVisibility(View.VISIBLE);
-        }
-
     }
-
-    //Succes & Failure handlers of the isModifiedFlagFetch Async Task
-    @Override
-    public void onModifiedFlagFetchSuccess(Object result) {
-
-        if(((String)result).contains("true")){
-            getListData(this);
-        }
-    }
-
-    @Override
-    public void onModifiedFlagFetchError(Object result) {
-        //If couldn't get the flag for some reason, assume it is true
-        getListData(this);
-    }
-
-    void getListData(OrganizerDirectoryFragment fragmentThis){
-        progressBar.setVisibility(View.VISIBLE);
-        CloudDataFetcherAsyncTask rt = new CloudDataFetcherAsyncTask(fragmentThis, SunaadViews.ORGANIZER_DIR, context);
-        rt.execute(Util.getServiceUrl(SunaadViews.ORGANIZER_DIR));
-        refreshRunning = true;
-    }
-
-
 
 
     void updateOrganizerList(View rootView, ListView organizerList, List<Organizer> values) {
@@ -226,25 +198,16 @@ public class OrganizerDirectoryFragment extends Fragment implements HandleServic
             adapter.notifyDataSetChanged();
         }
 
+        progressBar.setVisibility(View.GONE);
+
         if(doScroll) {
             timerDelayRunForScroll(500l);
         }
 
     }
 
-    public void onSuccess(Object result) {
-        refreshRunning=false;
-
-        List<Organizer> values = (List<Organizer>) result;
-
-        OrganizerListDataCache alc = new OrganizerListDataCache(context);
-        alc.SaveOrganizerInCache((List<Organizer>) result);
-
-        updateViewFromData(values);
-    }
-
-    public void updateViewFromData(List<Organizer> values){
-        progressBar.setVisibility(View.GONE);
+    @Override
+    public void updateOrganizerViewFromData(List<Organizer> values){
         listView.setVisibility(View.VISIBLE);
 
         //Filter old programs from the list
@@ -253,7 +216,9 @@ public class OrganizerDirectoryFragment extends Fragment implements HandleServic
         updateOrganizerList(rootView, listView, values);
     }
 
-    public void onError(Object result){
+
+    @Override
+    public void updateOnError(Object result){
         refreshRunning=false;
 
         Exception e = (Exception)result;
@@ -268,13 +233,9 @@ public class OrganizerDirectoryFragment extends Fragment implements HandleServic
 
     }
 
-    /*
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.action_refresh).setVisible(!refreshRunning);
-        super.onPrepareOptionsMenu(menu);
-
+    public void hideProgressBar(){
+        progressBar.setVisibility(View.GONE);
     }
-    */
+
 
 }

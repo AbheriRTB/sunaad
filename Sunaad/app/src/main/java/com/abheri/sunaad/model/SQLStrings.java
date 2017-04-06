@@ -18,6 +18,8 @@ public class SQLStrings {
     public static final String COLUMN_VENUE_LAST_REFRESH = "venue_last_refresh";
     public static final String COLUMN_PROGRAM_LAST_REFRESH = "program_last_refresh";
 
+
+    public static final String drop_settings_table = "drop table if exists settings";
     public static final String create_settings_table = "create table "
             + TABLE_SETTINGS + "("
             + COLUMN_ALARM_DAYS_BEFORE

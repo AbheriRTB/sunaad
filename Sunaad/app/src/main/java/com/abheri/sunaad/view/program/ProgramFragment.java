@@ -23,10 +23,9 @@ import com.abheri.sunaad.R;
 import com.abheri.sunaad.model.Program;
 import com.abheri.sunaad.model.ProgramDataHelper;
 import com.abheri.sunaad.model.ProgramListDataCache;
-import com.abheri.sunaad.model.CloudDataFetcherAsyncTask;
-import com.abheri.sunaad.view.HandleServiceResponse;
+import com.abheri.sunaad.view.DataRefreshHandler;
 import com.abheri.sunaad.view.MainActivity;
-import com.abheri.sunaad.view.SunaadViews;
+import com.abheri.sunaad.view.SunaadFragmentSuperClass;
 import com.abheri.sunaad.view.Util;
 
 import java.util.List;
@@ -34,11 +33,9 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProgramFragment extends Fragment implements HandleServiceResponse {
+public class ProgramFragment extends SunaadFragmentSuperClass {
 
-    ViewAnimator viewAnimator;
     Context context;
-    String jsonstring;
     View rootView;
     ListView listView;
     ProgressBar progressBar;
@@ -175,20 +172,18 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse {
     public void getData(ProgramFragment fragmentThis, boolean doRefresh) {
 
         ProgramListDataCache plc = new ProgramListDataCache(context);
+        cachedProgramList = plc.RetrieveProgramDataFromCache();
         Util ut = new Util();
-        if ((plc.isProgramDataCacheOld() || doRefresh) && ut.isNetworkAvailable(context)) {
-            progressBar.setVisibility(View.VISIBLE);
-            CloudDataFetcherAsyncTask rt = new CloudDataFetcherAsyncTask(fragmentThis, SunaadViews.PROGRAM, context);
-            rt.execute(Util.getServiceUrl(SunaadViews.PROGRAM));
-            refreshRunning=true;
+        DataRefreshHandler drh = new DataRefreshHandler(fragmentThis, doRefresh, context);
+
+        if(cachedProgramList != null) {
+            updateViewFromData(cachedProgramList);
+        }
+
+        if (ut.isNetworkAvailable(context)) {
+            drh.updateData();
         } else {
-            cachedProgramList = plc.RetrieveProgramDataFromCache();
-            //If network is available the cached list will be non-null
-            //Else it will be null. If null, show error text
-            if(cachedProgramList != null) {
-                updateViewFromData(cachedProgramList);
-            }
-            else {
+            if(cachedProgramList == null) {
                 errTextView.setText("Connect to network to get Sunaad Data");
                 errTextView.setVisibility(View.VISIBLE);
             }
@@ -220,17 +215,6 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse {
 
     }
 
-    public void onSuccess(Object result) {
-        refreshRunning=false;
-
-        List<Program> values = (List<Program>) result;
-
-        ProgramListDataCache plc = new ProgramListDataCache(context);
-        plc.SaveProgramDataInCache((List<Program>) result);
-
-        updateViewFromData(values);
-    }
-
     public void updateViewFromData(List<Program> values){
         progressBar.setVisibility(View.GONE);
         listView.setVisibility(View.VISIBLE);
@@ -241,7 +225,8 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse {
         updateProgramList(rootView, listView, fValues);
     }
 
-    public void onError(Object result){
+    @Override
+    public void updateOnError(Object result){
         refreshRunning=false;
 
         Exception e = (Exception)result;
@@ -255,14 +240,5 @@ public class ProgramFragment extends Fragment implements HandleServiceResponse {
         errTextView.setVisibility(View.VISIBLE);
 
     }
-
-    /*
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.action_refresh).setVisible(!refreshRunning);
-        super.onPrepareOptionsMenu(menu);
-
-    }
-    */
 
 }

@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Color;
+import android.media.Image;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -21,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewAnimator;
 import android.util.Log;
 
@@ -55,6 +58,7 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
     ProgressBar progressBar;
     TextView errTextView;
     List<Program> cachedProgramList;
+    ImageView splashImage;
     //NavigationDrawerFragment mDrawerFragmet;
     private DrawerLayout mDrawerLayout;
 
@@ -82,12 +86,15 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
 
         mDrawerLayout = ((MainActivity)getActivity()).getDrawerLayout();
 
+        splashImage = (ImageView)rootView.findViewById(R.id.splashImage);
+        splashImage.setImageResource(R.drawable.sunaad_splash);
+
+
         progressBar = (ProgressBar) rootView.findViewById(R.id.homeProgressBar);
         progressBar.setVisibility(View.VISIBLE);
 
         errTextView = (TextView) rootView.findViewById(R.id.homeServiceErrorText);
-        errTextView.setVisibility(View.GONE);
-
+        errTextView.setText("Loading Please Wait...");
 
         //ImageView logoImg = (ImageView)rootView.findViewById(R.id.homeLogo);
         viewAnimator = (ViewAnimator) rootView.findViewById(R.id.viewAnimator);
@@ -156,7 +163,6 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
     public void updateViewFromData(List<Program> invalues) {
         ArrayList<String> pagesList = new ArrayList<>();
 
-        progressBar.setVisibility(View.GONE);
         List<Program>values = ProgramDataHelper.filterOldPrograms(invalues, Util.HOW_OLD);
         for (int i = 0; i < values.size(); ++i) {
             Program tmp = values.get(i);
@@ -226,8 +232,6 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
     void updateWebViews() {
 
         Animation inAnim, outAnim;
-        progressBar.setVisibility(View.GONE);
-
 
         String urlBase = Util.getPageUrl(SunaadViews.HOME);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
@@ -247,7 +251,15 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
         */
 
         ImageView sunaadImage = new ImageView(rootView.getContext());
-        sunaadImage.setImageResource(R.drawable.sunaad_logo);
+        sunaadImage.setLayoutParams(
+                new ViewGroup.LayoutParams(
+                        // or ViewGroup.LayoutParams.WRAP_CONTENT
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        // or ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT ) );
+        sunaadImage.setBackgroundColor(getResources().getColor(R.color.black));
+        //sunaadImage.setImageResource(R.drawable.sunaad_logo);
+        sunaadImage.setImageResource(R.drawable.sunaad_splash);
         viewAnimator.addView(sunaadImage);
 
         //Toast.makeText(context, "Debug:" + BuildConfig.DEBUG, Toast.LENGTH_LONG).show();
@@ -286,6 +298,10 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
 
             viewAnimator.setInAnimation(inAnim);
             viewAnimator.setOutAnimation(outAnim);
+
+            splashImage.setVisibility(View.GONE);
+            errTextView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
 
             viewAnimator.startLayoutAnimation();
 
@@ -394,8 +410,13 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
                                     && fingerState != FINGER_UNDEFINED) {
                             fingerState = FINGER_RELEASED;
 
-                            //mDrawerFragmet.openDrawer();
-                            mDrawerLayout.openDrawer(GravityCompat.START);
+                            //6Apr2017: Commenting opeing of menu based on feedback from Vasishta
+                            //Uncomment the following line to bring back the functionality
+                            //mDrawerLayout.openDrawer(GravityCompat.START);
+
+                            Toast.makeText(context, "Please open the menu for more options",
+                                                                    Toast.LENGTH_LONG).show();
+
 
                         }
                         else if (fingerState == FINGER_DRAGGING)

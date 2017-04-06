@@ -11,6 +11,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ArtisteDBHelper {
@@ -158,7 +159,24 @@ public class ArtisteDBHelper {
         Artiste Artiste = new Artiste();
         Artiste.setId(cursor.getInt(0));
         Artiste.setArtisteName(cursor.getString(1));
-        Artiste.setIs_published(cursor.getString(2));
+        Artiste.setArtisteDOB(new Date(cursor.getShort(2)));
+        Artiste.setArtisteGender(cursor.getString(3));
+        Artiste.setArtiste_description(cursor.getString(4));
+        Artiste.setArtisteWebsite(cursor.getString(5));
+        Artiste.setArtisteEmail(cursor.getString(6));
+        Artiste.setArtistePhone(cursor.getString(7));
+        Artiste.setArtisteArtType(cursor.getString(8));
+        Artiste.setArtisteInstrument(cursor.getString(9));
+        Artiste.setArtisteAddress1(cursor.getString(10));
+        Artiste.setArtisteAddress2(cursor.getString(11));
+        Artiste.setArtisteCity(cursor.getString(12));
+        Artiste.setArtisteState(cursor.getString(13));
+        Artiste.setArtisteCountry(cursor.getString(14));
+        Artiste.setArtistePincode(cursor.getString(15));
+        Artiste.setArtisteCoords(cursor.getString(16));
+        Artiste.setArtisteImage(cursor.getString(17));
+        Artiste.setArtisteAudioClip(cursor.getString(18));
+        Artiste.setIs_published(cursor.getString(19));
 
         return Artiste;
     }

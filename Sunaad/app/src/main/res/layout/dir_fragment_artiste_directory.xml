@@ -1,33 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="1">
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/artisteDirList"/>
+        android:id="@+id/artisteDirList"
+        android:layout_weight=".8"/>
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/artisteDirProgressBar"
+        android:indeterminate="true"
+        android:layout_centerInParent="true"
+        android:backgroundTint="@color/blue"
+        android:layout_alignParentBottom="true"
+        android:layout_weight=".2"/>
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
         android:textSize="15dp"
         android:id="@+id/serviceErrorText"
-        android:layout_gravity="center_horizontal"
-        android:paddingTop="30dp" />
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:layout_weight=".2"/>
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="23dp"
-        android:id="@+id/progressBar"
-        android:layout_gravity="center_horizontal"
-        android:maxHeight="24dp"
-        android:maxWidth="24dp"
-        android:minHeight="24dp"
-        android:minWidth="24dp"/>
-
-</LinearLayout>
+</RelativeLayout>
