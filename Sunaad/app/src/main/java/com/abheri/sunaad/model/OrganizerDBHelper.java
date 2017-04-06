@@ -20,7 +20,9 @@ public class OrganizerDBHelper {
     private DBHelper dbHelper;
 
     public OrganizerDBHelper(Context context) {
+
         dbHelper = new DBHelper(context);
+        database = dbHelper.getWritableDatabase();
     }
 
     public OrganizerDBHelper(Context context, SQLiteDatabase db) {
@@ -34,6 +36,34 @@ public class OrganizerDBHelper {
 
     public void close() {
         dbHelper.close();
+    }
+
+    public void createOrganizer(List<Organizer> organizer){
+        open();
+
+        for(int i = 0 ; i<organizer.size();i++){
+            ContentValues values = new ContentValues();
+            Organizer organizer1 = organizer.get(i);
+            values.put(SQLStrings.COLUMN_ORGANIZER_ID, organizer1.getOrganizerId());
+            values.put(SQLStrings.COLUMN_ORGANIZER_NAME, organizer1.getOrganizerName());
+            values.put(SQLStrings.COLUMN_ORGANIZER_DESC, organizer1.getOrganizerDesc());
+            values.put(SQLStrings.COLUMN_ORGANIZER_WEBSITE, organizer1.getOrganizerWebsite());
+            values.put(SQLStrings.COLUMN_ORGANIZER_PHONE, String.valueOf(organizer1.getOrganizerPhone()));
+            values.put(SQLStrings.COLUMN_ORGANIZER_EMAIL, organizer1.getOrganizerEmail());
+            values.put(SQLStrings.COLUMN_ARTISTE_ADDRESS1, organizer1.getOrganizerAddress1());
+            values.put(SQLStrings.COLUMN_ARTISTE_ADDRESS2, organizer1.getOrganizerAddress2());
+            values.put(SQLStrings.COLUMN_ORGANIZER_CITY, organizer1.getOrganizerCity());
+            values.put(SQLStrings.COLUMN_ORGANIZER_STATE, organizer1.getOrganizerState());
+            values.put(SQLStrings.COLUMN_ORGANIZER_COUNTRY, organizer1.getOrganizerCountry());
+            values.put(SQLStrings.COLUMN_ORGANIZER_PINCODE, organizer1.getOrganizerPincode());
+            values.put(SQLStrings.COLUMN_ORGANIZER_MAPCOORDS, organizer1.getOrganizerCoords());
+            values.put(SQLStrings.COLUMN_ORGANIZER_LOGO, organizer1.getOrganizerLogo());
+            values.put(SQLStrings.COLUMN_ORGANIZER_IS_PUBLISHED, organizer1.getIs_published());
+            long insertId = database.insert(SQLStrings.TABLE_ORGANIZER, null,
+                    values);
+        }
+
+        close();
     }
 
     public Organizer createOrganizer(int id, String name, String ispublished,
@@ -116,7 +146,19 @@ public class OrganizerDBHelper {
         Organizer organizer = new Organizer();
         organizer.setOrganizerId(cursor.getInt(0));
         organizer.setOrganizerName(cursor.getString(1));
-        organizer.setIs_published(cursor.getString(2));
+        organizer.setOrganizerDesc(cursor.getString(2));
+        organizer.setOrganizerWebsite(cursor.getString(3));
+        organizer.setOrganizerPhone(cursor.getString(4));
+        organizer.setOrganizerEmail(cursor.getString(5));
+        organizer.setOrganizerAddress1(cursor.getString(6));
+        organizer.setOrganizerAddress2(cursor.getString(7));
+        organizer.setOrganizerCity(cursor.getString(8));
+        organizer.setOrganizerState(cursor.getString(9));
+        organizer.setOrganizerCountry(cursor.getString(10));
+        organizer.setOrganizerPincode(cursor.getString(11));
+        organizer.setOrganizerCoords(cursor.getString(12));
+        organizer.setOrganizerLogo(cursor.getString(13));
+        organizer.setIs_published(cursor.getString(14));
 
         return organizer;
     }

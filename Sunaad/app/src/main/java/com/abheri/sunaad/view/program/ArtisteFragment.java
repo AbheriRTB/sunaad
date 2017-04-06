@@ -19,16 +19,13 @@ import android.widget.TextView;
 import android.widget.ViewAnimator;
 
 import com.abheri.sunaad.R;
-import com.abheri.sunaad.model.Artiste;
 import com.abheri.sunaad.model.ProgramDataHelper;
 import com.abheri.sunaad.model.Program;
 import com.abheri.sunaad.model.ProgramListDataCache;
-import com.abheri.sunaad.model.CloudDataFetcherAsyncTask;
-import com.abheri.sunaad.view.HandleServiceResponse;
+import com.abheri.sunaad.view.DataRefreshHandler;
 import com.abheri.sunaad.view.MainActivity;
-import com.abheri.sunaad.view.SunaadViews;
+import com.abheri.sunaad.view.SunaadFragmentSuperClass;
 import com.abheri.sunaad.view.Util;
-import com.abheri.sunaad.view.directory.ArtisteDetailsFragment;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -38,7 +35,7 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ArtisteFragment extends Fragment implements HandleServiceResponse {
+public class ArtisteFragment extends SunaadFragmentSuperClass {
 
     ViewAnimator viewAnimator;
     Context context;
@@ -136,19 +133,18 @@ public class ArtisteFragment extends Fragment implements HandleServiceResponse {
     public void getData(ArtisteFragment fragmentThis, boolean doRefresh){
 
         ProgramListDataCache plc = new ProgramListDataCache(context);
+        cachedProgramList = plc.RetrieveProgramDataFromCache();
         Util ut = new Util();
-        if ((plc.isProgramDataCacheOld() || doRefresh) && ut.isNetworkAvailable(context)) {
-            CloudDataFetcherAsyncTask rt = new CloudDataFetcherAsyncTask(fragmentThis, SunaadViews.ARTISTE, context);
-            rt.execute(Util.getServiceUrl(SunaadViews.ARTISTE));
+        DataRefreshHandler drh = new DataRefreshHandler(fragmentThis, doRefresh, context);
+
+        if(cachedProgramList != null) {
+            updateViewFromData(cachedProgramList);
         }
-        else {
-            cachedProgramList = plc.RetrieveProgramDataFromCache();
-            //If network is available the cached list will be non-null
-            //Else it will be null. If null, show error text
-            if(cachedProgramList != null) {
-                updateViewFromData(cachedProgramList);
-            }
-            else {
+
+        if (ut.isNetworkAvailable(context)) {
+            drh.updateData();
+        } else {
+            if(cachedProgramList == null) {
                 errTextView.setText("Connect to network to get Sunaad Data");
                 errTextView.setVisibility(View.VISIBLE);
             }
@@ -166,15 +162,6 @@ public class ArtisteFragment extends Fragment implements HandleServiceResponse {
         expListView.setAdapter(expListAdapter);
     }
 
-    public void onSuccess(Object result){
-
-        List<Program> values = (List<Program>)result;
-
-        ProgramListDataCache plc = new ProgramListDataCache(context);
-        plc.SaveProgramDataInCache((List<Program>) result);
-
-        updateViewFromData(values);
-    }
 
     public void updateViewFromData(List<Program> values){
 
@@ -191,7 +178,8 @@ public class ArtisteFragment extends Fragment implements HandleServiceResponse {
 
     }
 
-    public void onError(Object result){
+    @Override
+    public void updateOnError(Object result){
 
         Exception e = (Exception)result;
         String st = "";

@@ -3,8 +3,10 @@ package com.abheri.sunaad.model;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.abheri.sunaad.view.Util;
 import com.google.gson.Gson;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,6 +36,15 @@ public class VenueListDataCache {
 
         prefsEditor.commit();
         */
+
+        VenueDBHelper venueDBHelper = new VenueDBHelper(context);
+        venueDBHelper.deleteAllVenue();
+        venueDBHelper.createVenue(venueList);
+
+        SettingsDBHelper settingsDBHelper = new SettingsDBHelper(context);
+        settingsDBHelper.setLastModifiedDateTime(Util.getFormattedDateTime(new Date()),
+                SQLStrings.COLUMN_VENUE_LAST_REFRESH);
+
 
         return true;
     }

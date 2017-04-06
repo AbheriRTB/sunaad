@@ -113,11 +113,11 @@ public class VenueDetailsFragment extends Fragment implements View.OnClickListen
         htmlStr += "<br><br>";
         htmlStr += "<u><i>Contact Details:</i></u><br>";
         String ad = venueObj.getAddress1();
-        if(ad != null & ad.length() > 0) {
+        if(ad != null && ad.length() > 0) {
             htmlStr += ad + "<br>";
         }
         ad = venueObj.getAddress2();
-        if(ad != null & ad.length() > 0) {
+        if(ad != null && ad.length() > 0) {
             htmlStr += ad + "<br>";
         }
         htmlStr += venueObj.getCity();
@@ -155,5 +155,16 @@ public class VenueDetailsFragment extends Fragment implements View.OnClickListen
             Context ct = rootView.getContext();
             ct.startActivity(mapIntent);
         }
+    }
+
+    @Override
+    public void onDestroy(){
+        android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
+        Fragment fragment = fragmentManager.findFragmentByTag("VenueDirFragment");
+        if(fragment instanceof VenueDirectoryFragment) {
+            ((VenueDirectoryFragment) fragment).doScroll=false;
+        }
+
+        super.onDestroy();
     }
 }

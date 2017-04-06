@@ -17,18 +17,13 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.ViewAnimator;
 
 import com.abheri.sunaad.R;
-import com.abheri.sunaad.model.Artiste;
-import com.abheri.sunaad.model.CloudDataFetcherAsyncTask;
-import com.abheri.sunaad.model.Organizer;
-import com.abheri.sunaad.model.OrganizerListDataCache;
 import com.abheri.sunaad.model.Venue;
 import com.abheri.sunaad.model.VenueListDataCache;
-import com.abheri.sunaad.view.HandleServiceResponse;
+import com.abheri.sunaad.view.DataRefreshHandler;
 import com.abheri.sunaad.view.MainActivity;
-import com.abheri.sunaad.view.SunaadViews;
+import com.abheri.sunaad.view.SunaadFragmentSuperClass;
 import com.abheri.sunaad.view.Util;
 
 import java.util.List;
@@ -36,7 +31,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class VenueDirectoryFragment extends Fragment implements HandleServiceResponse {
+public class VenueDirectoryFragment extends SunaadFragmentSuperClass {
 
     Context context;
     View rootView;
@@ -74,8 +69,7 @@ public class VenueDirectoryFragment extends Fragment implements HandleServiceRes
         listView.setSelector(android.R.color.holo_blue_light);
         listView.setVisibility(View.GONE);
 
-        progressBar = (ProgressBar)rootView.findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.VISIBLE);
+        progressBar = (ProgressBar)rootView.findViewById(R.id.venueDirProgressBar);
 
         errTextView = (TextView)rootView.findViewById(R.id.serviceErrorText);
         errTextView.setVisibility(View.GONE);
@@ -156,19 +150,23 @@ public class VenueDirectoryFragment extends Fragment implements HandleServiceRes
 
         VenueListDataCache vlc = new VenueListDataCache(context);
         Util ut = new Util();
-        if ((vlc.isVenueDataCacheOld() || doRefresh) && ut.isNetworkAvailable(context)) {
+        DataRefreshHandler drh = new DataRefreshHandler(fragmentThis, doRefresh, context);
+
+        cachedVenueList = vlc.RetrieveVenueDataFromCache();
+
+        //First render the screen with cached data
+        if(cachedVenueList != null) {
+            progressBar.setVisibility(View.GONE);
+            updateVenueViewFromData(cachedVenueList);
+        }
+
+        //If network is available refresh the cache and the view
+        if (ut.isNetworkAvailable(context)) {
             progressBar.setVisibility(View.VISIBLE);
-            CloudDataFetcherAsyncTask rt = new CloudDataFetcherAsyncTask(fragmentThis, SunaadViews.VENUE_DIR, context);
-            rt.execute(Util.getServiceUrl(SunaadViews.VENUE_DIR));
-            refreshRunning=true;
-        } else {
-            cachedVenueList = vlc.RetrieveVenueDataFromCache();
-            //If network is available the cached list will be non-null
-            //Else it will be null. If null, show error text
-            if(cachedVenueList != null) {
-                updateViewFromData(cachedVenueList);
-            }
-            else {
+            drh.updateData();
+        }else{
+            //If cache is null & network is not available, show error
+            if(cachedVenueList == null) {
                 errTextView.setText("Connect to network to get Sunaad Data");
                 errTextView.setVisibility(View.VISIBLE);
             }
@@ -194,25 +192,16 @@ public class VenueDirectoryFragment extends Fragment implements HandleServiceRes
             adapter.notifyDataSetChanged();
         }
 
+        progressBar.setVisibility(View.GONE);
+
         if(doScroll) {
             timerDelayRunForScroll(500l);
         }
 
     }
 
-    public void onSuccess(Object result) {
-        refreshRunning=false;
-
-        List<Venue> values = (List<Venue>) result;
-
-        VenueListDataCache alc = new VenueListDataCache(context);
-        alc.SaveVenueDataInCache((List<Venue>) result);
-
-        updateViewFromData(values);
-    }
-
-    public void updateViewFromData(List<Venue> values){
-        progressBar.setVisibility(View.GONE);
+    @Override
+    public void updateVenueViewFromData(List<Venue> values){
         listView.setVisibility(View.VISIBLE);
 
         //Filter old programs from the list
@@ -221,7 +210,8 @@ public class VenueDirectoryFragment extends Fragment implements HandleServiceRes
         updateVenueList(rootView, listView, values);
     }
 
-    public void onError(Object result){
+    @Override
+    public void updateOnError(Object result){
         refreshRunning=false;
 
         Exception e = (Exception)result;
@@ -236,13 +226,8 @@ public class VenueDirectoryFragment extends Fragment implements HandleServiceRes
 
     }
 
-    /*
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.action_refresh).setVisible(!refreshRunning);
-        super.onPrepareOptionsMenu(menu);
-
+    public void hideProgressBar(){
+        progressBar.setVisibility(View.GONE);
     }
-    */
 
 }

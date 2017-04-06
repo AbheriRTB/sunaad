@@ -22,10 +22,9 @@ import com.abheri.sunaad.R;
 import com.abheri.sunaad.model.Program;
 import com.abheri.sunaad.model.ProgramDataHelper;
 import com.abheri.sunaad.model.ProgramListDataCache;
-import com.abheri.sunaad.model.CloudDataFetcherAsyncTask;
-import com.abheri.sunaad.view.HandleServiceResponse;
+import com.abheri.sunaad.view.DataRefreshHandler;
 import com.abheri.sunaad.view.MainActivity;
-import com.abheri.sunaad.view.SunaadViews;
+import com.abheri.sunaad.view.SunaadFragmentSuperClass;
 import com.abheri.sunaad.view.Util;
 
 import java.util.ArrayList;
@@ -36,7 +35,7 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EventtypeFragment extends Fragment implements HandleServiceResponse {
+public class EventtypeFragment extends SunaadFragmentSuperClass {
 
     ViewAnimator viewAnimator;
     Context context;
@@ -91,8 +90,6 @@ public class EventtypeFragment extends Fragment implements HandleServiceResponse
 
         getData(this, false);
 
-
-
         //Onclick listener not required for initial implementation
         //Implemented here just for reference
         expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
@@ -132,18 +129,18 @@ public class EventtypeFragment extends Fragment implements HandleServiceResponse
     public void getData(EventtypeFragment fragmentThis, boolean doRefresh) {
 
         ProgramListDataCache plc = new ProgramListDataCache(context);
+        cachedProgramList = plc.RetrieveProgramDataFromCache();
         Util ut = new Util();
-        if ((plc.isProgramDataCacheOld() || doRefresh) && ut.isNetworkAvailable(context)) {
-            CloudDataFetcherAsyncTask rt = new CloudDataFetcherAsyncTask(fragmentThis, SunaadViews.SABHA, context);
-            rt.execute(Util.getServiceUrl(SunaadViews.SABHA));
+        DataRefreshHandler drh = new DataRefreshHandler(fragmentThis, doRefresh, context);
+
+        if(cachedProgramList != null) {
+            updateViewFromData(cachedProgramList);
+        }
+
+        if (ut.isNetworkAvailable(context)) {
+            drh.updateData();
         } else {
-            cachedProgramList = plc.RetrieveProgramDataFromCache();
-            //If network is available the cached list will be non-null
-            //Else it will be null. If null, show error text
-            if(cachedProgramList != null) {
-                updateViewFromData(cachedProgramList);
-            }
-            else {
+            if(cachedProgramList == null) {
                 errTextView.setText("Connect to network to get Sunaad Data");
                 errTextView.setVisibility(View.VISIBLE);
             }
@@ -151,23 +148,12 @@ public class EventtypeFragment extends Fragment implements HandleServiceResponse
 
     }
 
-
     void updateEventtypeList(View rootView, ListView sabhaList, List<String> aList, LinkedHashMap<String, List<Program>> sabhaProgramCollection) {
         // use the SimpleCursorAdapter to show the
         // elements in a ListView
         final EventtypeExpandableListAdapter expListAdapter = new EventtypeExpandableListAdapter(
                                     myActivity, aList, (Map)eventtypeProgramCollection);
         expListView.setAdapter(expListAdapter);
-    }
-
-    public void onSuccess(Object result) {
-
-        List<Program> values = (List<Program>) result;
-
-        ProgramListDataCache plc = new ProgramListDataCache(context);
-        plc.SaveProgramDataInCache((List<Program>) result);
-
-        updateViewFromData(values);
     }
 
     public void updateViewFromData(List<Program> values){
@@ -185,7 +171,8 @@ public class EventtypeFragment extends Fragment implements HandleServiceResponse
 
     }
 
-    public void onError(Object result){
+    @Override
+    public void updateOnError(Object result){
 
         Exception e = (Exception)result;
         String st = "";

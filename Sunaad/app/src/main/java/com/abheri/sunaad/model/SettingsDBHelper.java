@@ -12,6 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class SettingsDBHelper {
 
@@ -21,7 +22,9 @@ public class SettingsDBHelper {
 
 
     public SettingsDBHelper(Context context) {
+
         dbHelper = new DBHelper(context);
+        database = dbHelper.getWritableDatabase();
     }
 
     public SettingsDBHelper(Context context, SQLiteDatabase db) {
@@ -85,11 +88,23 @@ public class SettingsDBHelper {
         return settings;
     }
 
+    public void setLastModifiedDateTime(String dateTime, String field){
+        database.execSQL("UPDATE "+ SQLStrings.TABLE_SETTINGS +
+                        " SET " + field + " = '" + dateTime +
+                        "';");
+    }
+
     private Settings cursorToSettings(Cursor cursor) {
         Settings settings = new Settings();
         settings.setDaysBefore(cursor.getInt(0));
         settings.setAtTime(cursor.getString(1));
         settings.setSound_alarm(cursor.getInt(2));
+        settings.setArtiste_last_modified(cursor.getString(3));
+        settings.setOrganizer_last_modified(cursor.getString(4));
+        settings.setVenue_last_modified(cursor.getString(5));
+        settings.setProgram_last_modified(cursor.getString(6));
+
+
         return settings;
     }
 }

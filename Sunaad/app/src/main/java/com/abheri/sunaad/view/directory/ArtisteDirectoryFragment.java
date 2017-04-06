@@ -22,10 +22,9 @@ import android.widget.ViewAnimator;
 import com.abheri.sunaad.R;
 import com.abheri.sunaad.model.Artiste;
 import com.abheri.sunaad.model.ArtisteListDataCache;
-import com.abheri.sunaad.model.CloudDataFetcherAsyncTask;
-import com.abheri.sunaad.view.HandleServiceResponse;
+import com.abheri.sunaad.view.DataRefreshHandler;
 import com.abheri.sunaad.view.MainActivity;
-import com.abheri.sunaad.view.SunaadViews;
+import com.abheri.sunaad.view.SunaadFragmentSuperClass;
 import com.abheri.sunaad.view.Util;
 
 import java.util.List;
@@ -33,7 +32,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ArtisteDirectoryFragment extends Fragment implements HandleServiceResponse {
+public class ArtisteDirectoryFragment extends SunaadFragmentSuperClass {
 
     ViewAnimator viewAnimator;
     Context context;
@@ -74,8 +73,7 @@ public class ArtisteDirectoryFragment extends Fragment implements HandleServiceR
         listView.setSelector(android.R.color.holo_blue_light);
         listView.setVisibility(View.GONE);
 
-        progressBar = (ProgressBar)rootView.findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.VISIBLE);
+        progressBar = (ProgressBar)rootView.findViewById(R.id.artisteDirProgressBar);
 
         errTextView = (TextView)rootView.findViewById(R.id.serviceErrorText);
         errTextView.setVisibility(View.GONE);
@@ -156,19 +154,23 @@ public class ArtisteDirectoryFragment extends Fragment implements HandleServiceR
 
         ArtisteListDataCache alc = new ArtisteListDataCache(context);
         Util ut = new Util();
-        if ((alc.isArtisteDataCacheOld() || doRefresh) && ut.isNetworkAvailable(context)) {
+        DataRefreshHandler drh = new DataRefreshHandler(fragmentThis, doRefresh, context);
+
+        cachedArtisteList = alc.RetrieveArtisteDataFromCache();
+
+        //First render the screen with cached data
+        if(cachedArtisteList != null) {
+            progressBar.setVisibility(View.GONE);
+            updateArtisteViewFromData(cachedArtisteList);
+        }
+
+        //If network is available refresh the cache and the view
+        if (ut.isNetworkAvailable(context)) {
             progressBar.setVisibility(View.VISIBLE);
-            CloudDataFetcherAsyncTask rt = new CloudDataFetcherAsyncTask(fragmentThis, SunaadViews.ARTISTE_DIR, context);
-            rt.execute(Util.getServiceUrl(SunaadViews.ARTISTE_DIR));
-            refreshRunning=true;
-        } else {
-            cachedArtisteList = alc.RetrieveArtisteDataFromCache();
-            //If network is available the cached list will be non-null
-            //Else it will be null. If null, show error text
-            if(cachedArtisteList != null) {
-                updateViewFromData(cachedArtisteList);
-            }
-            else {
+            drh.updateData();
+        }else{
+            //If cache is null & network is not available, show error
+            if(cachedArtisteList == null) {
                 errTextView.setText("Connect to network to get Sunaad Data");
                 errTextView.setVisibility(View.VISIBLE);
             }
@@ -193,6 +195,7 @@ public class ArtisteDirectoryFragment extends Fragment implements HandleServiceR
             adapter.addAll(values);
             adapter.notifyDataSetChanged();
         }
+        progressBar.setVisibility(View.GONE);
 
         if(doScroll) {
             timerDelayRunForScroll(500l);
@@ -200,19 +203,9 @@ public class ArtisteDirectoryFragment extends Fragment implements HandleServiceR
 
     }
 
-    public void onSuccess(Object result) {
-        refreshRunning=false;
 
-        List<Artiste> values = (List<Artiste>) result;
-
-        ArtisteListDataCache alc = new ArtisteListDataCache(context);
-        alc.SaveArtisteDataInCache((List<Artiste>) result);
-
-        updateViewFromData(values);
-    }
-
-    public void updateViewFromData(List<Artiste> values){
-        progressBar.setVisibility(View.GONE);
+    @Override
+    public void updateArtisteViewFromData(List<Artiste> values){
         listView.setVisibility(View.VISIBLE);
 
         //Filter old programs from the list
@@ -221,7 +214,8 @@ public class ArtisteDirectoryFragment extends Fragment implements HandleServiceR
         updateArtisteList(rootView, listView, values);
     }
 
-    public void onError(Object result){
+    @Override
+    public void updateOnError(Object result){
         refreshRunning=false;
 
         Exception e = (Exception)result;
@@ -236,13 +230,8 @@ public class ArtisteDirectoryFragment extends Fragment implements HandleServiceR
 
     }
 
-    /*
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.action_refresh).setVisible(!refreshRunning);
-        super.onPrepareOptionsMenu(menu);
-
+    public void hideProgressBar(){
+        progressBar.setVisibility(View.GONE);
     }
-    */
 
 }

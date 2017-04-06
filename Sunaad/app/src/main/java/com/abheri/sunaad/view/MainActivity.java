@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,8 +69,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
+
+
+
         setContentView(R.layout.activity_main2);
         context = getApplicationContext();
 
@@ -109,6 +116,12 @@ public class MainActivity extends AppCompatActivity
         GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
         Util.logToGA(Util.HOME_SCREEN);
 
+        setProgressBarIndeterminateVisibility(true);
+        setProgressBarVisibility(true);
+
+
+
+
         //Navigate to Home screen by default
         //If coming from notification, navigate to ProgramDetails screen
         autoNavigate();
@@ -145,7 +158,9 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         final ActionBar ab = getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.drawable.ic_launcher);
+        //ab.setHomeAsUpIndicator(R.drawable.ic_launcher);
+        //ab.setHomeAsUpIndicator(R.drawable.ic_drawer);
+        ab.setHomeAsUpIndicator(R.drawable.hamburger_white1);
         ab.setDisplayHomeAsUpEnabled(true);
     }
 
@@ -282,17 +297,17 @@ public class MainActivity extends AppCompatActivity
                     transaction.commit();
                 } else if (gMenuItem.getItemId() == R.id.navigation_dir_sub_item_1) {
                     ArtisteDirectoryFragment adf = new ArtisteDirectoryFragment();
-                    transaction.replace(R.id.container, adf);
+                    transaction.replace(R.id.container, adf, "ArtisteDirFragment");
                     transaction.addToBackStack(null);
                     transaction.commit();
                 }else if (gMenuItem.getItemId() == R.id.navigation_dir_sub_item_2) {
                     OrganizerDirectoryFragment odf = new OrganizerDirectoryFragment();
-                    transaction.replace(R.id.container, odf);
+                    transaction.replace(R.id.container, odf, "OrganizerDirFragment");
                     transaction.addToBackStack(null);
                     transaction.commit();
                 }else if (gMenuItem.getItemId() == R.id.navigation_dir_sub_item_3) {
                     VenueDirectoryFragment vdf = new VenueDirectoryFragment();
-                    transaction.replace(R.id.container, vdf);
+                    transaction.replace(R.id.container, vdf, "VenueDirFragment");
                     transaction.addToBackStack(null);
                     transaction.commit();
                 }else {

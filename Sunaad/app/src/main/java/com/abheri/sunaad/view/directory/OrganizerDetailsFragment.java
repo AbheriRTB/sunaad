@@ -89,11 +89,11 @@ public class OrganizerDetailsFragment extends Fragment {
         htmlStr += "<br><br>";
         htmlStr += "<u><i>Contact Details:</i></u><br>";
         String ad = orgObj.getOrganizerAddress1();
-        if(ad != null & ad.length() > 0) {
+        if(ad != null && ad.length() > 0) {
             htmlStr += ad + "<br>";
         }
         ad = orgObj.getOrganizerAddress2();
-        if(ad != null & ad.length() > 0) {
+        if(ad != null && ad.length() > 0) {
             htmlStr += ad + "<br>";
         }
         htmlStr += orgObj.getOrganizerCity();
@@ -119,6 +119,17 @@ public class OrganizerDetailsFragment extends Fragment {
 
         return htmlStr;
 
+    }
+
+    @Override
+    public void onDestroy(){
+        android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
+        Fragment fragment = fragmentManager.findFragmentByTag("OrganizerDirFragment");
+        if(fragment instanceof OrganizerDirectoryFragment) {
+            ((OrganizerDirectoryFragment) fragment).doScroll=false;
+        }
+
+        super.onDestroy();
     }
 
 

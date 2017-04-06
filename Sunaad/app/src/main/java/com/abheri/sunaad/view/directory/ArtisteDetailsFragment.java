@@ -16,6 +16,7 @@ import com.abheri.sunaad.model.Artiste;
 import com.abheri.sunaad.model.LocalFileReader;
 import com.abheri.sunaad.view.CustomWebViewClient;
 import com.abheri.sunaad.view.Util;
+import com.abheri.sunaad.view.program.ProgramFragment;
 import com.squareup.picasso.Picasso;
 import org.apache.commons.validator.routines.UrlValidator;
 
@@ -52,10 +53,13 @@ public class ArtisteDetailsFragment extends Fragment {
 
         //----- Image ----
         String imageUri = artObj.getArtisteImage();
-        if (imageUri == null && imageUri.length() <= 0) {
+        if (imageUri == null) {
             imageUri = "@drawable/default_artiste.jpeg";
+        }else if(imageUri.length() <= 0) {
+            imageUri = "@drawable/default_artiste.jpeg";
+        }else{
+            imageUri = Util.getImageUrl() + imageUri;
         }
-        imageUri = Util.getImageUrl() + imageUri;
 
         ImageView iv = (ImageView) rootView.findViewById(R.id.adArtisteImage);
         Picasso.with(context)
@@ -87,11 +91,11 @@ public class ArtisteDetailsFragment extends Fragment {
         htmlStr += "<br><br>";
         htmlStr += "<u><i>Contact Details:</i></u><br>";
         String ad = artObj.getArtisteAddress1();
-        if(ad != null & ad.length() > 0) {
+        if(ad != null && ad.length() > 0) {
             htmlStr += ad + "<br>";
         }
         ad = artObj.getArtisteAddress2();
-        if(ad != null & ad.length() > 0) {
+        if(ad != null && ad.length() > 0) {
             htmlStr += ad + "<br>";
         }
         htmlStr += artObj.getArtisteCity();
@@ -127,6 +131,9 @@ public class ArtisteDetailsFragment extends Fragment {
     String getSpeciality(String instrument) {
 
         String spl = "";
+        if(instrument == null){
+            instrument = "None";
+        }
         String nInstrument = instrument.toLowerCase();
 
         switch (nInstrument) {
@@ -157,6 +164,17 @@ public class ArtisteDetailsFragment extends Fragment {
         }
 
         return spl;
+    }
+
+    @Override
+    public void onDestroy(){
+        android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
+        Fragment fragment = fragmentManager.findFragmentByTag("ArtisteDirFragment");
+        if(fragment instanceof ArtisteDirectoryFragment) {
+            ((ArtisteDirectoryFragment) fragment).doScroll=false;
+        }
+
+        super.onDestroy();
     }
 
 }

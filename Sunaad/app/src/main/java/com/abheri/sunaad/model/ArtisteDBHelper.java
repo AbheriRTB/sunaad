@@ -11,6 +11,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ArtisteDBHelper {
@@ -20,7 +21,9 @@ public class ArtisteDBHelper {
     private DBHelper dbHelper;
 
     public ArtisteDBHelper(Context context) {
+
         dbHelper = new DBHelper(context);
+        database = dbHelper.getWritableDatabase();
     }
 
     public ArtisteDBHelper(Context context, SQLiteDatabase db) {
@@ -34,6 +37,39 @@ public class ArtisteDBHelper {
 
     public void close() {
         dbHelper.close();
+    }
+
+    public void createArtiste(List<Artiste> artistes){
+        open();
+
+        for(int i = 0 ; i<artistes.size();i++){
+            ContentValues values = new ContentValues();
+            Artiste artiste = artistes.get(i);
+            values.put(SQLStrings.COLUMN_ARTISTE_ID, artiste.getId());
+            values.put(SQLStrings.COLUMN_ARTISTE_NAME, artiste.getArtisteName());
+            values.put(SQLStrings.COLUMN_ARTISTE_GENDER, artiste.getArtisteGender());
+            values.put(SQLStrings.COLUMN_ARTISTE_DESC, artiste.getArtiste_description());
+            values.put(SQLStrings.COLUMN_ARTISTE_DOB, String.valueOf(artiste.getArtisteDOB()));
+            values.put(SQLStrings.COLUMN_ARTISTE_EMAIL, artiste.getArtisteEmail());
+            values.put(SQLStrings.COLUMN_ARTISTE_PHONE, artiste.getArtistePhone());
+            values.put(SQLStrings.COLUMN_ARTISTE_WEBSITE, artiste.getArtistePhone());
+            values.put(SQLStrings.COLUMN_ARTISTE_ART_TYPE, artiste.getArtisteArtType());
+            values.put(SQLStrings.COLUMN_ARTISTE_INSTRUMENT, artiste.getArtisteInstrument());
+            values.put(SQLStrings.COLUMN_ARTISTE_ADDRESS1, artiste.getArtisteAddress1());
+            values.put(SQLStrings.COLUMN_ARTISTE_ADDRESS2, artiste.getArtisteAddress2());
+            values.put(SQLStrings.COLUMN_ARTISTE_CITY, artiste.getArtisteCity());
+            values.put(SQLStrings.COLUMN_ARTISTE_STATE, artiste.getArtisteState());
+            values.put(SQLStrings.COLUMN_ARTISTE_COUNTRY, artiste.getArtisteCountry());
+            values.put(SQLStrings.COLUMN_ARTISTE_PINCODE, artiste.getArtistePincode());
+            values.put(SQLStrings.COLUMN_ARTISTE_MAPCOORDS, artiste.getArtisteCoords());
+            values.put(SQLStrings.COLUMN_ARTISTE_IMAGE, artiste.getArtisteImage());
+            values.put(SQLStrings.COLUMN_ARTISTE_AUDIOCLIP, artiste.getArtisteAudioClip());
+            values.put(SQLStrings.COLUMN_ARTISTE_IS_PUBLISHED, artiste.getIs_published());
+            long insertId = database.insert(SQLStrings.TABLE_ARTISTE, null,
+                    values);
+        }
+
+        close();
     }
 
     public Artiste createArtiste(int id, String name, String art_type, String ispublished,
@@ -105,6 +141,9 @@ public class ArtisteDBHelper {
         Cursor cursor = database.query(SQLStrings.TABLE_ARTISTE,
                 SQLStrings.artisteAllColumns, null, null, null, null, null);
 
+        if(cursor == null){
+            return null;
+        }
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Artiste artiste1 = cursorToArtiste(cursor);
@@ -120,7 +159,24 @@ public class ArtisteDBHelper {
         Artiste Artiste = new Artiste();
         Artiste.setId(cursor.getInt(0));
         Artiste.setArtisteName(cursor.getString(1));
-        Artiste.setIs_published(cursor.getString(2));
+        Artiste.setArtisteDOB(new Date(cursor.getShort(2)));
+        Artiste.setArtisteGender(cursor.getString(3));
+        Artiste.setArtiste_description(cursor.getString(4));
+        Artiste.setArtisteWebsite(cursor.getString(5));
+        Artiste.setArtisteEmail(cursor.getString(6));
+        Artiste.setArtistePhone(cursor.getString(7));
+        Artiste.setArtisteArtType(cursor.getString(8));
+        Artiste.setArtisteInstrument(cursor.getString(9));
+        Artiste.setArtisteAddress1(cursor.getString(10));
+        Artiste.setArtisteAddress2(cursor.getString(11));
+        Artiste.setArtisteCity(cursor.getString(12));
+        Artiste.setArtisteState(cursor.getString(13));
+        Artiste.setArtisteCountry(cursor.getString(14));
+        Artiste.setArtistePincode(cursor.getString(15));
+        Artiste.setArtisteCoords(cursor.getString(16));
+        Artiste.setArtisteImage(cursor.getString(17));
+        Artiste.setArtisteAudioClip(cursor.getString(18));
+        Artiste.setIs_published(cursor.getString(19));
 
         return Artiste;
     }
