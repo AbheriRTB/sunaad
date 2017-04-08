@@ -280,6 +280,10 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
 
                 for (int i = 0; i < pages.length; ++i) {
                     WebView wv = new WebView(rootView.getContext());
+
+                    wv.getSettings().setBuiltInZoomControls(true);
+                    wv.getSettings().setDisplayZoomControls(false);
+
                     wv.setLayoutParams(lp);
                     wv.setWebViewClient(new WebViewClient());
                     wv.setOnTouchListener(new WebViewOnTouchListener());
