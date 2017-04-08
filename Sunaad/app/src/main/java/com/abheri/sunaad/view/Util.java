@@ -33,6 +33,7 @@ import java.util.TimeZone;
 
 import static com.abheri.sunaad.view.SunaadViews.ARTISTE;
 import static com.abheri.sunaad.view.SunaadViews.ARTISTE_DIR;
+import static com.abheri.sunaad.view.SunaadViews.ARTISTE_MODIFIED;
 import static com.abheri.sunaad.view.SunaadViews.HOME;
 import static com.abheri.sunaad.view.SunaadViews.ORGANIZER_DIR;
 import static com.abheri.sunaad.view.SunaadViews.PROGRAM;
@@ -93,15 +94,27 @@ public class Util {
             case ARTISTE:
             case SABHA:
                 url = "https://sunaad-services-njs.herokuapp.com/getPrograms/";
+                if(BuildConfig.DEBUG){
+                    url += "?DEBUG";
+                }
                 break;
             case ARTISTE_DIR:
                 url = "https://sunaad-services-njs.herokuapp.com/getArtiste/";
+                if(BuildConfig.DEBUG){
+                    url += "?DEBUG";
+                }
                 break;
             case ORGANIZER_DIR:
                 url = "https://sunaad-services-njs.herokuapp.com/getOrganizer/";
+                if(BuildConfig.DEBUG){
+                    url += "?DEBUG";
+                }
                 break;
             case VENUE_DIR:
                 url = "https://sunaad-services-njs.herokuapp.com/getVenue/";
+                if(BuildConfig.DEBUG){
+                    url += "?DEBUG";
+                }
                 break;
             case ARTISTE_MODIFIED:
                 url = "https://sunaad-services-njs.herokuapp.com/getIsArtisteModified?timestamp=";

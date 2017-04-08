@@ -9,7 +9,10 @@ import android.util.Log;
 public class DBHelper extends SQLiteOpenHelper {
 
     protected static final String DATABASE_NAME = "sunaad.db";
-    protected static final int DATABASE_VERSION = 7; //Previous version 6 (06 Apr 2017)
+
+    //Previous version 7 (08 Apr 2017)
+    //No DB Changes
+    protected static final int DATABASE_VERSION = 8;
 
     protected Context dbContext;
     private static DBHelper instance;
@@ -97,6 +100,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 database.execSQL(SQLStrings.create_settings_table);
                 //----
                 createDefaultSettingsData(database);
+                break;
+            case 7://Nothing to be done. Only change in home view
                 break;
 
             default:
