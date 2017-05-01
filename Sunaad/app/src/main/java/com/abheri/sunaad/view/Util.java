@@ -93,6 +93,8 @@ public class Util {
             case PROGRAM:
             case ARTISTE:
             case SABHA:
+            case LOCATION:
+            case EVENT_TYPE:
                 url = "https://sunaad-services-njs.herokuapp.com/getPrograms/";
                 if(BuildConfig.DEBUG){
                     url += "?DEBUG";
