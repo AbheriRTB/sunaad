@@ -31,16 +31,6 @@ import java.net.URLEncoder;
 import java.util.TimeZone;
 
 
-import static com.abheri.sunaad.view.SunaadViews.ARTISTE;
-import static com.abheri.sunaad.view.SunaadViews.ARTISTE_DIR;
-import static com.abheri.sunaad.view.SunaadViews.ARTISTE_MODIFIED;
-import static com.abheri.sunaad.view.SunaadViews.HOME;
-import static com.abheri.sunaad.view.SunaadViews.ORGANIZER_DIR;
-import static com.abheri.sunaad.view.SunaadViews.PROGRAM;
-import static com.abheri.sunaad.view.SunaadViews.SABHA;
-import static com.abheri.sunaad.view.SunaadViews.SETTINGS;
-import static com.abheri.sunaad.view.SunaadViews.VENUE_DIR;
-
 /**
  * Created by prasanna.ramaswamy on 25/11/15.
  * <p/>
@@ -93,6 +83,8 @@ public class Util {
             case PROGRAM:
             case ARTISTE:
             case SABHA:
+            case LOCATION:
+            case EVENT_TYPE:
                 url = "https://sunaad-services-njs.herokuapp.com/getPrograms/";
                 if(BuildConfig.DEBUG){
                     url += "?DEBUG";
@@ -149,6 +141,8 @@ public class Util {
             case PROGRAM:
             case ARTISTE:
             case SABHA:
+            case LOCATION:
+            case EVENT_TYPE:
             case ARTISTE_DIR:
             case ORGANIZER_DIR:
             case VENUE_DIR:
