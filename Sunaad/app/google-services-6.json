@@ -1,33 +1,30 @@
 {
   "project_info": {
-    "project_number": "199995670930",
-    "project_id": "sunaad-34efd"
+    "project_number": "342032535408",
+    "project_id": "firebase-sunaad"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:199995670930:android:c2f27d89f646307e",
+        "mobilesdk_app_id": "1:342032535408:android:c2f27d89f646307e",
         "android_client_info": {
           "package_name": "com.abheri.sunaad"
         }
       },
       "oauth_client": [
         {
-          "client_id": "199995670930-ki30ta1a4m93h49d7evmelipal4o2bva.apps.googleusercontent.com",
+          "client_id": "342032535408-h0tan00eqg4u7084a39m25gkmuq48cva.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCLOfreeXvZSma6BusXlolfHa0l11q8XSs"
+          "current_key": "AIzaSyCNGbkdEfYyhFIt5XLlwuNmBkH6sTOS_G0"
         }
       ],
       "services": {
         "analytics_service": {
-          "status": 2,
-          "analytics_property": {
-            "tracking_id": "UA-74407317-1"
-          }
+          "status": 1
         },
         "appinvite_service": {
           "status": 1,
