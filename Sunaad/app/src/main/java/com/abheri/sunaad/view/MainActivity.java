@@ -31,12 +31,15 @@ import com.abheri.sunaad.view.directory.ArtisteDirectoryFragment;
 import com.abheri.sunaad.view.directory.OrganizerDirectoryFragment;
 import com.abheri.sunaad.view.directory.VenueDirectoryFragment;
 import com.abheri.sunaad.view.program.ArtisteFragment;
+import com.abheri.sunaad.view.program.CityFragment;
 import com.abheri.sunaad.view.program.EventtypeFragment;
 import com.abheri.sunaad.view.program.OrganizerFragment;
 import com.abheri.sunaad.view.program.ProgramDetailsFragment;
 import com.abheri.sunaad.view.program.ProgramFragment;
 import com.abheri.sunaad.view.program.VenueFragment;
-import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.PicassoTools;
 
@@ -75,9 +78,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 //        Fabric.with(this, new Crashlytics());
 
-        //Push Notification
-        Intent i = new Intent(this, RegistrationService.class);
-        startService(i);
+        String IID_TOKEN = FirebaseInstanceId.getInstance().getToken();
+        FirebaseMessaging.getInstance().subscribeToTopic("news");
 
 
         setContentView(R.layout.activity_main2);
@@ -116,8 +118,8 @@ public class MainActivity extends AppCompatActivity
 
         // Obtain the shared Tracker instance.
         //AnalyticsApplication application = (AnalyticsApplication) getApplication();
-        GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-        Util.logToGA(Util.HOME_SCREEN);
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(this);
+        Util.logToGA(Util.HOME_SCREEN, context);
 
         setProgressBarIndeterminateVisibility(true);
         setProgressBarVisibility(true);
@@ -298,6 +300,11 @@ public class MainActivity extends AppCompatActivity
                     transaction.replace(R.id.container, ef);
                     transaction.addToBackStack(null);
                     transaction.commit();
+                }else if (gMenuItem.getItemId() == R.id.navigation_sub_item_6) {
+                    CityFragment cf = new CityFragment();
+                    transaction.replace(R.id.container, cf);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
                 } else if (gMenuItem.getItemId() == R.id.navigation_dir_sub_item_1) {
                     ArtisteDirectoryFragment adf = new ArtisteDirectoryFragment();
                     transaction.replace(R.id.container, adf, "ArtisteDirFragment");
@@ -468,8 +475,8 @@ public class MainActivity extends AppCompatActivity
             // action with ID action_refresh was selected
             case R.id.action_refresh:
 
-                GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-                Util.logToGA(Util.REFRESH_CALLED);
+                FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(this);
+                Util.logToGA(Util.REFRESH_CALLED, context);
 
                 /* Find which fragment is active when refresh button is pressed
                  * Call corresponding 'getData()' method with force refresh
@@ -502,6 +509,9 @@ public class MainActivity extends AppCompatActivity
                 }else if(f instanceof VenueFragment){
                     fragname="VenueFragment";
                     ((VenueFragment) f).getData((VenueFragment)f, true);
+                }else if(f instanceof CityFragment){
+                    fragname="CityFragment";
+                    ((CityFragment) f).getData((CityFragment) f, true);
                 }else if(f instanceof OrganizerFragment) {
                     fragname = "OrganizerFragment";
                     ((OrganizerFragment) f).getData((OrganizerFragment)f, true);

@@ -12,6 +12,7 @@ public enum SunaadViews {
     SABHA,
     EVENT_TYPE,
     LOCATION,
+    CITY,
     ARTISTE_DIR,
     ORGANIZER_DIR,
     VENUE_DIR,

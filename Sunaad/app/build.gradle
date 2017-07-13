@@ -6,21 +6,15 @@ buildscript {
     }
     dependencies {
         classpath 'io.fabric.tools:gradle:1.+'
-        classpath 'com.google.gms:google-services:3.0.0'
     }
 }
 
 apply plugin: 'com.android.application'
-
-//repositories {
-//    maven { url 'https://maven.fabric.io/public' }
-//}
 apply plugin: 'io.fabric'
-apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.1"
     defaultConfig {
         applicationId "com.abheri.sunaad"
         minSdkVersion 19
@@ -52,6 +46,7 @@ android {
     productFlavors {
     }
 
+
 }
 
 dependencies {
@@ -59,8 +54,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.google.code.gson:gson:2.5'
-    compile 'com.google.android.gms:play-services-analytics:8.3.0'
-    compile 'com.google.android.gms:play-services:8.3.0'
+    //compile 'com.google.android.gms:play-services-analytics:9.0.0'
     compile 'com.google.firebase:firebase-core:9.2.0'                        // this line must be included to integrate with Firebase
     compile 'com.google.firebase:firebase-messaging:9.2.0'
     //   compile('com.crashlytics.sdk.android:crashlytics:2.5.6@aar') {
@@ -70,6 +64,7 @@ dependencies {
     compile 'commons-validator:commons-validator:1.5.1'
 }
 
+apply plugin: 'com.google.gms.google-services'
 
 
 task switchToDebug(type: Copy) {
