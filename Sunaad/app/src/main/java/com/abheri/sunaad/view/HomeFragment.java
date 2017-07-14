@@ -33,6 +33,8 @@ import com.abheri.sunaad.model.Program;
 import com.abheri.sunaad.model.ProgramDataHelper;
 import com.abheri.sunaad.model.ProgramListDataCache;
 import com.abheri.sunaad.model.CloudDataFetcherAsyncTask;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -43,6 +45,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static com.abheri.sunaad.R.id.adView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,6 +65,9 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
     ImageView splashImage;
     Animation inAnim, outAnim;
     boolean pauseAnimation = false;
+    AdView mAdView;
+    AdRequest adRequest;
+    Fragment self;
 
     //NavigationDrawerFragment mDrawerFragmet;
     private DrawerLayout mDrawerLayout;
@@ -89,6 +96,8 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
 
         mDrawerLayout = ((MainActivity)getActivity()).getDrawerLayout();
 
+
+
         splashImage = (ImageView)rootView.findViewById(R.id.splashImage);
         splashImage.setImageResource(R.drawable.sunaad_splash);
 
@@ -101,7 +110,7 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
 
         //ImageView logoImg = (ImageView)rootView.findViewById(R.id.homeLogo);
         viewAnimator = (ViewAnimator) rootView.findViewById(R.id.viewAnimator);
-        tickerView = (WebView) rootView.findViewById(R.id.viewTicker);
+        //tickerView = (WebView) rootView.findViewById(R.id.viewTicker);
 
         viewAnimator.setOnTouchListener((View.OnTouchListener) this);
 
@@ -115,9 +124,55 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
 
         ((MainActivity)getActivity()).setActionBarTitle(getString(R.string.title_section1));
 
+        self = this;
+
+        mAdView = (AdView) rootView.findViewById(adView);
+
+        //Start the ad in a separate thread in order not to block the UI
+        new Timer().schedule(new TimerTask()
+        {
+            @Override
+            public void run()
+            {
+                self.getActivity().runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        adRequest = new AdRequest.Builder()
+                                .build();
+                        mAdView.loadAd(adRequest);
+                    }
+                });
+            }
+        }, 1000);
+
+
         return rootView;
     }
+    @Override
+    public void onStart() {
+        if (mAdView != null) {
+            mAdView.pause();
+        }
+        super.onStart();
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mAdView != null) {
+            mAdView.resume();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
+    }
     public void getData(HomeFragment fragmentThis, boolean doRefresh) {
 
         ProgramListDataCache plc = new ProgramListDataCache(context.getApplicationContext());
@@ -239,7 +294,7 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
 
-        tickerView.loadUrl(urlBase+Util.FEATURED_CONCERT_TICKER);
+        //tickerView.loadUrl(urlBase+Util.FEATURED_CONCERT_TICKER);
 
         //Add the Sunaad static flyer page at the beginning
         /*

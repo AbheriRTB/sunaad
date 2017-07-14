@@ -37,6 +37,8 @@ import com.abheri.sunaad.view.program.OrganizerFragment;
 import com.abheri.sunaad.view.program.ProgramDetailsFragment;
 import com.abheri.sunaad.view.program.ProgramFragment;
 import com.abheri.sunaad.view.program.VenueFragment;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity
     protected ActionBarDrawerToggle mDrawerToggle;
     MenuItem gMenuItem;
     Program noticePrgObj;
+    private AdView mAdView;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -125,11 +128,40 @@ public class MainActivity extends AppCompatActivity
         setProgressBarVisibility(true);
 
 
+        mAdView = null;
+        //mAdView = (AdView) findViewById(R.id.adView);
+        //AdRequest adRequest = new AdRequest.Builder()
+          //      .build();
+        //mAdView.loadAd(adRequest);
 
 
         //Navigate to Home screen by default
         //If coming from notification, navigate to ProgramDetails screen
         autoNavigate();
+    }
+
+    @Override
+    public void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mAdView != null) {
+            mAdView.resume();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
     }
 
     private void autoNavigate() {
