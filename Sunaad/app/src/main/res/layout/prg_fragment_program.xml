@@ -8,11 +8,13 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:foregroundGravity="fill"
         android:id="@+id/programList"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
+        android:foregroundGravity="bottom"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
         android:textSize="15dp"
@@ -23,7 +25,10 @@
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
+        android:foregroundGravity="bottom"
         android:id="@+id/progressBar"
         android:layout_gravity="center_horizontal" />
+
+
 
 </LinearLayout>

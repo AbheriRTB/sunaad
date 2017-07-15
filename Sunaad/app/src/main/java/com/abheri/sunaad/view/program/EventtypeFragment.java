@@ -121,7 +121,7 @@ public class EventtypeFragment extends SunaadFragmentSuperClass {
         });
 
         ((MainActivity)getActivity()).setActionBarTitle(getString(R.string.title_section6));
-        Util.logToGA(Util.SABHA_SCREEN, context);
+        Util.logToGA(Util.SABHA_SCREEN);
 
         return rootView;
     }

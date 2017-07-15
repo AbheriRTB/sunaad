@@ -27,8 +27,15 @@ import com.abheri.sunaad.view.DataRefreshHandler;
 import com.abheri.sunaad.view.MainActivity;
 import com.abheri.sunaad.view.SunaadFragmentSuperClass;
 import com.abheri.sunaad.view.Util;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import static com.abheri.sunaad.R.id.adView;
+import static com.abheri.sunaad.R.id.adViewPrg;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,6 +53,7 @@ public class ProgramFragment extends SunaadFragmentSuperClass {
     Program noticePrgObj=null;
     public boolean doScroll=true;
     boolean refreshRunning=false;
+
 
     public ProgramFragment() {
 
@@ -132,8 +140,10 @@ public class ProgramFragment extends SunaadFragmentSuperClass {
             timerDelayRunForScroll(500l);
         }
 
+
+
         // Obtain the shared Tracker instance.
-        Util.logToGA(Util.PROGRAM_SCREEN, context);
+        Util.logToGA(Util.PROGRAM_SCREEN);
 
         return rootView;
     }

@@ -123,7 +123,7 @@ public class OrganizerFragment extends SunaadFragmentSuperClass {
         });
 
         ((MainActivity)getActivity()).setActionBarTitle(getString(R.string.title_section5));
-        Util.logToGA(Util.SABHA_SCREEN, context);
+        Util.logToGA(Util.SABHA_SCREEN);
 
         return rootView;
     }

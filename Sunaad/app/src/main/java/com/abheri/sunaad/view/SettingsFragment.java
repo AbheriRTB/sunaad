@@ -66,7 +66,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
             setDefaults(stg);
         }
 
-        Util.logToGA(Util.SETTINGS_SCREEN, context);
+        Util.logToGA(Util.SETTINGS_SCREEN);
 
         return rootView;
     }

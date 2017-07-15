@@ -15,6 +15,8 @@ import com.abheri.sunaad.model.Settings;
 import com.abheri.sunaad.model.SettingsDBHelper;
 //import com.google.android.gms.analytics.HitBuilders;
 //import com.google.android.gms.analytics.Tracker;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.BufferedInputStream;
@@ -391,7 +393,7 @@ public class Util {
         return retVal;
     }
 
-    /*
+
     public static void logToGA(String what) {
         Tracker mTracker;
 
@@ -409,8 +411,8 @@ public class Util {
                     .build());
         }
     }
-    */
 
+ /*
     public static void logToGA(String what, Context context) {
         //Log to Google Analytics only when the build type = Release
         if (!BuildConfig.DEBUG) {
@@ -424,6 +426,7 @@ public class Util {
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
         }
     }
+    */
 
     public static int getScrollPosition(List<Program> values) {
 

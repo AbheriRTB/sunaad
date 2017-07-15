@@ -47,6 +47,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static com.abheri.sunaad.R.id.adView;
+import static com.abheri.sunaad.R.id.adViewHome;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -126,7 +127,7 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
 
         self = this;
 
-        mAdView = (AdView) rootView.findViewById(adView);
+        mAdView = (AdView) rootView.findViewById(adViewHome);
 
         //Start the ad in a separate thread in order not to block the UI
         new Timer().schedule(new TimerTask()
@@ -134,6 +135,7 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
             @Override
             public void run()
             {
+                if(self != null && self.isVisible()){
                 self.getActivity().runOnUiThread(new Runnable()
                 {
                     @Override
@@ -143,7 +145,7 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
                                 .build();
                         mAdView.loadAd(adRequest);
                     }
-                });
+                });}
             }
         }, 1000);
 

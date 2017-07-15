@@ -37,6 +37,7 @@ import com.abheri.sunaad.view.program.OrganizerFragment;
 import com.abheri.sunaad.view.program.ProgramDetailsFragment;
 import com.abheri.sunaad.view.program.ProgramFragment;
 import com.abheri.sunaad.view.program.VenueFragment;
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -52,6 +53,8 @@ import com.squareup.picasso.PicassoTools;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import io.fabric.sdk.android.Fabric;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -64,7 +67,6 @@ public class MainActivity extends AppCompatActivity
     protected ActionBarDrawerToggle mDrawerToggle;
     MenuItem gMenuItem;
     Program noticePrgObj;
-    private AdView mAdView;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -79,7 +81,7 @@ public class MainActivity extends AppCompatActivity
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         super.onCreate(savedInstanceState);
-//        Fabric.with(this, new Crashlytics());
+        Fabric.with(this, new Crashlytics());
 
         String IID_TOKEN = FirebaseInstanceId.getInstance().getToken();
         FirebaseMessaging.getInstance().subscribeToTopic("news");
@@ -122,17 +124,10 @@ public class MainActivity extends AppCompatActivity
         // Obtain the shared Tracker instance.
         //AnalyticsApplication application = (AnalyticsApplication) getApplication();
         FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(this);
-        Util.logToGA(Util.HOME_SCREEN, context);
+        Util.logToGA(Util.HOME_SCREEN);
 
         setProgressBarIndeterminateVisibility(true);
         setProgressBarVisibility(true);
-
-
-        mAdView = null;
-        //mAdView = (AdView) findViewById(R.id.adView);
-        //AdRequest adRequest = new AdRequest.Builder()
-          //      .build();
-        //mAdView.loadAd(adRequest);
 
 
         //Navigate to Home screen by default
@@ -140,29 +135,6 @@ public class MainActivity extends AppCompatActivity
         autoNavigate();
     }
 
-    @Override
-    public void onPause() {
-        if (mAdView != null) {
-            mAdView.pause();
-        }
-        super.onPause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mAdView != null) {
-            mAdView.resume();
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        if (mAdView != null) {
-            mAdView.destroy();
-        }
-        super.onDestroy();
-    }
 
     private void autoNavigate() {
 
@@ -508,7 +480,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.action_refresh:
 
                 FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(this);
-                Util.logToGA(Util.REFRESH_CALLED, context);
+                Util.logToGA(Util.REFRESH_CALLED);
 
                 /* Find which fragment is active when refresh button is pressed
                  * Call corresponding 'getData()' method with force refresh

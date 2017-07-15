@@ -124,7 +124,7 @@ public class CityFragment extends SunaadFragmentSuperClass {
         });
 
         ((MainActivity)getActivity()).setActionBarTitle(getString(R.string.title_section7));
-        Util.logToGA(Util.CITY_SCREEN, context);
+        Util.logToGA(Util.CITY_SCREEN);
 
         return rootView;
     }

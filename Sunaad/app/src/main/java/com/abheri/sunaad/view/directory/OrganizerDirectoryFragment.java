@@ -115,7 +115,7 @@ public class OrganizerDirectoryFragment extends SunaadFragmentSuperClass {
 
         ((MainActivity)getActivity()).setActionBarTitle(getString(R.string.title_dir_submenu2));
         // Obtain the shared Tracker instance.
-        Util.logToGA(Util.ORGANIZER_DIR_SCREEN, context);
+        Util.logToGA(Util.ORGANIZER_DIR_SCREEN);
 
         return rootView;
     }
