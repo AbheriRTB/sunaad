@@ -27,15 +27,10 @@ import com.abheri.sunaad.view.DataRefreshHandler;
 import com.abheri.sunaad.view.MainActivity;
 import com.abheri.sunaad.view.SunaadFragmentSuperClass;
 import com.abheri.sunaad.view.Util;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
+
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import static com.abheri.sunaad.R.id.adView;
-import static com.abheri.sunaad.R.id.adViewPrg;
 
 /**
  * A simple {@link Fragment} subclass.

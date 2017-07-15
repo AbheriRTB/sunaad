@@ -63,7 +63,6 @@ public class ArtisteExpandableListAdapter extends BaseExpandableListAdapter {
         if(uri == null && uri.length()<=0){
             uri = "@drawable/subbulakshmi";
         }
-
         uri = Util.getImageUrl() + uri;
 
 
@@ -141,7 +140,7 @@ public class ArtisteExpandableListAdapter extends BaseExpandableListAdapter {
 
     public View getGroupView(int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
-        String laptopName = (String) getGroup(groupPosition);
+        String artisteName = (String) getGroup(groupPosition);
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -150,7 +149,20 @@ public class ArtisteExpandableListAdapter extends BaseExpandableListAdapter {
         }
         TextView item = (TextView) convertView.findViewById(R.id.artiste);
         item.setTypeface(null, Typeface.BOLD);
-        item.setText(laptopName);
+        item.setText(artisteName);
+
+        ImageView ivg = (ImageView) convertView.findViewById(R.id.adArtisteImageGroup);
+        final Program program = (Program) getChild(groupPosition, 0);
+        String uri = program.getArtiste_image();
+        if(uri == null && uri.length()<=0){
+            uri = "@drawable/subbulakshmi";
+        }
+        uri = Util.getImageUrl() + uri;
+        Picasso.with(context)
+                .load(uri)
+                .placeholder(R.drawable.default_artiste)
+                .into(ivg);
+
         return convertView;
     }
 

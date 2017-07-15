@@ -6,7 +6,7 @@
     android:padding="10dp" >
 
     <ImageView
-        android:id="@+id/adArtisteImage"
+        android:id="@+id/adArtisteImageGroup"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:contentDescription="ProgramImage"
@@ -15,5 +15,6 @@
         android:id="@+id/artiste"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="5dp"/>
+        android:paddingLeft="5dp"
+        android:gravity="center_vertical" />
 </LinearLayout>
