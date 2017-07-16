@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity
         // Obtain the shared Tracker instance.
         //AnalyticsApplication application = (AnalyticsApplication) getApplication();
         FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(this);
-        Util.logToGA(Util.HOME_SCREEN);
+        Util.logToGA(Util.HOME_SCREEN, context);
 
         setProgressBarIndeterminateVisibility(true);
         setProgressBarVisibility(true);
@@ -480,7 +480,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.action_refresh:
 
                 FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(this);
-                Util.logToGA(Util.REFRESH_CALLED);
+                Util.logToGA(Util.REFRESH_CALLED, context);
 
                 /* Find which fragment is active when refresh button is pressed
                  * Call corresponding 'getData()' method with force refresh

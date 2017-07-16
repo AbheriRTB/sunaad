@@ -138,7 +138,7 @@ public class ProgramFragment extends SunaadFragmentSuperClass {
 
 
         // Obtain the shared Tracker instance.
-        Util.logToGA(Util.PROGRAM_SCREEN);
+        Util.logToGA(Util.PROGRAM_SCREEN, context);
 
         return rootView;
     }

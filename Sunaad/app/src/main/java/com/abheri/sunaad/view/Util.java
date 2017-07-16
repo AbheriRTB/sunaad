@@ -394,6 +394,9 @@ public class Util {
     }
 
 
+    //NOTE: DO NOT USE THIS METHOD AS GOOGLE ANALYTICS IS NOW
+    //REPLACED BY FIREBASE ANALYTICS. Another overload of logTOGA with
+    //Context as paratmeter is to be used.
     public static void logToGA(String what) {
         Tracker mTracker;
 
@@ -412,9 +415,10 @@ public class Util {
         }
     }
 
- /*
+
     public static void logToGA(String what, Context context) {
         //Log to Google Analytics only when the build type = Release
+
         if (!BuildConfig.DEBUG) {
             // Obtain the shared Tracker instance.
             FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
@@ -426,7 +430,7 @@ public class Util {
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
         }
     }
-    */
+
 
     public static int getScrollPosition(List<Program> values) {
 

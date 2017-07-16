@@ -125,7 +125,7 @@ public class ArtisteFragment extends SunaadFragmentSuperClass {
 
         ((MainActivity)getActivity()).setActionBarTitle(getString(R.string.title_section3));
         // Obtain the shared Tracker instance.
-        Util.logToGA(Util.ARTISTE_SCREEN);
+        Util.logToGA(Util.ARTISTE_SCREEN, context);
 
         return rootView;
     }

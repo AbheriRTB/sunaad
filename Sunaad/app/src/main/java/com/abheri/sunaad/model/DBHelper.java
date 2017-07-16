@@ -49,6 +49,9 @@ public class DBHelper extends SQLiteOpenHelper {
             case 4:
             case 5:
             case 6:
+            case 7:
+            case 8:
+            case 9:
                 ProgramListDataCache pldc = new ProgramListDataCache(dbContext);
                 pldc.removeCache();
                 break;
