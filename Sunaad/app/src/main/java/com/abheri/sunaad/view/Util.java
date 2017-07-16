@@ -35,6 +35,7 @@ import java.net.URLEncoder;
 import java.util.TimeZone;
 
 import static android.provider.ContactsContract.CommonDataKinds.StructuredPostal.CITY;
+import static com.google.android.gms.internal.zzapf.bim;
 
 
 /**
@@ -426,6 +427,7 @@ public class Util {
             Bundle bundle = new Bundle();
             //bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id);
             //bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
+            bundle.putString("SCREEN", what);
             bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image"+what);
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
         }
