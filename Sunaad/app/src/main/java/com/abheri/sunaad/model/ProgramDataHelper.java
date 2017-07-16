@@ -183,6 +183,52 @@ public class ProgramDataHelper {
         return sabhaProgramCollection;
     }
 
+    //--
+    public List<String> getCityListFromPrograms(List<Program> prgList) {
+
+        List<String> cityList = new ArrayList<String>();
+        TreeSet<String> citySet = new TreeSet<String>();
+
+        for (int i = 0; i < prgList.size(); ++i) {
+
+            Program pr = prgList.get(i);
+            String sabha = pr.getVenueCity();
+
+            citySet.add(sabha);
+        }
+
+        cityList = new ArrayList<String>(citySet);
+
+        return cityList;
+    }
+
+    public LinkedHashMap<String, List<Program>> createCityProgramCollection(List<Program> prgList, List<String> cityList) {
+
+        LinkedHashMap<String, List<Program>> cityProgramCollection = new LinkedHashMap<String, List<Program>>();
+        String city = "";
+
+
+        for(int i=0; i< cityList.size(); ++i){
+            String selCity = cityList.get(i);
+            List<Program> cityProgramList = new ArrayList<Program>();
+
+            for (int j = 0; j < prgList.size(); ++j) {
+
+                Program pr = prgList.get(j);
+                city = pr.getVenueCity();
+
+                if (city.trim().equalsIgnoreCase(selCity)) {
+                    cityProgramList.add(pr);
+                }
+
+            }
+
+            cityProgramCollection.put(selCity, cityProgramList);
+        }
+
+        return cityProgramCollection;
+    }
+    //--
     public List<String> getOrganizerListFromPrograms(List<Program> prgList) {
 
         List<String> organizerList = new ArrayList<String>();

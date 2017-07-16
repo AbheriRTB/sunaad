@@ -17,12 +17,15 @@ import com.abheri.sunaad.view.directory.ArtisteDirectoryFragment;
 import com.abheri.sunaad.view.directory.OrganizerDirectoryFragment;
 import com.abheri.sunaad.view.directory.VenueDirectoryFragment;
 import com.abheri.sunaad.view.program.ArtisteFragment;
+import com.abheri.sunaad.view.program.CityFragment;
 import com.abheri.sunaad.view.program.EventtypeFragment;
 import com.abheri.sunaad.view.program.OrganizerFragment;
 import com.abheri.sunaad.view.program.ProgramFragment;
 import com.abheri.sunaad.view.program.VenueFragment;
 
 import java.util.List;
+
+import static com.abheri.sunaad.view.SplashActivity.c;
 
 /**
  * Created by prasanna.ramaswamy on 04/04/17.
@@ -53,6 +56,8 @@ public class DataRefreshHandler implements HandleServiceResponse, HandleModified
         }else if(viewFragment instanceof OrganizerFragment) {
             whichField = SQLStrings.COLUMN_PROGRAM_LAST_REFRESH;
         }else if(viewFragment instanceof EventtypeFragment) {
+            whichField = SQLStrings.COLUMN_PROGRAM_LAST_REFRESH;
+        }else if(viewFragment instanceof CityFragment) {
             whichField = SQLStrings.COLUMN_PROGRAM_LAST_REFRESH;
         }else if(viewFragment instanceof ArtisteDirectoryFragment) {
             whichField = SQLStrings.COLUMN_ARTISTE_LAST_REFRESH;
@@ -109,6 +114,8 @@ public class DataRefreshHandler implements HandleServiceResponse, HandleModified
             whichView = SunaadViews.LOCATION;
         }else if(viewFragment instanceof OrganizerFragment) {
             whichView = SunaadViews.SABHA;
+        }else if(viewFragment instanceof CityFragment) {
+            whichView = SunaadViews.CITY;
         }else if(viewFragment instanceof EventtypeFragment) {
             whichView = SunaadViews.EVENT_TYPE;
         }else if(viewFragment instanceof ArtisteDirectoryFragment) {
@@ -134,6 +141,7 @@ public class DataRefreshHandler implements HandleServiceResponse, HandleModified
             case LOCATION:
             case SABHA:
             case EVENT_TYPE:
+            case CITY:
                 List<Program> values = (List<Program>) result;
 
                 ProgramListDataCache plc = new ProgramListDataCache(context);

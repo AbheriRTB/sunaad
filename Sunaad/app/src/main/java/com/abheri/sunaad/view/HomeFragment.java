@@ -33,6 +33,8 @@ import com.abheri.sunaad.model.Program;
 import com.abheri.sunaad.model.ProgramDataHelper;
 import com.abheri.sunaad.model.ProgramListDataCache;
 import com.abheri.sunaad.model.CloudDataFetcherAsyncTask;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -43,6 +45,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static com.abheri.sunaad.R.id.adViewHome;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,6 +65,9 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
     ImageView splashImage;
     Animation inAnim, outAnim;
     boolean pauseAnimation = false;
+    AdView mAdView;
+    AdRequest adRequest;
+    Fragment self;
 
     //NavigationDrawerFragment mDrawerFragmet;
     private DrawerLayout mDrawerLayout;
@@ -87,9 +94,10 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
         //mDrawerLayout =(DrawerLayout)args.getSerializable(Util.NAVIGATION_FRAGMET);
         //mDrawerLayout = MainActivity.mDrawerLayout;
 
-        mDrawerLayout = ((MainActivity)getActivity()).getDrawerLayout();
+        mDrawerLayout = ((MainActivity) getActivity()).getDrawerLayout();
 
-        splashImage = (ImageView)rootView.findViewById(R.id.splashImage);
+
+        splashImage = (ImageView) rootView.findViewById(R.id.splashImage);
         splashImage.setImageResource(R.drawable.sunaad_splash);
 
 
@@ -101,7 +109,7 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
 
         //ImageView logoImg = (ImageView)rootView.findViewById(R.id.homeLogo);
         viewAnimator = (ViewAnimator) rootView.findViewById(R.id.viewAnimator);
-        tickerView = (WebView) rootView.findViewById(R.id.viewTicker);
+        //tickerView = (WebView) rootView.findViewById(R.id.viewTicker);
 
         viewAnimator.setOnTouchListener((View.OnTouchListener) this);
 
@@ -113,26 +121,71 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
         //viewAnimator.setInAnimation(inAnim);
         //viewAnimator.setOutAnimation(outAnim);
 
-        ((MainActivity)getActivity()).setActionBarTitle(getString(R.string.title_section1));
+        ((MainActivity) getActivity()).setActionBarTitle(getString(R.string.title_section1));
+
+        self = this;
+
+        mAdView = (AdView) rootView.findViewById(R.id.adViewHome);
+
+        //Start the ad in a separate thread in order not to block the UI
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (self != null && self.isVisible()) {
+                    self.getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adRequest = new AdRequest.Builder()
+                                    .build();
+                            mAdView.loadAd(adRequest);
+                        }
+                    });
+                }
+            }
+        }, 1000);
+
 
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        if (mAdView != null) {
+            mAdView.pause();
+        }
+        super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mAdView != null) {
+            mAdView.resume();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
     }
 
     public void getData(HomeFragment fragmentThis, boolean doRefresh) {
 
         ProgramListDataCache plc = new ProgramListDataCache(context.getApplicationContext());
         Util ut = new Util();
-        if (ut.isNetworkAvailable(context) && (plc.isProgramDataCacheOld() || doRefresh))  {
+        if (ut.isNetworkAvailable(context) && (plc.isProgramDataCacheOld() || doRefresh)) {
             CloudDataFetcherAsyncTask rt = new CloudDataFetcherAsyncTask(fragmentThis, SunaadViews.HOME, context);
             rt.execute(Util.getServiceUrl(SunaadViews.HOME));
         } else {
             cachedProgramList = plc.RetrieveProgramDataFromCache();
             //If network is available the cached list will be non-null
             //Else it will be null. If null, show error text
-            if(cachedProgramList != null) {
+            if (cachedProgramList != null) {
                 updateViewFromData(cachedProgramList);
-            }
-            else {
+            } else {
                 errTextView.setText("Connect to network to get Sunaad Data");
                 errTextView.setVisibility(View.VISIBLE);
             }
@@ -166,11 +219,11 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
     public void updateViewFromData(List<Program> invalues) {
         ArrayList<String> pagesList = new ArrayList<>();
 
-        List<Program>values = ProgramDataHelper.filterOldPrograms(invalues, Util.HOW_OLD);
+        List<Program> values = ProgramDataHelper.filterOldPrograms(invalues, Util.HOW_OLD);
         for (int i = 0; i < values.size(); ++i) {
             Program tmp = values.get(i);
             String isFeatured = tmp.getIs_featured();
-            if(isFeatured != null && isFeatured.equalsIgnoreCase("yes")) {
+            if (isFeatured != null && isFeatured.equalsIgnoreCase("yes")) {
                 String surl = tmp.getSplash_url();
                 if (null != surl && surl.trim().length() > 0) {
                     pagesList.add(surl);
@@ -212,10 +265,10 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
 
         Util ut = new Util();
 
-        String newpages[] = {Util.FEATURED_CONCERT_TICKER} ;
+        String newpages[] = {Util.FEATURED_CONCERT_TICKER};
         pages = newpages;
 
-        if (null != pages && ut.isNetworkAvailable(context) ) {
+        if (null != pages && ut.isNetworkAvailable(context)) {
 
             for (int i = 0; i < pages.length; ++i) {
                 WebView wv = new WebView(rootView.getContext());
@@ -239,7 +292,7 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
 
-        tickerView.loadUrl(urlBase+Util.FEATURED_CONCERT_TICKER);
+        //tickerView.loadUrl(urlBase+Util.FEATURED_CONCERT_TICKER);
 
         //Add the Sunaad static flyer page at the beginning
         /*
@@ -258,7 +311,7 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
                         // or ViewGroup.LayoutParams.WRAP_CONTENT
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         // or ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT ) );
+                        ViewGroup.LayoutParams.MATCH_PARENT));
         sunaadImage.setBackgroundColor(getResources().getColor(R.color.black));
         //sunaadImage.setImageResource(R.drawable.sunaad_logo);
         sunaadImage.setImageResource(R.drawable.sunaad_splash);
@@ -317,7 +370,7 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                if(!pauseAnimation) {
+                if (!pauseAnimation) {
                     viewAnimator.showNext();
                 }
             }
@@ -338,7 +391,7 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
             String line;
             do {
                 line = br.readLine();
-                if(line != null)
+                if (line != null)
                     retStr += line;
             } while (line != null);
         } catch (IOException e) {
@@ -362,13 +415,13 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
 
         public CycleView(float seconds) {
             timer = new Timer();
-            timer.schedule(new CycleTask(), (int)(seconds * 1000), (int)(seconds * 1000));
+            timer.schedule(new CycleTask(), (int) (seconds * 1000), (int) (seconds * 1000));
         }
 
         class CycleTask extends TimerTask {
             public void run() {
                 Activity a = getActivity();
-                if(null != a) {
+                if (null != a) {
                     a.runOnUiThread(new Runnable() {
 
                         @Override
@@ -376,7 +429,7 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
                             Random rand = new Random();
                             //int index = rand.nextInt(image_rundow.length);
                             //mapimg.setBackgroundResource(image_rundow[index]);
-                            if(!pauseAnimation) {
+                            if (!pauseAnimation) {
                                 viewAnimator.showNext();
                             }
                         }
@@ -386,7 +439,7 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
         }
     }
 
-    class WebViewOnTouchListener implements View.OnTouchListener{
+    class WebViewOnTouchListener implements View.OnTouchListener {
         //@Override
         public boolean onTouch1(View v, MotionEvent event) {
             // Do what you want
@@ -396,65 +449,64 @@ public class HomeFragment extends Fragment implements HandleServiceResponse, Vie
         }
 
         @Override
-        public boolean onTouch(View v, MotionEvent event){
-             final  int FINGER_RELEASED = 0;
-             final  int FINGER_TOUCHED = 1;
-             final  int FINGER_DRAGGING = 2;
-             final  int FINGER_UNDEFINED = 3;
+        public boolean onTouch(View v, MotionEvent event) {
+            final int FINGER_RELEASED = 0;
+            final int FINGER_TOUCHED = 1;
+            final int FINGER_DRAGGING = 2;
+            final int FINGER_UNDEFINED = 3;
 
-             int fingerState = FINGER_RELEASED;
+            int fingerState = FINGER_RELEASED;
 
-            Log.i("SUNAAD", "FingerState:"+fingerState);
+            Log.i("SUNAAD", "FingerState:" + fingerState);
 
-                switch (event.getAction()) {
+            switch (event.getAction()) {
 
-                    case MotionEvent.ACTION_DOWN:
-                        if (fingerState == FINGER_RELEASED)
-                            fingerState = FINGER_TOUCHED;
-                        else
-                            fingerState = FINGER_UNDEFINED;
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-                        if(fingerState != FINGER_DRAGGING && fingerState != FINGER_TOUCHED
-                                    && fingerState != FINGER_UNDEFINED) {
-                            fingerState = FINGER_RELEASED;
-
-                            //6Apr2017: Commenting opeing of menu based on feedback from Vasishta
-                            //Uncomment the following line to bring back the functionality
-                            //mDrawerLayout.openDrawer(GravityCompat.START);
-
-                            if(pauseAnimation){
-                                pauseAnimation=false;
-                            }else{
-                                pauseAnimation=true;
-                                Toast.makeText(context, "Tap to resume...",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-
-
-                        }
-                        else if (fingerState == FINGER_DRAGGING)
-                            fingerState = FINGER_RELEASED;
-                        else
-                            fingerState = FINGER_UNDEFINED;
-                        break;
-
-                    case MotionEvent.ACTION_MOVE:
-                        if (fingerState == FINGER_TOUCHED || fingerState == FINGER_DRAGGING)
-                            fingerState = FINGER_DRAGGING;
-                        else
-                            fingerState = FINGER_UNDEFINED;
-                        break;
-
-                    default:
+                case MotionEvent.ACTION_DOWN:
+                    if (fingerState == FINGER_RELEASED)
+                        fingerState = FINGER_TOUCHED;
+                    else
                         fingerState = FINGER_UNDEFINED;
-                        break;
+                    break;
 
-                }
+                case MotionEvent.ACTION_UP:
+                    if (fingerState != FINGER_DRAGGING && fingerState != FINGER_TOUCHED
+                            && fingerState != FINGER_UNDEFINED) {
+                        fingerState = FINGER_RELEASED;
 
-                return false;
+                        //6Apr2017: Commenting opeing of menu based on feedback from Vasishta
+                        //Uncomment the following line to bring back the functionality
+                        //mDrawerLayout.openDrawer(GravityCompat.START);
+
+                        if (pauseAnimation) {
+                            pauseAnimation = false;
+                        } else {
+                            pauseAnimation = true;
+                            Toast.makeText(context, "Tap to resume...",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    } else if (fingerState == FINGER_DRAGGING)
+                        fingerState = FINGER_RELEASED;
+                    else
+                        fingerState = FINGER_UNDEFINED;
+                    break;
+
+                case MotionEvent.ACTION_MOVE:
+                    if (fingerState == FINGER_TOUCHED || fingerState == FINGER_DRAGGING)
+                        fingerState = FINGER_DRAGGING;
+                    else
+                        fingerState = FINGER_UNDEFINED;
+                    break;
+
+                default:
+                    fingerState = FINGER_UNDEFINED;
+                    break;
+
             }
+
+            return false;
+        }
     }
 
 }

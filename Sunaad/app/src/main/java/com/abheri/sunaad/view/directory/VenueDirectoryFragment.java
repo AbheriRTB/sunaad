@@ -110,7 +110,7 @@ public class VenueDirectoryFragment extends SunaadFragmentSuperClass {
 
         ((MainActivity)getActivity()).setActionBarTitle(getString(R.string.title_dir_submenu3));
         // Obtain the shared Tracker instance.
-        Util.logToGA(Util.VENUE_DIR_SCREEN);
+        Util.logToGA(Util.VENUE_DIR_SCREEN, context);
 
         return rootView;
     }

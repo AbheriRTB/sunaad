@@ -10,9 +10,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
     protected static final String DATABASE_NAME = "sunaad.db";
 
-    //Previous version 7 (08 Apr 2017)
-    //No DB Changes
-    protected static final int DATABASE_VERSION = 8;
+    //Previous version 7 (08 Apr 2017); No DB Changes in 8
+    //Previous version 8 (15 Jul 2017); No DB Changes in 9
+    protected static final int DATABASE_VERSION = 9;
 
     protected Context dbContext;
     private static DBHelper instance;
@@ -49,6 +49,9 @@ public class DBHelper extends SQLiteOpenHelper {
             case 4:
             case 5:
             case 6:
+            case 7:
+            case 8:
+            case 9:
                 ProgramListDataCache pldc = new ProgramListDataCache(dbContext);
                 pldc.removeCache();
                 break;
@@ -102,6 +105,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 createDefaultSettingsData(database);
                 break;
             case 7://Nothing to be done. Only change in home view
+                break;
+            case 8://Nothing to be done. Only change in home view
                 break;
 
             default:

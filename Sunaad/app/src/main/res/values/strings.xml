@@ -7,6 +7,7 @@
     <string name="title_section4">Venue</string>
     <string name="title_section5">Organizer</string>
     <string name="title_section6">Event Type</string>
+    <string name="title_section7">City</string>
 
     <string name="title_menu1">Home</string>
     <string name="title_menu2">View Concerts</string>
@@ -17,6 +18,8 @@
     <string name="title_submenu3">By Venue</string>
     <string name="title_submenu4">By Organizer</string>
     <string name="title_submenu5">By Event Type</string>
+    <string name="title_submenu6">By City</string>
+
 
     <string name="title_dir_submenu1">Artiste Dir</string>
     <string name="title_dir_submenu2">Organizer Dir</string>
@@ -57,4 +60,14 @@
     <string name="drawer_close">Drawer Close</string>
     <string name="alarm_program">AlarmProgram</string>
     <string name="alarm_change_flag">AlarmChangeFlag</string>
+
+
+    <string name="title_activity_second_activiy">Banner</string>
+    <string name="msg_welcome">Welcome to Admob. Click on the below button to launch the Interstitial ad.</string>
+    <string name="btn_fullscreen_ad">Show Fullscreen Ad</string>
+
+    <!-- AdMob ad unit IDs -->
+    <string name="banner_home_footer">ca-app-pub-0664570763252260/3326522424</string>
+    <string name="interstitial_full_screen">ca-app-pub-0664570763252260/1769900428</string>
+
 </resources>

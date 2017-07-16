@@ -1,55 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <RelativeLayout
+        android:id="@+id/homeTop"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/homeTop"
-        android:weightSum="1">
+        android:orientation="vertical">
+
         <ViewAnimator
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight=".85"
             android:id="@+id/viewAnimator"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/adViewHome"
             android:scaleType="centerCrop" />
 
-        <WebView
+        <!--<WebView
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight=".15"
             android:id="@+id/viewTicker"
             android:layout_gravity="center_horizontal">
-        </WebView>
-    </LinearLayout>
+        </WebView>-->
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adViewHome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/banner_home_footer">
+
+        </com.google.android.gms.ads.AdView>
+    </RelativeLayout>
 
     <ImageView
+        android:id="@+id/splashImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/sunaad_splash"
-        android:id="@+id/splashImage"/>
+        android:src="@drawable/sunaad_splash" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Loading Please Wait..."
-        android:textSize="15dp"
         android:id="@+id/homeServiceErrorText"
-        android:layout_centerInParent="true"
-        android:layout_alignParentBottom="true"/>
-
-    <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/homeProgressBar"
-        android:paddingBottom="5dp"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:layout_above="@id/homeServiceErrorText"/>
+        android:text="Loading Please Wait..."
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="15dp" />
+
+    <ProgressBar
+        android:id="@+id/homeProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/homeServiceErrorText"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:paddingBottom="5dp" />
 
 </RelativeLayout>

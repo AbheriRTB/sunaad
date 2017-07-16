@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -19,8 +20,8 @@ import android.widget.TextView;
 import android.widget.ViewAnimator;
 
 import com.abheri.sunaad.R;
-import com.abheri.sunaad.model.ProgramDataHelper;
 import com.abheri.sunaad.model.Program;
+import com.abheri.sunaad.model.ProgramDataHelper;
 import com.abheri.sunaad.model.ProgramListDataCache;
 import com.abheri.sunaad.view.DataRefreshHandler;
 import com.abheri.sunaad.view.MainActivity;
@@ -35,14 +36,13 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ArtisteFragment extends SunaadFragmentSuperClass {
+public class CityFragment extends SunaadFragmentSuperClass {
 
     ViewAnimator viewAnimator;
     Context context;
-    String jsonstring;
     View rootView;
-    List<String> aList = new ArrayList<String>();
-    LinkedHashMap<String, List<Program>> artisteProgramCollection = new LinkedHashMap<String, List<Program>>();
+    List<String> cList = new ArrayList<String>();
+    LinkedHashMap<String, List<Program>> cityProgramCollection = new LinkedHashMap<String, List<Program>>();
 
     ExpandableListView expListView;
     ProgressBar progressBar;
@@ -50,7 +50,7 @@ public class ArtisteFragment extends SunaadFragmentSuperClass {
     Activity myActivity;
     List<Program> cachedProgramList;
 
-    public ArtisteFragment() {
+    public CityFragment() {
 
     }
 
@@ -58,14 +58,14 @@ public class ArtisteFragment extends SunaadFragmentSuperClass {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.prg_fragment_artiste, container,
+        rootView = inflater.inflate(R.layout.prg_fragment_city, container,
                 false);
 
         if(null == context){
             context = rootView.getContext();
         }
 
-        Log.i("PRAS", "In ArtisteFragment");
+        Log.i("PRAS", "In CityFragment");
         Program.selectedPosition = -1; //Reset the position
 
         /*Bundle b = getArguments();
@@ -73,7 +73,7 @@ public class ArtisteFragment extends SunaadFragmentSuperClass {
         System.out.println(jsonstring);*/
 
         // Get ListView object from xml
-        expListView = (ExpandableListView) rootView.findViewById(R.id.artisteExpList);
+        expListView = (ExpandableListView) rootView.findViewById(R.id.cityExpList);
 
 
         expListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -100,7 +100,7 @@ public class ArtisteFragment extends SunaadFragmentSuperClass {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 // ListView Clicked item value
-                Program itemValue = (Program) expListView.getExpandableListAdapter().getChild(groupPosition, childPosition);
+                Program itemValue = (Program)expListView.getExpandableListAdapter().getChild( groupPosition, childPosition);
 
                 /*Toast.makeText(
                         v.getContext(),
@@ -123,14 +123,13 @@ public class ArtisteFragment extends SunaadFragmentSuperClass {
 
         });
 
-        ((MainActivity)getActivity()).setActionBarTitle(getString(R.string.title_section3));
-        // Obtain the shared Tracker instance.
-        Util.logToGA(Util.ARTISTE_SCREEN, context);
+        ((MainActivity)getActivity()).setActionBarTitle(getString(R.string.title_section7));
+        Util.logToGA(Util.CITY_SCREEN, context);
 
         return rootView;
     }
 
-    public void getData(ArtisteFragment fragmentThis, boolean doRefresh){
+    public void getData(CityFragment fragmentThis, boolean doRefresh) {
 
         ProgramListDataCache plc = new ProgramListDataCache(context);
         cachedProgramList = plc.RetrieveProgramDataFromCache();
@@ -149,34 +148,34 @@ public class ArtisteFragment extends SunaadFragmentSuperClass {
                 errTextView.setVisibility(View.VISIBLE);
             }
         }
-
     }
 
-    void updateArtisteList(View rootView, ListView artisteList, List<String> aList, LinkedHashMap<String, List<Program>> artisteProgramCollection) {
+
+    void updateCityList(View rootView, ListView cityList, List<String> aList, LinkedHashMap<String, List<Program>> cityProgramCollection) {
 
 
         // use the SimpleCursorAdapter to show the
         // elements in a ListView
-        final ArtisteExpandableListAdapter expListAdapter = new ArtisteExpandableListAdapter(
-                                    myActivity, aList, (Map)artisteProgramCollection);
+        final CityExpandableListAdapter expListAdapter = new CityExpandableListAdapter(
+                                    myActivity, aList, (Map)cityProgramCollection);
         expListView.setAdapter(expListAdapter);
     }
-
 
     public void updateViewFromData(List<Program> values){
 
         //Filter old programs from the list
         List<Program> fValues = ProgramDataHelper.filterOldPrograms(values, Util.HOW_OLD);
 
-        ProgramDataHelper gdp = new ProgramDataHelper();
-        aList = gdp.getArtisteListFromPrograms(fValues);
-        artisteProgramCollection = gdp.createArtisteProgramCollection(fValues, aList);
+        ProgramDataHelper pdh = new ProgramDataHelper();
+        cList = pdh.getCityListFromPrograms(fValues);
+        cityProgramCollection = pdh.createCityProgramCollection(fValues, cList);
 
         progressBar.setVisibility(View.GONE);
         expListView.setVisibility(View.VISIBLE);
-        updateArtisteList(rootView, expListView, aList, artisteProgramCollection);
+        updateCityList(rootView, expListView, cList, cityProgramCollection);
 
     }
+
 
     @Override
     public void updateOnError(Object result){

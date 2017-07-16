@@ -1,45 +1,49 @@
-{
+ {
   "project_info": {
-    "project_id": "sunaad-34efd",
-    "project_number": "199995670930",
-    "name": "Sunaad"
+    "project_number": "342032535408",
+    "firebase_url": "https://fir-sunaad.firebaseio.com",
+    "project_id": "firebase-sunaad",
+    "storage_bucket": "firebase-sunaad.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:199995670930:android:c2f27d89f646307e",
-        "client_id": "android:com.abheri.sunaad",
-        "client_type": 1,
+        "mobilesdk_app_id": "1:342032535408:android:c2f27d89f646307e",
         "android_client_info": {
           "package_name": "com.abheri.sunaad"
         }
       },
-      "oauth_client": [],
-      "api_key": [],
+      "oauth_client": [
+        {
+          "client_id": "342032535408-r64ngfe5dnete9it73k34e23b8r03k2o.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "342032535408-h0tan00eqg4u7084a39m25gkmuq48cva.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNGbkdEfYyhFIt5XLlwuNmBkH6sTOS_G0"
+        }
+      ],
       "services": {
         "analytics_service": {
-          "status": 2,
+          "status": 1,
           "analytics_property": {
             "tracking_id": "UA-74401723-1"
           }
-        },
-        "cloud_messaging_service": {
-          "status": 1,
-          "apns_config": []
         },
         "appinvite_service": {
           "status": 1,
           "other_platform_oauth_client": []
         },
-        "google_signin_service": {
-          "status": 1
-        },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }
   ],
-  "client_info": [],
-  "ARTIFACT_VERSION": "1"
+  "configuration_version": "1"
 }

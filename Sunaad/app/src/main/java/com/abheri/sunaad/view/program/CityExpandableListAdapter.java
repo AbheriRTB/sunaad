@@ -4,11 +4,6 @@ package com.abheri.sunaad.view.program;
  * Created by Maha on 27/12/15.
  */
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Map;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
@@ -24,21 +19,26 @@ import com.abheri.sunaad.model.Program;
 import com.abheri.sunaad.view.Util;
 import com.squareup.picasso.Picasso;
 
-public class ArtisteExpandableListAdapter extends BaseExpandableListAdapter {
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Map;
+
+public class CityExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Activity context;
-    private Map<String, List<String>> artisteCollections;
-    private List<String> artistes;
+    private Map<String, List<String>> sabhaCollections;
+    private List<String> sabhas;
 
-    public ArtisteExpandableListAdapter(Activity context, List<String> artList,
-                                        Map<String, List<String>> artCollections) {
+    public CityExpandableListAdapter(Activity context, List<String> sabhaList,
+                                     Map<String, List<String>> sabhaCollections) {
         this.context = context;
-        this.artisteCollections = artCollections;
-        this.artistes = artList;
+        this.sabhaCollections = sabhaCollections;
+        this.sabhas = sabhaList;
     }
 
     public Object getChild(int groupPosition, int childPosition) {
-        return artisteCollections.get(artistes.get(groupPosition)).get(childPosition);
+        return sabhaCollections.get(sabhas.get(groupPosition)).get(childPosition);
     }
 
     public long getChildId(int groupPosition, int childPosition) {
@@ -52,17 +52,18 @@ public class ArtisteExpandableListAdapter extends BaseExpandableListAdapter {
         LayoutInflater inflater = context.getLayoutInflater();
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.prg_artiste_child_item, null);
+            convertView = inflater.inflate(R.layout.prg_venue_child_item, null);
         }
 
-        TextView item = (TextView) convertView.findViewById(R.id.aPlace);
+        TextView item = (TextView) convertView.findViewById(R.id.sprogramDetail);
         TextView aDate = (TextView)convertView.findViewById(R.id.aDate);
         ImageView iv = (ImageView) convertView.findViewById(R.id.adArtisteImage);
 
         String uri = program.getArtiste_image();
         if(uri == null && uri.length()<=0){
-            uri = "@drawable/subbulakshmi";
+            uri = "@drawable/default_artiste";
         }
+
         uri = Util.getImageUrl() + uri;
 
 
@@ -94,10 +95,11 @@ public class ArtisteExpandableListAdapter extends BaseExpandableListAdapter {
             }
         });
         */
+
+        item.setText(program.getDetails());
         DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String eventDate = sdf.format(program.getEventDate()).toString();
 
-        item.setText(program.getVenueName());
         aDate.setText(eventDate);
         Picasso.with(context)
                 .load(uri)
@@ -123,15 +125,15 @@ public class ArtisteExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     public int getChildrenCount(int groupPosition) {
-        return artisteCollections.get(artistes.get(groupPosition)).size();
+        return sabhaCollections.get(sabhas.get(groupPosition)).size();
     }
 
     public Object getGroup(int groupPosition) {
-        return artistes.get(groupPosition);
+        return sabhas.get(groupPosition);
     }
 
     public int getGroupCount() {
-        return artistes.size();
+        return sabhas.size();
     }
 
     public long getGroupId(int groupPosition) {
@@ -140,29 +142,16 @@ public class ArtisteExpandableListAdapter extends BaseExpandableListAdapter {
 
     public View getGroupView(int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
-        String artisteName = (String) getGroup(groupPosition);
+        String sabhaName = (String) getGroup(groupPosition);
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.prg_artiste_group_item,
+            convertView = infalInflater.inflate(R.layout.prg_venue_group_item,
                     null);
         }
-        TextView item = (TextView) convertView.findViewById(R.id.artiste);
+        TextView item = (TextView) convertView.findViewById(R.id.sabhaName);
         item.setTypeface(null, Typeface.BOLD);
-        item.setText(artisteName);
-
-        ImageView ivg = (ImageView) convertView.findViewById(R.id.adArtisteImageGroup);
-        final Program program = (Program) getChild(groupPosition, 0);
-        String uri = program.getArtiste_image();
-        if(uri == null && uri.length()<=0){
-            uri = "@drawable/subbulakshmi";
-        }
-        uri = Util.getImageUrl() + uri;
-        Picasso.with(context)
-                .load(uri)
-                .placeholder(R.drawable.default_artiste)
-                .into(ivg);
-
+        item.setText(sabhaName);
         return convertView;
     }
 

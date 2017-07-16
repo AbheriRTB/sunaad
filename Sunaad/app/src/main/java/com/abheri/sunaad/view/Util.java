@@ -3,6 +3,7 @@ package com.abheri.sunaad.view;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -12,8 +13,11 @@ import com.abheri.sunaad.model.SQLStrings;
 
 import com.abheri.sunaad.model.Settings;
 import com.abheri.sunaad.model.SettingsDBHelper;
+//import com.google.android.gms.analytics.HitBuilders;
+//import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -29,6 +33,9 @@ import java.util.Date;
 import java.util.List;
 import java.net.URLEncoder;
 import java.util.TimeZone;
+
+import static android.provider.ContactsContract.CommonDataKinds.StructuredPostal.CITY;
+import static com.google.android.gms.internal.zzapf.bim;
 
 
 /**
@@ -46,6 +53,7 @@ public class Util {
     public static final String PROGRAM_SCREEN = "Program";
     public static final String SABHA_SCREEN = "Venue";
     public static final String ARTISTE_SCREEN = "Artiste";
+    public static final String CITY_SCREEN = "City";
     public static final String SETTINGS_SCREEN = "Settings";
 
     public static final String ARTISTE_DIR_SCREEN = "Artiste Directory List";
@@ -85,6 +93,7 @@ public class Util {
             case SABHA:
             case LOCATION:
             case EVENT_TYPE:
+            case CITY:
                 url = "https://sunaad-services-njs.herokuapp.com/getPrograms/";
                 if(BuildConfig.DEBUG){
                     url += "?DEBUG";
@@ -142,6 +151,7 @@ public class Util {
             case ARTISTE:
             case SABHA:
             case LOCATION:
+            case CITY:
             case EVENT_TYPE:
             case ARTISTE_DIR:
             case ORGANIZER_DIR:
@@ -384,6 +394,10 @@ public class Util {
         return retVal;
     }
 
+
+    //NOTE: DO NOT USE THIS METHOD AS GOOGLE ANALYTICS IS NOW
+    //REPLACED BY FIREBASE ANALYTICS. Another overload of logTOGA with
+    //Context as paratmeter is to be used.
     public static void logToGA(String what) {
         Tracker mTracker;
 
@@ -401,6 +415,24 @@ public class Util {
                     .build());
         }
     }
+
+
+    public static void logToGA(String what, Context context) {
+        //Log to Google Analytics only when the build type = Release
+
+        if (!BuildConfig.DEBUG) {
+            // Obtain the shared Tracker instance.
+            FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
+
+            Bundle bundle = new Bundle();
+            //bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id);
+            //bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
+            bundle.putString("SCREEN", what);
+            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image"+what);
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        }
+    }
+
 
     public static int getScrollPosition(List<Program> values) {
 

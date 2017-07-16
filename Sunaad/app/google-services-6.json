@@ -1,9 +1,7 @@
- {
+{
   "project_info": {
     "project_number": "342032535408",
-    "firebase_url": "https://fir-sunaad.firebaseio.com",
-    "project_id": "firebase-sunaad",
-    "storage_bucket": "firebase-sunaad.appspot.com"
+    "project_id": "firebase-sunaad"
   },
   "client": [
     {
@@ -14,10 +12,6 @@
         }
       },
       "oauth_client": [
-        {
-          "client_id": "342032535408-r64ngfe5dnete9it73k34e23b8r03k2o.apps.googleusercontent.com",
-          "client_type": 3
-        },
         {
           "client_id": "342032535408-h0tan00eqg4u7084a39m25gkmuq48cva.apps.googleusercontent.com",
           "client_type": 3
@@ -30,17 +24,14 @@
       ],
       "services": {
         "analytics_service": {
-          "status": 1,
-          "analytics_property": {
-            "tracking_id": "UA-74401723-1"
-          }
+          "status": 1
         },
         "appinvite_service": {
           "status": 1,
           "other_platform_oauth_client": []
         },
         "ads_service": {
-          "status": 2
+          "status": 1
         }
       }
     }

@@ -70,6 +70,7 @@ public class CloudDataFetcherAsyncTask extends AsyncTask<String, String, Object>
                     case SABHA:
                     case LOCATION:
                     case EVENT_TYPE:
+                    case CITY:
                         ProgramDataHelper prgdata = new ProgramDataHelper();
                         List<Program> programs = prgdata.parseProgramListFromJsonResponse(responseString);
                         ProgramListDataCache pldc = new ProgramListDataCache(context);

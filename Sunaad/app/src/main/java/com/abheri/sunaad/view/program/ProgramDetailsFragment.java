@@ -19,6 +19,8 @@ import com.abheri.sunaad.model.LocalFileReader;
 import com.abheri.sunaad.model.Program;
 import com.abheri.sunaad.view.ProportionalImageView;
 import com.abheri.sunaad.view.Util;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.validator.routines.UrlValidator;
@@ -26,6 +28,10 @@ import org.apache.commons.validator.routines.UrlValidator;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import static com.abheri.sunaad.R.id.adViewPrg;
 
 
 /**
@@ -40,6 +46,10 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
     String eatariesMsg = "";
     String parkingMsg = "";
     String alarmMg = "";
+
+    AdView mAdView;
+    AdRequest adRequest;
+    Fragment self;
 
     public ProgramDetailsFragment() {
         // Required empty public constructor
@@ -234,8 +244,50 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
         ct.startActivity(mapIntent);
         */
 
+        self = this;
+        mAdView = (AdView) rootView.findViewById(adViewPrg);
+
+        //Start the ad in a separate thread in order not to block the UI
+        new Timer().schedule(new TimerTask()
+        {
+            @Override
+            public void run()
+            {
+                if(self != null && self.isVisible()) {
+                    self.getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adRequest = new AdRequest.Builder()
+                                    .build();
+                            mAdView.loadAd(adRequest);
+                            mAdView.bringToFront();
+                        }
+                    });
+                }
+            }
+        }, 1000);
+
         return rootView;
     }
+
+
+    @Override
+    public void onStart() {
+        if (mAdView != null) {
+            mAdView.pause();
+        }
+        super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mAdView != null) {
+            mAdView.resume();
+        }
+    }
+
+
     @Override
     public void onClick(View v) {
         System.out.println("map clicked");
@@ -287,6 +339,11 @@ public class ProgramDetailsFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onDestroy(){
+
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+
         android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
         Fragment fragment = fragmentManager.findFragmentByTag("ProgramFragment");
         if(fragment instanceof ProgramFragment) {

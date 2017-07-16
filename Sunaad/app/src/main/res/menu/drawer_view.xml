@@ -34,6 +34,10 @@
                     android:id="@+id/navigation_sub_item_5"
                     android:icon="@drawable/by_event_type"
                     android:title="@string/title_submenu5" />
+                <item
+                    android:id="@+id/navigation_sub_item_6"
+                    android:icon="@drawable/by_venue"
+                    android:title="@string/title_submenu6" />
 
             </menu>
         </item>

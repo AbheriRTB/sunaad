@@ -114,7 +114,8 @@ public class NavigationDrawerFragment extends Fragment implements Serializable {
                         getString(R.string.title_section4),
                         getString(R.string.title_section5),
                         getString(R.string.title_section6),
-                        getString(R.string.title_dir_submenu1)
+                        getString(R.string.title_section7),
+                        getString(R.string.title_dir_submenu1),
 
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
