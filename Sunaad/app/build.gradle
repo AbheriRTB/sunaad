@@ -24,9 +24,22 @@ android {
         applicationId "com.abheri.sunaad"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 16
-        versionName "3.7"
+        versionCode 17
+        versionName "3.8"
     }
+    if (project.hasProperty('keystorePropertiesFile')) {
+        File keystoreProps = file(keystorePropertiesFile)
+        Properties props = new Properties()
+        props.load(new FileInputStream(file(keystoreProps)))
+        signingConfigs {
+            release {
+                storeFile file(props['key.store'])
+                storePassword props['key.store.password']
+                keyAlias props['key.alias']
+                keyPassword props['key.alias.password']
+            }   
+        }   
+    } 
     buildTypes {
         debug {
             minifyEnabled false
@@ -40,11 +53,17 @@ android {
                     output.outputFile = new File(output.outputFile.parent, output.outputFile.name.replace("app-debug.apk", "Sunaad-" + "Debug" + ".apk"))
                 }
             }
+            if (project.hasProperty('keystorePropertiesFile')) {
+                signingConfig signingConfigs.release
+            } 
             manifestPlaceholders = [appLabel: "SunaadDebug"]
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            if (project.hasProperty('keystorePropertiesFile')) {
+                signingConfig signingConfigs.release
+            } 
             manifestPlaceholders = [appLabel: "Sunaad"]
         }
     }
